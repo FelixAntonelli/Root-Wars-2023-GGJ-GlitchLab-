@@ -10,10 +10,10 @@ public class Tile : MonoBehaviour
     public TileType type;
     private Sprite _sprite;
 
-    public Tile(Owner owner, TileType _type)
+    public Tile()
     {
-        _owner = owner;
-        type = _type;
+        _owner = Owner.NEUTRAL;
+        type = TileType.SOIL;
     }
 
     public enum Owner
@@ -55,7 +55,7 @@ public class Tile : MonoBehaviour
 
     private void UpdateSprite()
     {
-        _spriteRenderer.sprite = GameObject.FindObjectOfType<SpriteLibrary>().GetSprite(_owner, _type);
+        _spriteRenderer.sprite = GameObject.FindObjectOfType<SpriteLibrary>().GetSprite(_owner, type);
     }
 
 }
