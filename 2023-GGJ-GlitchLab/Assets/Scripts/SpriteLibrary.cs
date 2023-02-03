@@ -3,13 +3,32 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Sprite Library")]
-public class SpriteLibrary : ScriptableObject
+public class SpriteLibrary : MonoBehaviour
 {
-    public static List<Sprite> _spriteLibrary = new List<Sprite>();
+    [SerializeField] private List<Sprite> _neutralSprites   = new List<Sprite>();
+    [SerializeField] private List<Sprite> _playerOneSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> _playerTwoSprites = new List<Sprite>();
 
-    public static Sprite GetSprite(Tile.Owner _owner, Tile.TileType _type)
+    public Sprite GetSprite(Tile.Owner _owner, Tile.TileType _type)
     {
-        return _spriteLibrary[0];
+        int typeIndex = (int)_type;
+
+        switch(_owner)
+        {
+            case Tile.Owner.NEUTRAL:
+                {
+                    return _neutralSprites[typeIndex];
+                }
+            case Tile.Owner.PLAYER_1:
+                {
+                    return _playerOneSprites[typeIndex];
+                }
+            case Tile.Owner.PLAYER_2:
+                {
+                    return _playerTwoSprites[typeIndex];
+                }
+        }
+
+        return null;
     }
 }
