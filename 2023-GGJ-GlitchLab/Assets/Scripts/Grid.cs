@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
+
 public class Grid : MonoBehaviour
 {
    [SerializeField] private int gridXAxisSize = 10;
@@ -19,8 +21,21 @@ public class Grid : MonoBehaviour
       public Vector2 position;
       public float size;
       public Tile tileData = new Tile();
+      
+      //Connections
+      bool above = false;
+      bool left = false;
+      bool below = false;
+      bool right = false;
    }
 
+   enum Connection
+   {
+      
+   }
+
+   public static bool HasFlag(uint bitFlag, uint flag) => ((bitFlag & flag) != 0);
+   
    private void Awake()
    {
       int numberOfCellsOnXAxis = Mathf.FloorToInt(gridXAxisSize / cellSize);
