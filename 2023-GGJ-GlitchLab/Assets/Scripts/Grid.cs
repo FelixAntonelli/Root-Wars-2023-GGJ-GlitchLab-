@@ -11,25 +11,27 @@ public class Grid : MonoBehaviour
    [SerializeField] private float cellSize = 1;
 
    public List<Cell> Cells = new List<Cell>();
+   
+   public Vector2 max => new Vector2(gridXAxisSize * cellSize, gridYAxisSize * cellSize);
 
    public class Cell
    {
       public Vector2 position;
       public float size;
-      //TODO: Add Tile here
+      public Tile tileData = new Tile();
    }
 
    private void Awake()
    {
       int numberOfCellsOnXAxis = Mathf.FloorToInt(gridXAxisSize / cellSize);
       int numberOfCellsOnYAxis = Mathf.FloorToInt(gridYAxisSize / cellSize);
-      int halfXSize = numberOfCellsOnXAxis / 2;
-      int halfYSize = numberOfCellsOnYAxis / 2;
+      // int halfXSize = numberOfCellsOnXAxis / 2;
+      // int halfYSize = numberOfCellsOnYAxis / 2;
       Vector2 origin = transform.position;
 
-      for (int i = -halfXSize; i < halfXSize; i++)
+      for (int i = 0; i < numberOfCellsOnXAxis; i++)
       {
-         for (int j = -halfYSize; j < halfYSize; j++)
+         for (int j = 0; j < numberOfCellsOnYAxis; j++)
          {
             Cell newCell = new Cell();
             newCell.position = origin + new Vector2(i * cellSize, j * cellSize);
@@ -39,14 +41,24 @@ public class Grid : MonoBehaviour
       }
    }
 
-   // public bool PlaceTile(Vector2 GridPosition)
-   // {
-   //    Check if the tile is a soil type
-   //       If No, return false.
-   //       If Yes, check the four neighbours for a connection point
-   //          If no, return false
-   //          If yes, Update tile data and update grid 
-   // }
+   public bool PlaceTile(Vector2 GridPosition)
+   {
+      // Check if the tile is a soil type
+      //    If No, return false.
+      //    If Yes, check the four neighbours for a connection point
+      //       If no, return false
+      //       If yes, Update tile data and update grid 
+      
+      int cellID = To1D(GridPosition);
+      if (Cells[cellID].tileData.type != Tile.TileType.SOIL)
+      {
+         return false;
+      }
+
+  
+      
+      return false;
+   }
 
    public int To1D(Vector2 pos)
    {

@@ -5,12 +5,12 @@ using UnityEngine;
 public class Tile
 {
     private Owner _owner;
-    private TileType _type;
+    public TileType type;
 
     public Tile()
     {
         _owner = Owner.NEUTRAL;
-        _type = TileType.SOIL;
+        type = TileType.SOIL;
     }
 
     public enum Owner
