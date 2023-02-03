@@ -7,7 +7,7 @@ public class Tile : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
     private Owner _owner;
-    private TileType _type;
+    public TileType type;
     private Sprite _sprite;
 
     public Tile(Owner owner, TileType type)
