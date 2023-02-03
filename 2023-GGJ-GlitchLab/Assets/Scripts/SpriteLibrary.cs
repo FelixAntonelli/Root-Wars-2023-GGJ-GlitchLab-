@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public static class SpriteLibrary
+[CreateAssetMenu(fileName = "Sprite Library")]
+public class SpriteLibrary : ScriptableObject
 {
     public static List<Sprite> _spriteLibrary = new List<Sprite>();
 
