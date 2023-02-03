@@ -29,6 +29,7 @@ public class Grid : MonoBehaviour
          {
             Cell newCell = new Cell();
             newCell.position = origin + new Vector3(i * cellSize, j * cellSize, 0);
+            newCell.size  = cellSize;
             Cells.Add(newCell);
          }
       }
