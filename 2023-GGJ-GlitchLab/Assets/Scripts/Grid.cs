@@ -34,7 +34,7 @@ public class Grid : MonoBehaviour
          for (int j = 0; j < numberOfCellsOnYAxis; j++)
          {
             Cell newCell = new Cell();
-            newCell.position = origin + new Vector2(i * cellSize, j * cellSize);
+            newCell.position = new Vector2(i * cellSize, j * cellSize);
             newCell.size  = cellSize;
             Cells.Add(newCell);
          }
