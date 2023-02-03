@@ -10,10 +10,10 @@ public class Tile : MonoBehaviour
     public TileType type;
     private Sprite _sprite;
 
-    public Tile(Owner owner, TileType type)
+    public Tile(Owner owner, TileType _type)
     {
         _owner = owner;
-        _type = type;
+        type = _type;
     }
 
     public enum Owner
