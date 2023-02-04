@@ -6,60 +6,17 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    private Owner _owner;
-    public TileType type;
-    public RootID rootID;
-    public ValidExits validExits;
-
+    [SerializeField] private GameData.Owner _owner;
+    [SerializeField] public GameData.TileType type;
+    [SerializeField] public GameData.RootID rootID;
+    [SerializeField] public GameData.ValidExits validExits;
+    [SerializeField] private GameObject _wayTowardsPlant;
     public Tile()
     {
-        _owner = Owner.NEUTRAL;
-        type = TileType.SOIL;
-        rootID = RootID.NOT_ROOT;
-        validExits = ValidExits.NONE;
-    }
-
-    public enum Owner
-    {
-        NEUTRAL = 0,
-        PLAYER_1 = 1,
-        PLAYER_2 = 2
-    }
-
-    public enum TileType
-    {
-        ROOT = 0,
-        SOIL = 1,
-        RESOURCE = 2,
-        OBSTACLE = 3
-    }
-
-    public enum RootID
-    {
-        NOT_ROOT = 0,
-        FOUR_WAY = 1,
-        THREE_WAY_RDL = 2,
-        THREE_WAY_URD = 3,
-        THREE_WAY_URL = 4,
-        THREE_WAY_UDL = 5,
-        TWO_WAY_UL = 6,
-        TWO_WAY_DL = 7,
-        TWO_WAY_RD = 8,
-        TWO_WAY_UR = 9,
-        STRAIGHT_H = 10,
-        STRAIGHT_V = 11
-
-
-    }
-
-    [Flags]
-    public enum ValidExits
-    {
-        NONE = 0,
-        UP = 1,
-        RIGHT = 2,
-        DOWN = 4,
-        LEFT = 8
+        _owner = GameData.Owner.NEUTRAL;
+        type = GameData.TileType.SOIL;
+        rootID = GameData.RootID.NOT_ROOT;
+        validExits = GameData.ValidExits.NONE;
     }
 
     private void Awake()
