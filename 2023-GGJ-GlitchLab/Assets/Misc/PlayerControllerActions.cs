@@ -140,6 +140,61 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 },
                 {
                     ""name"": ""Movement"",
+                    ""id"": ""fceea42e-9b9d-4baf-89bb-b2376a5af30b"",
+                    ""path"": ""2DVector(mode=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""19bd4d46-299c-45e9-8aeb-0b373e116b94"",
+                    ""path"": ""<XInputController>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b658a2a6-1375-4312-9d88-3f6a7b1115a2"",
+                    ""path"": ""<XInputController>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9d098db9-dbb7-48ac-84d4-e353c47bd096"",
+                    ""path"": ""<XInputController>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""72bb01dc-2c2c-488e-b02e-c1fe8310c675"",
+                    ""path"": ""<XInputController>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Movement"",
                     ""id"": ""3acb2fe9-6d76-4b86-a74e-419fa9034b54"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -206,6 +261,17 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 },
                 {
                     ""name"": """",
+                    ""id"": ""546b4e39-f950-4841-8d66-32f2d0d4f544"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""161a8ee5-8de2-4d51-becb-45a8f73360da"",
                     ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
@@ -219,6 +285,17 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                     ""name"": """",
                     ""id"": ""beefb10c-6fcc-4342-a7a9-f9e0c648f70c"",
                     ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01010d55-f06c-4074-9ad0-0f01f6189846"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

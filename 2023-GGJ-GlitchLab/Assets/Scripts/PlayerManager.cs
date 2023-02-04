@@ -40,7 +40,11 @@ public class PlayerManager : MonoBehaviour
     int _player2TileIndex;
 
     private Vector2 _maxGridSize;
-    
+
+    private Coroutine _p1Lerp;
+    private Coroutine _p2Lerp;
+    private float _lerpSpeed = 0.18f;
+    private float _lerpAccuracy = 0.05f;
 
     private void Awake()
     {
@@ -130,7 +134,8 @@ public class PlayerManager : MonoBehaviour
     {
         var contextVal = context.ReadValue<Vector2>();
 
-        if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1))   //checks if the vectro2 input is valid
+        if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
+            _p1Lerp == null)   //checks if the vectro2 input is valid
         {
             Vector2 newPos = _player1Pos + contextVal;
 
@@ -141,14 +146,17 @@ public class PlayerManager : MonoBehaviour
                 return;
 
             _player1Pos = newPos;   //sets the new position
-            _player1Obj.transform.position = new Vector3(_player1Pos.x, _player1Pos.y, 0);  //sets the new pos of the obj,  to change
+            //_player1Obj.transform.position = new Vector3(_player1Pos.x, _player1Pos.y, 0);  //sets the new pos of the obj,  to change
+
+            _p1Lerp = StartCoroutine(LerpSelectionBox(_player1Obj, newPos, GameData.Owner.PLAYER_1));
         }
     }
     private void MovePlayer2(InputAction.CallbackContext context)
     {
         var contextVal = context.ReadValue<Vector2>();
 
-        if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1))
+        if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
+            _p2Lerp == null)
         {
             Vector2 newPos = _player2Pos + contextVal;
 
@@ -160,7 +168,9 @@ public class PlayerManager : MonoBehaviour
                 return;
 
             _player2Pos = newPos;
-            _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
+            //_player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
+
+            _p2Lerp = StartCoroutine(LerpSelectionBox(_player2Obj, newPos, GameData.Owner.PLAYER_2));
         }
     }
 
@@ -199,5 +209,25 @@ public class PlayerManager : MonoBehaviour
         SetSpritePlayer2(lib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player2TileIndex]));
     }
 
+    private IEnumerator LerpSelectionBox(GameObject playerBox, Vector3 newPos, GameData.Owner owner)
+    {
+        while (Vector3.Distance(playerBox.transform.position, newPos) > _lerpAccuracy)
+        {
+            playerBox.transform.position = Vector3.Lerp(playerBox.transform.position, newPos, _lerpSpeed);
+            yield return new WaitForEndOfFrame();
+        }
 
+        playerBox.transform.position = newPos;
+
+        if (owner == GameData.Owner.PLAYER_1)
+        {
+            _p1Lerp = null;
+        }
+        else
+        {
+            _p2Lerp = null;
+        }
+
+        yield break;
+    }
 }
