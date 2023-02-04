@@ -39,7 +39,7 @@ public class Grid : MonoBehaviour
       }
    }
 
-   public bool PlaceTile(Vector2 GridPosition)
+   public bool PlaceTile(Vector2 GridPosition, uint tileConnections)
    {
       // Check if the tile is a soil type
       //    If No, return false.
@@ -53,7 +53,65 @@ public class Grid : MonoBehaviour
          return false;
       }
 
-  
+      //TOP
+      //if above is in bounds and we have a connection going up on the tile we want to place
+      if (BoundsCheck(GridPosition + new Vector2(0, 1)) && HasFlag(tileConnections, (uint)GameData.Connection.Top))
+      {
+         Vector2 parentTile = GridPosition + new Vector2(0, 1);
+         int parentTileID = To1D(parentTile);
+         if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Bottom)) //if we can connect
+         {
+            Cells[cellID].tileData.connections = (GameData.Connection)tileConnections;
+            Cells[cellID].tileData.type = GameData.TileType.ROOT;
+            //TODO: Tell cell to update sprite
+            return true;
+         }
+      }
+      
+      //LEFT
+      //if left is in bounds and we have a connection going left on the tile we want to place
+      if (BoundsCheck(GridPosition + new Vector2(-1, 0)) && HasFlag(tileConnections, (uint)GameData.Connection.Left))
+      {
+         Vector2 parentTile = GridPosition + new Vector2(-1, 0);
+         int parentTileID = To1D(parentTile);
+         if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Right)) //if we can connect
+         {
+            Cells[cellID].tileData.connections = (GameData.Connection)tileConnections;
+            Cells[cellID].tileData.type = GameData.TileType.ROOT;
+            //TODO: Tell cell to update sprite
+            return true;
+         }
+      }
+      
+      //BOTTOM
+      //if below is in bounds and we have a connection going down on the tile we want to place
+      if (BoundsCheck(GridPosition + new Vector2(0, -1)) && HasFlag(tileConnections, (uint)GameData.Connection.Bottom))
+      {
+         Vector2 parentTile = GridPosition + new Vector2(0, -1);
+         int parentTileID = To1D(parentTile);
+         if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Top)) //if we can connect
+         {
+            Cells[cellID].tileData.connections = (GameData.Connection)tileConnections;
+            Cells[cellID].tileData.type = GameData.TileType.ROOT;
+            //TODO: Tell cell to update sprite
+            return true;
+         }
+      }
+      
+      //RIGHT
+      //if right is in bounds and we have a connection going right on the tile we want to place
+      if (BoundsCheck(GridPosition + new Vector2(1, 0)) && HasFlag(tileConnections, (uint)GameData.Connection.Right))
+      {
+         Vector2 parentTile = GridPosition + new Vector2(-1, 0);
+         int parentTileID = To1D(parentTile);
+         if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Left)) //if we can connect
+         {
+            Cells[cellID].tileData.connections = (GameData.Connection)tileConnections;
+            Cells[cellID].tileData.type = GameData.TileType.ROOT;
+            //TODO: Tell cell to update sprite
+            return true;
+         }
+      }
       
       return false;
    }
@@ -66,6 +124,10 @@ public class Grid : MonoBehaviour
    public Vector2 To2D(int index)
    {
       return new Vector2(index % gridXAxisSize, index / gridXAxisSize);
+   }
+   public bool BoundsCheck(Vector2 pos)
+   {
+      return (Mathf.Abs(pos.x) == 0 || Mathf.Abs(pos.x) == 1) && (Mathf.Abs(pos.y) == 0 || Mathf.Abs(pos.y) == 1);
    }
 }
 
