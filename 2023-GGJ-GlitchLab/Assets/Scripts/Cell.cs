@@ -9,6 +9,7 @@ public class Cell : MonoBehaviour
     public Vector2 position;
     public float size;
     public Tile tileData;
+    public WaterSource waterSource;
       
     //Connections
     [Flags] enum Connection

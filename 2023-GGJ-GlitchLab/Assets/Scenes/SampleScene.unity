@@ -10966,6 +10966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteLibrary: {fileID: 1863524820}
   cellPrefab: {fileID: 5450860855830393759, guid: 3f9adfe176700044297f7f252e374f7e, type: 3}
+  waterPrefab: {fileID: 4356747880789827792, guid: 6c99c137830f3ec40a728bf2a7669429, type: 3}
   gridXAxisSize: 20
   gridYAxisSize: 10
   cellSize: 3

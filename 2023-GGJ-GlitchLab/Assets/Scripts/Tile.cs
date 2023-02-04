@@ -10,7 +10,7 @@ public class Tile : MonoBehaviour
     [SerializeField] public GameData.TileType type;
     [SerializeField] public GameData.RootID rootID;
     [SerializeField] public GameData.Connection connections;
-    [SerializeField] private GameObject _wayTowardsPlant;
+    [SerializeField] public GameObject _wayTowardsPlant;
     
     private SpriteLibrary _library;
     
