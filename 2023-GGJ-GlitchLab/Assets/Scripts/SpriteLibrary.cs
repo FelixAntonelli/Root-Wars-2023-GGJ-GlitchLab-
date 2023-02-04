@@ -8,24 +8,30 @@ public class SpriteLibrary : MonoBehaviour
     [SerializeField] private List<Sprite> _neutralSprites   = new List<Sprite>();
     [SerializeField] private List<Sprite> _playerOneSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> _playerTwoSprites = new List<Sprite>();
+    [SerializeField] private Sprite _errorSprite;
 
-    public Sprite GetSprite(Tile.Owner owner, Tile.TileType type, Tile.RootID root)
+    public Sprite GetSprite(GameData.Owner owner, GameData.TileType type, GameData.RootID root)
     {
         int typeIndex = (int)type - 1;
         int rootIndex = (int)root - 1;
 
-        switch(owner)
+        if (rootIndex < 0)
         {
-            case Tile.Owner.NEUTRAL:
+            return _errorSprite;
+        }
+
+        switch (owner)
+        {
+            case GameData.Owner.NEUTRAL:
                 {
                     return _neutralSprites[typeIndex];
                 }
-            case Tile.Owner.PLAYER_1:
+            case GameData.Owner.PLAYER_1:
                 {
                     return _playerOneSprites[rootIndex];
                 }
-            case Tile.Owner.PLAYER_2:
-                {
+            case GameData.Owner.PLAYER_2:
+                {                    
                     return _playerTwoSprites[rootIndex];
                 }
         }
