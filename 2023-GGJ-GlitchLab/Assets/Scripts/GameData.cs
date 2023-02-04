@@ -22,18 +22,18 @@ public static class GameData
 
     [Flags] public enum RootID
     {
-        NOT_ROOT = 0,
-        FOUR_WAY = 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4,
-        THREE_WAY_RDL = 1 << 4 | 1 << 3 | 1 << 2, 
-        THREE_WAY_URD = 1 << 1 | 1 << 4 | 1 << 3,
-        THREE_WAY_URL = 1 << 1 | 1 << 4 | 1 << 2,
-        THREE_WAY_UDL = 1 << 1 | 1 << 3 | 1 << 2,
-        TWO_WAY_UL = 1 << 1 | 1 << 2,
-        TWO_WAY_DL = 1 << 3 | 1 << 2,
-        TWO_WAY_RD = 1 << 4 | 1 << 3,
-        TWO_WAY_UR = 1 << 1 | 1 << 4,
-        STRAIGHT_H = 1 << 2 | 1 << 4,
-        STRAIGHT_V = 1 << 1 | 1 << 3
+        NOT_ROOT = Connection.None,
+        FOUR_WAY = Connection.Top | Connection.Left | Connection.Bottom | Connection.Right,
+        THREE_WAY_RDL = Connection.Right | Connection.Bottom | Connection.Left, 
+        THREE_WAY_URD = Connection.Top | Connection.Right | Connection.Bottom,
+        THREE_WAY_URL = Connection.Top | Connection.Right | Connection.Left,
+        THREE_WAY_UDL = Connection.Top | Connection.Bottom | Connection.Left,
+        TWO_WAY_UL = Connection.Top | Connection.Left,
+        TWO_WAY_DL = Connection.Bottom | Connection.Left,
+        TWO_WAY_RD = Connection.Right | Connection.Bottom,
+        TWO_WAY_UR = Connection.Top | Connection.Right,
+        STRAIGHT_H = Connection.Top | Connection.Bottom,
+        STRAIGHT_V = Connection.Left | Connection.Right
     }
 
     [Flags] public enum Connection
