@@ -36,13 +36,12 @@ public static class GameData
         STRAIGHT_V = 11
     }
 
-    [Flags]
-    public enum ValidExits
+    [Flags] public enum Connection
     {
-        NONE = 0,
-        UP = 1,
-        RIGHT = 2,
-        DOWN = 4,
-        LEFT = 8
+        None = 0,
+        Top = 1,
+        Left = 2,
+        Bottom = 4,
+        Right = 8,
     }
 }

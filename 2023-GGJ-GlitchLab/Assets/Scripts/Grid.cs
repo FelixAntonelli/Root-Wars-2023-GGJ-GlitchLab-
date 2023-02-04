@@ -15,14 +15,14 @@ public class Grid : MonoBehaviour
 
    public List<Cell> Cells = new List<Cell>();
    
-   public Vector2 max => new Vector2(gridXAxisSize * cellSize, gridYAxisSize * cellSize);
+   public Vector2 max => new Vector2(gridXAxisSize, gridYAxisSize);
 
    public static bool HasFlag(uint bitFlag, uint flag) => ((bitFlag & flag) != 0);
    
    private void Awake()
    {
-      int numberOfCellsOnXAxis = Mathf.FloorToInt(gridXAxisSize / cellSize);
-      int numberOfCellsOnYAxis = Mathf.FloorToInt(gridYAxisSize / cellSize);
+      // int numberOfCellsOnXAxis = Mathf.FloorToInt(gridXAxisSize / cellSize);
+      // int numberOfCellsOnYAxis = Mathf.FloorToInt(gridYAxisSize / cellSize);
       // int halfXSize = numberOfCellsOnXAxis / 2;
       // int halfYSize = numberOfCellsOnYAxis / 2;
       Vector2 origin = transform.position;
@@ -31,7 +31,7 @@ public class Grid : MonoBehaviour
       {
          for (int j = 0; j < gridYAxisSize; j++)
          {
-            Cell newCell = Instantiate(cellPrefab, new Vector2(i, j), Quaternion.identity, transform);
+            Cell newCell = Instantiate(cellPrefab,  new Vector2(i, j), Quaternion.identity, transform);
             newCell.position = new Vector2(i, j);
             newCell.size = cellSize;
             newCell.transform.localScale = new Vector2(newCell.size, newCell.size);
