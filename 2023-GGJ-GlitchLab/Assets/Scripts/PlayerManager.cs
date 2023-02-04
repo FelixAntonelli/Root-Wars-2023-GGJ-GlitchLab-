@@ -80,7 +80,8 @@ public class PlayerManager : MonoBehaviour
     {
         _playerInput = new PlayerControllerActions();
         _playerInput.Enable();
-        PlayerIconLerpFunc = PlayerIconLerp;
+        PlayerIconLerpFunc = Lerp;
+        PlayerSelectionLerpFunc = Lerp;
     }
 
     private void OnEnable()
@@ -273,7 +274,13 @@ public class PlayerManager : MonoBehaviour
             _selectedSlotIndexPlayer1++;
 
         SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
-        StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, GameData.Owner.PLAYER_1));
+        // StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, GameData.Owner.PLAYER_1));
+
+        if (p1SelectionLerpCo != null)
+        {
+            StopCoroutine(p1IconLerpCo);
+        }
+        StartCoroutine(PlayerSelectionLerpFunc(_player1Marker.transform, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, 0.2f, p1SelectionLerpCo));
     }
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
     {
@@ -283,8 +290,12 @@ public class PlayerManager : MonoBehaviour
             _selectedSlotIndexPlayer2++;
 
         SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
-        StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, GameData.Owner.PLAYER_2));
-
+        // StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, GameData.Owner.PLAYER_2));
+        if (p2SelectionLerpCo != null)
+        {
+            StopCoroutine(p2SelectionLerpCo);
+        }
+        StartCoroutine(PlayerSelectionLerpFunc(_player2Marker.transform, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, 0.2f, p2SelectionLerpCo));
     }
 
 
@@ -364,7 +375,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayerIconLerp(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine)
+    private IEnumerator Lerp(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine)
     {
         Vector2 start =  transform.position;
         float time = 0;
