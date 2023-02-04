@@ -49,10 +49,12 @@ public class Grid : MonoBehaviour
       
       Cells[player1CellID].tileData.connections = GameData.Connection.Top & GameData.Connection.Left & GameData.Connection.Bottom & GameData.Connection.Right;
       Cells[player1CellID].tileData.rootID = GameData.RootID.FOUR_WAY;
+      Cells[player1CellID].tileData._owner = GameData.Owner.PLAYER_1;
       Cells[player1CellID].tileData.UpdateSprite();
       
       Cells[player2CellID].tileData.connections = GameData.Connection.Top & GameData.Connection.Left & GameData.Connection.Bottom & GameData.Connection.Right;
       Cells[player2CellID].tileData.rootID = GameData.RootID.FOUR_WAY;
+      Cells[player2CellID].tileData._owner = GameData.Owner.PLAYER_2;
       Cells[player2CellID].tileData.UpdateSprite();
    }
 

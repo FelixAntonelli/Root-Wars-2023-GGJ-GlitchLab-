@@ -6,7 +6,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private GameData.Owner _owner;
+    [SerializeField] public GameData.Owner _owner;
     [SerializeField] public GameData.TileType type;
     [SerializeField] public GameData.RootID rootID;
     [SerializeField] public GameData.Connection connections;
