@@ -11,9 +11,15 @@ public class Cell : MonoBehaviour
     public Tile tileData;
       
     //Connections
-    enum Connection
+    [Flags] enum Connection
     {
-      
+      None = 0,
+      Top = 1,
+      Left = 2,
+      Bottom = 4,
+      Right = 8,
     }
+    
+    
 
 }

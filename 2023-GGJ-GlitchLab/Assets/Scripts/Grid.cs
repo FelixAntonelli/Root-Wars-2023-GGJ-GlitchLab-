@@ -48,7 +48,7 @@ public class Grid : MonoBehaviour
       //       If yes, Update tile data and update grid 
       
       int cellID = To1D(GridPosition);
-      if (Cells[cellID].tileData.type != Tile.TileType.SOIL)
+      if (Cells[cellID].tileData.type != GameData.TileType.SOIL)
       {
          return false;
       }
