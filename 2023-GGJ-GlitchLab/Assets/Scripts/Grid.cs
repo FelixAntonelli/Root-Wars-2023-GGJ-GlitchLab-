@@ -13,8 +13,14 @@ public class Grid : MonoBehaviour
    [SerializeField] private int gridXAxisSize = 10;
    [SerializeField] private int gridYAxisSize = 10;
    [SerializeField] private float cellSize = 1;
+    public float CellSize
+    {
+        get { return cellSize; }
+    }
 
-   public List<Cell> Cells = new List<Cell>();
+
+
+    public List<Cell> Cells = new List<Cell>();
    
    public Vector2 max => new Vector2(gridXAxisSize, gridYAxisSize);
 

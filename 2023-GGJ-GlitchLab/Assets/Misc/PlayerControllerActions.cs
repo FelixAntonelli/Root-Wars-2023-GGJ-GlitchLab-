@@ -207,7 +207,7 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 {
                     ""name"": """",
                     ""id"": ""161a8ee5-8de2-4d51-becb-45a8f73360da"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -229,7 +229,7 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 {
                     ""name"": """",
                     ""id"": ""7d3849ba-ed7f-488a-9321-ef7c30b4e1c7"",
-                    ""path"": ""<Keyboard>/rightShift"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

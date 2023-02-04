@@ -26,14 +26,18 @@ public class PlayerManager : MonoBehaviour
     public Vector2 _player1Pos;
     public Vector2 _player2Pos;
 
-    [SerializeField] RectTransform _player1Obj;
-    [SerializeField] RectTransform _player2Obj;
+    //[SerializeField] RectTransform _player1Obj;
+    //[SerializeField] RectTransform _player2Obj;
 
-    [SerializeField] RawImage _player1Image;
-    [SerializeField] RawImage _player2Image;
+    //[SerializeField] RawImage _player1Image;
+    //[SerializeField] RawImage _player2Image;
 
-    uint _player1TileIndex;
-     uint _player2TileIndex;
+    [SerializeField] GameObject _player1Obj;
+    [SerializeField] GameObject _player2Obj;
+
+
+    int _player1TileIndex;
+    int _player2TileIndex;
 
     private Vector2 _maxGridSize;
     
@@ -94,13 +98,16 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        _player1Obj.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1f);   // the 1f is the size of the cell    i will check this throughly tomorrow
-        _player1Obj.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1f);
 
-        _player2Obj.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1f);
-        _player2Obj.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1f);
+        _player2Obj.transform.localScale = new Vector3(_tileGrid.CellSize, _tileGrid.CellSize, _tileGrid.CellSize);
+        _player1Obj.transform.localScale = new Vector3(_tileGrid.CellSize, _tileGrid.CellSize, _tileGrid.CellSize);
 
-        _maxGridSize = _tileGrid.max;   //why is the size of the grid multiplied by the size of the cell? this sort of breaks things as for example if the x is 20 and the size is 0.5 then the max index is set to 10 on th x axis 
+
+        SetSpritePlayer2(lib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player2TileIndex]));
+        SetSpritePlayer1(lib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player1TileIndex]));
+
+
+        _maxGridSize = _tileGrid.max;   
 
         _player1Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.25f), _maxGridSize.y - 1);    //sets them at the start
         _player1Obj.transform.position = new Vector3(_player1Pos.x, _player1Pos.y, 0);
@@ -112,9 +119,9 @@ public class PlayerManager : MonoBehaviour
     }
 
 
-    //give this the texture and this changes the raw images/icon of the player
-    public void SetImagePlayer1(Texture newImage) => _player1Image.texture = newImage;
-    public void SetImagePlayer2(Texture newImage) => _player2Image.texture = newImage;
+    public void SetSpritePlayer1(Sprite newImage) => _player1Obj.GetComponent<SpriteRenderer>().sprite = newImage;
+
+    public void SetSpritePlayer2(Sprite newImage) => _player2Obj.GetComponent<SpriteRenderer>().sprite = newImage;
 
 
 
@@ -170,7 +177,7 @@ public class PlayerManager : MonoBehaviour
         _tileGrid.PlaceTile(_player2Pos, (GameData.RootID)_player2TileIndex, out connectedToResource);
     }
 
-
+    //small issue it changes all of them
     // this is for the switching of the tiles like cycling through them, i erased the blackboard so i dont remember if this is what we decided but anyway its here in case delete
     private void SwitchSelectedTilePlayer1(InputAction.CallbackContext context)
     {
@@ -179,17 +186,24 @@ public class PlayerManager : MonoBehaviour
         else
             _player1TileIndex++;
 
+        Debug.Log("this is player 1");
 
-     // SetImagePlayer1(lib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT,   ).texture);
+      SetSpritePlayer1(lib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player1TileIndex]));
 
 
     }
+
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
     {
         if (_player2TileIndex + 1 == 11)
             _player2TileIndex = 0;
         else
             _player2TileIndex++;
+
+        Debug.Log("this is player 2");
+
+
+        SetSpritePlayer2(lib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player2TileIndex]));
     }
 
 
