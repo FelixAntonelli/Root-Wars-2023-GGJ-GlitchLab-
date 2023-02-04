@@ -9,14 +9,14 @@ public class Tile : MonoBehaviour
     [SerializeField] private GameData.Owner _owner;
     [SerializeField] public GameData.TileType type;
     [SerializeField] public GameData.RootID rootID;
-    [SerializeField] public GameData.Connection validExits;
+    [SerializeField] public GameData.Connection connections;
     [SerializeField] private GameObject _wayTowardsPlant;
     public Tile()
     {
         _owner = GameData.Owner.NEUTRAL;
         type = GameData.TileType.SOIL;
         rootID = GameData.RootID.NOT_ROOT;
-        validExits = GameData.ValidExits.NONE;
+        connections = GameData.Connection.None;
     }
 
     private void Awake()
