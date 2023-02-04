@@ -42,10 +42,11 @@ public class Grid : MonoBehaviour
       }
    }
 
-   public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType)
+   public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType, out bool connectedToResource)
    {
         Debug.Log(rootType);
         Debug.Log(GridPosition);
+        connectedToResource = false;
       // Check if the tile is a soil type
       //    If No, return false.
       //    If Yes, check the four neighbours for a connection point
@@ -68,8 +69,8 @@ public class Grid : MonoBehaviour
          {
             Cells[cellID].tileData.connections = (GameData.Connection)rootType;
             Cells[cellID].tileData.rootID = rootType;
-            //TODO: Tell cell to update sprite
             Cells[cellID].tileData.UpdateSprite();
+            connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
             return true;
          }
       }
@@ -84,8 +85,8 @@ public class Grid : MonoBehaviour
          {
             Cells[cellID].tileData.connections = (GameData.Connection)rootType;
             Cells[cellID].tileData.rootID = rootType;
-            //TODO: Tell cell to update sprite
             Cells[cellID].tileData.UpdateSprite();
+            connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
             return true;
          }
       }
@@ -101,8 +102,8 @@ public class Grid : MonoBehaviour
             Cells[cellID].tileData.connections = (GameData.Connection)rootType;
             Cells[cellID].tileData.type = GameData.TileType.ROOT;
             Cells[cellID].tileData.rootID = rootType;
-            //TODO: Tell cell to update sprite
             Cells[cellID].tileData.UpdateSprite();
+            connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
             return true;
          }
       }
@@ -118,8 +119,53 @@ public class Grid : MonoBehaviour
             Cells[cellID].tileData.connections = (GameData.Connection)rootType;
             Cells[cellID].tileData.type = GameData.TileType.ROOT;
             Cells[cellID].tileData.rootID = rootType;
-            //TODO: Tell cell to update sprite
             Cells[cellID].tileData.UpdateSprite();
+            connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
+            return true;
+         }
+      }
+      
+      return false;
+   }
+
+   public bool IsNeighbourTileResource(Vector2 gridCell, GameData.RootID rootType)
+   {
+      //TOP
+      if (BoundsCheck(gridCell + new Vector2(0, 1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Top))
+      {
+         int nCellID = To1D(gridCell + new Vector2(0, 1));
+         if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
+         {
+            return true;
+         }
+      }
+      
+      //LEFT
+      if (BoundsCheck(gridCell + new Vector2(-1, 0)) && HasFlag((uint)rootType, (uint)GameData.Connection.Left))
+      {
+         int nCellID = To1D(gridCell + new Vector2(-1, 0));
+         if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
+         {
+            return true;
+         }
+      }
+      
+      //BOTTOM
+      if (BoundsCheck(gridCell + new Vector2(0, -1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Bottom))
+      {
+         int nCellID = To1D(gridCell + new Vector2(0, -1));
+         if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
+         {
+            return true;
+         }
+      }
+      
+      //RIGHT
+      if (BoundsCheck(gridCell + new Vector2(1, 0)) && HasFlag((uint)rootType, (uint)GameData.Connection.Right))
+      {
+         int nCellID = To1D(gridCell + new Vector2(1, 0));
+         if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
+         {
             return true;
          }
       }
