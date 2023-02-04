@@ -33,7 +33,8 @@ public class Tile : MonoBehaviour
 
     private void UpdateSprite()
     {
-        _spriteRenderer.sprite = FindObjectOfType<SpriteLibrary>().GetSprite(_owner, type, rootID);
+        GameObject sprlib = GameObject.FindGameObjectWithTag("SpriteLibrary");
+        _spriteRenderer.sprite = sprlib.GetComponent<SpriteLibrary>().GetSprite(_owner, type, rootID);
     }
 
     public static bool HasFlag(uint bitFlag, uint flag) => ((bitFlag & flag) != 0);

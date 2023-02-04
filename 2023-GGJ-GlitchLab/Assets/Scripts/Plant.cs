@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour
 {
+    [SerializeField] private GameData.Owner _owner;
+    [SerializeField] private int _score;
+
+    private void Awake()
+    {
+        _score = 0;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +22,10 @@ public class Plant : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ScorePoint()
+    {
+
     }
 }
