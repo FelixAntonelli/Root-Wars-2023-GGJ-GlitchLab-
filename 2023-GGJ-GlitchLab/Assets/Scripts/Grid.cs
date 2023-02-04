@@ -64,7 +64,7 @@ public class Grid : MonoBehaviour
       Cells[player2CellID].tileData.UpdateSprite();
    }
 
-   public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType, out bool connectedToResource)
+   public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType, GameData.Owner player,out bool connectedToResource)
    {
       // Check if the tile is a soil type
       //    If No, return false.
@@ -88,6 +88,7 @@ public class Grid : MonoBehaviour
          {
             Cells[cellID].tileData.connections = (GameData.Connection)rootType;
             Cells[cellID].tileData.rootID = rootType;
+            Cells[cellID].tileData._owner = player;
             Cells[cellID].tileData.UpdateSprite();
             connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
             return true;
@@ -104,6 +105,7 @@ public class Grid : MonoBehaviour
          {
             Cells[cellID].tileData.connections = (GameData.Connection)rootType;
             Cells[cellID].tileData.rootID = rootType;
+            Cells[cellID].tileData._owner = player;
             Cells[cellID].tileData.UpdateSprite();
             connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
             return true;
@@ -121,6 +123,7 @@ public class Grid : MonoBehaviour
             Cells[cellID].tileData.connections = (GameData.Connection)rootType;
             Cells[cellID].tileData.type = GameData.TileType.ROOT;
             Cells[cellID].tileData.rootID = rootType;
+            Cells[cellID].tileData._owner = player;
             Cells[cellID].tileData.UpdateSprite();
             connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
             return true;
@@ -138,6 +141,7 @@ public class Grid : MonoBehaviour
             Cells[cellID].tileData.connections = (GameData.Connection)rootType;
             Cells[cellID].tileData.type = GameData.TileType.ROOT;
             Cells[cellID].tileData.rootID = rootType;
+            Cells[cellID].tileData._owner = player;
             Cells[cellID].tileData.UpdateSprite();
             connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
             return true;
@@ -194,12 +198,12 @@ public class Grid : MonoBehaviour
 
    public int To1D(Vector2 pos)
    {
-      return (int)(pos.y * gridXAxisSize + pos.x); //Can just hard cast to int as we shouldn't be passing in non-aligned positions
+      return (int)(pos.x * gridYAxisSize + pos.y); //Can just hard cast to int as we shouldn't be passing in non-aligned positions
    }
 
    public Vector2 To2D(int index)
    {
-      return new Vector2(index % gridXAxisSize, index / gridXAxisSize);
+      return new Vector2(index % gridYAxisSize, index / gridXAxisSize);
    }
    public bool BoundsCheck(Vector2 pos)
    {
