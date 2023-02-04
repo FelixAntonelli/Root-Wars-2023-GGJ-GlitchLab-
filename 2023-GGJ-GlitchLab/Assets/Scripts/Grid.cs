@@ -49,7 +49,7 @@ public class Grid : MonoBehaviour
       //    If Yes, check the four neighbours for a connection point
       //       If no, return false
       //       If yes, Update tile data and update grid 
-      
+       connectedToResource = false;
       int cellID = To1D(GridPosition);
       if (Cells[cellID].tileData.type != GameData.TileType.SOIL)
       {
