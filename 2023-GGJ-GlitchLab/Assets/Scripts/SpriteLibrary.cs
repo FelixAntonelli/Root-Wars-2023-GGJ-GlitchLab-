@@ -9,11 +9,12 @@ public class SpriteLibrary : MonoBehaviour
     [SerializeField] private List<Sprite> _playerOneSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> _playerTwoSprites = new List<Sprite>();
 
-    public Sprite GetSprite(Tile.Owner _owner, Tile.TileType _type)
+    public Sprite GetSprite(Tile.Owner owner, Tile.TileType type, Tile.RootID root)
     {
-        int typeIndex = (int)_type;
+        int typeIndex = (int)type - 1;
+        int rootIndex = (int)root - 1;
 
-        switch(_owner)
+        switch(owner)
         {
             case Tile.Owner.NEUTRAL:
                 {
@@ -21,11 +22,11 @@ public class SpriteLibrary : MonoBehaviour
                 }
             case Tile.Owner.PLAYER_1:
                 {
-                    return _playerOneSprites[typeIndex];
+                    return _playerOneSprites[rootIndex];
                 }
             case Tile.Owner.PLAYER_2:
                 {
-                    return _playerTwoSprites[typeIndex];
+                    return _playerTwoSprites[rootIndex];
                 }
         }
 
