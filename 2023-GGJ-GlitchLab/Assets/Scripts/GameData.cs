@@ -25,15 +25,15 @@ public static class GameData
         NOT_ROOT = 0,
         FOUR_WAY = 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4,
         THREE_WAY_RDL = 1 << 4 | 1 << 3 | 1 << 2, 
-        THREE_WAY_URD = 3,
-        THREE_WAY_URL = 4,
-        THREE_WAY_UDL = 5,
-        TWO_WAY_UL = 6,
-        TWO_WAY_DL = 7,
-        TWO_WAY_RD = 8,
-        TWO_WAY_UR = 9,
-        STRAIGHT_H = 10,
-        STRAIGHT_V = 11
+        THREE_WAY_URD = 1 << 1 | 1 << 4 | 1 << 3,
+        THREE_WAY_URL = 1 << 1 | 1 << 4 | 1 << 2,
+        THREE_WAY_UDL = 1 << 1 | 1 << 3 | 1 << 2,
+        TWO_WAY_UL = 1 << 1 | 1 << 2,
+        TWO_WAY_DL = 1 << 3 | 1 << 2,
+        TWO_WAY_RD = 1 << 4 | 1 << 3,
+        TWO_WAY_UR = 1 << 1 | 1 << 4,
+        STRAIGHT_H = 1 << 2 | 1 << 4,
+        STRAIGHT_V = 1 << 1 | 1 << 3
     }
 
     [Flags] public enum Connection
