@@ -107,6 +107,8 @@ public class PlayerManager : MonoBehaviour
 
         _player2Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.75f), _maxGridSize.y - 1);
         _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
+        
+        _tileGrid.SetSpawn(_player1Pos, _player2Pos);
     }
 
 

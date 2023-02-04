@@ -42,6 +42,20 @@ public class Grid : MonoBehaviour
       }
    }
 
+   public void SetSpawn(Vector2 player1Pos, Vector2 player2Pos)
+   {
+      int player1CellID = To1D(player1Pos);
+      int player2CellID = To1D(player2Pos);
+      
+      Cells[player1CellID].tileData.connections = GameData.Connection.Top & GameData.Connection.Left & GameData.Connection.Bottom & GameData.Connection.Right;
+      Cells[player1CellID].tileData.rootID = GameData.RootID.FOUR_WAY;
+      Cells[player1CellID].tileData.UpdateSprite();
+      
+      Cells[player2CellID].tileData.connections = GameData.Connection.Top & GameData.Connection.Left & GameData.Connection.Bottom & GameData.Connection.Right;
+      Cells[player2CellID].tileData.rootID = GameData.RootID.FOUR_WAY;
+      Cells[player2CellID].tileData.UpdateSprite();
+   }
+
    public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType, out bool connectedToResource)
    {
       // Check if the tile is a soil type
