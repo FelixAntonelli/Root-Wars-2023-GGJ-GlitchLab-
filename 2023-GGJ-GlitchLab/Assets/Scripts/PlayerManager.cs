@@ -56,8 +56,14 @@ public class PlayerManager : MonoBehaviour
     private delegate IEnumerator PlayerIconLerpDel(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine);
     private PlayerIconLerpDel PlayerIconLerpFunc;
     
-    private Coroutine p1Co;
-    private Coroutine p2Co;
+    private Coroutine p1IconLerpCo;
+    private Coroutine p2IconLerpCo;
+    
+    private delegate IEnumerator PlayerSelectionLerpDel(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine);
+    private PlayerSelectionLerpDel PlayerSelectionLerpFunc;
+    
+    private Coroutine p1SelectionLerpCo;
+    private Coroutine p2SelectionLerpCo;
     
     private float _lerpSpeed = 0.18f;
     private float _lerpAccuracy = 0.05f;
@@ -181,9 +187,6 @@ public class PlayerManager : MonoBehaviour
 
     private void MovePlayer1(InputAction.CallbackContext context)
     {
-       
- 
-
         var contextVal = context.ReadValue<Vector2>();
 
         if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
@@ -200,16 +203,15 @@ public class PlayerManager : MonoBehaviour
             _player1Pos = newPos;   //sets the new position
 
             // _p1Lerp = StartCoroutine(LerpSelectionBox(_player1Obj, newPos, GameData.Owner.PLAYER_1));
-            if (p1Co != null)
+            if (p1IconLerpCo != null)
             {
-                StopCoroutine(p1Co);
+                StopCoroutine(p1IconLerpCo);
             }
-            p1Co = StartCoroutine(PlayerIconLerpFunc(_player1Obj.transform, newPos, 0.2f, p1Co));
+            p1IconLerpCo = StartCoroutine(PlayerIconLerpFunc(_player1Obj.transform, newPos, 0.2f, p1IconLerpCo));
         }
     }
     private void MovePlayer2(InputAction.CallbackContext context)
     {
-
         var contextVal = context.ReadValue<Vector2>();
 
         if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
@@ -226,11 +228,11 @@ public class PlayerManager : MonoBehaviour
             _player2Pos = newPos;
 
             // _p2Lerp = StartCoroutine(LerpSelectionBox(_player2Obj, newPos, GameData.Owner.PLAYER_2));
-            if (p2Co != null)
+            if (p2IconLerpCo != null)
             {
-                StopCoroutine(p2Co);
+                StopCoroutine(p2IconLerpCo);
             }
-            p2Co = StartCoroutine(PlayerIconLerpFunc(_player2Obj.transform, newPos, 0.2f, p2Co));
+            p2IconLerpCo = StartCoroutine(PlayerIconLerpFunc(_player2Obj.transform, newPos, 0.2f, p2IconLerpCo));
         }
     }
 
