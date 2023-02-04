@@ -1,15 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using Random = UnityEngine.Random;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] Grid _tileGrid;
     [SerializeField] SpriteLibrary _spriteLib;
 
+    public Action GameEnd;
+    
     #region input vars
     public PlayerControllerActions _playerInput;
 
@@ -59,6 +63,7 @@ public class PlayerManager : MonoBehaviour
 
     private float _currTimer = 60;
     private float _currSec = 1;
+    private bool doTimer = true;
 
 
     // Lerping stuff for the player boxes.
@@ -431,6 +436,11 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        if (!doTimer)
+        {
+            return;
+        }
+        
         if (_currSec > 0)
             _currSec -= Time.deltaTime;
         else 
@@ -438,6 +448,11 @@ public class PlayerManager : MonoBehaviour
             _currSec = 1;
             _currTimer -= 1;
             _clockText.text = $"Timer: {_currTimer}";
+            if (_currTimer == 0)
+            {
+                doTimer = false;
+                GameEnd?.Invoke();
+            }
         }
     }
 
