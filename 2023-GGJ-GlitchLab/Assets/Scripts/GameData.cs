@@ -32,8 +32,8 @@ public static class GameData
         TWO_WAY_DL = Connection.Bottom | Connection.Left,
         TWO_WAY_RD = Connection.Right | Connection.Bottom,
         TWO_WAY_UR = Connection.Top | Connection.Right,
-        STRAIGHT_H = Connection.Top | Connection.Bottom,
-        STRAIGHT_V = Connection.Left | Connection.Right
+        STRAIGHT_H = Connection.Left | Connection.Right,
+        STRAIGHT_V = Connection.Top | Connection.Bottom
     }
 
     [Flags] public enum Connection

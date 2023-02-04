@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 
@@ -13,12 +14,14 @@ public class Grid : MonoBehaviour
     [SerializeField] private int gridXAxisSize = 10;
     [SerializeField] private int gridYAxisSize = 10;
     [SerializeField] private float cellSize = 1;
+    [Header("Gen Values")]
+    [SerializeField] private Vector2Int _waterSourcesRange;
+    [SerializeField] private Vector2Int _obstaclesRange;
+
     public float CellSize
     {
         get { return cellSize; }
     }
-
-
 
     public List<Cell> Cells = new List<Cell>();
 
@@ -46,6 +49,43 @@ public class Grid : MonoBehaviour
                 Cells.Add(newCell);
             }
         }
+
+        int waterSourceCount = Random.Range(_waterSourcesRange.x, _waterSourcesRange.y);
+        int obstacleCount = Random.Range(_obstaclesRange.x, _obstaclesRange.y);
+
+        for (int i = 0; i < waterSourceCount; i++)
+        {
+            bool spotFound = false;
+            while (!spotFound)
+            {
+                int xPos = Random.Range(0, (int)max.x);
+                int yPos = Random.Range(0, (int)max.y);
+                int ID = To1D(new Vector2(xPos, yPos));
+
+                if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL)
+                {
+                    SetTile(ID, GameData.Connection.None, GameData.Owner.NEUTRAL, GameData.TileType.RESOURCE);
+                    spotFound = true;   
+                }
+            }
+        }
+
+        for (int i = 0; i < obstacleCount; i++)
+        {
+            bool spotFound = false;
+            while (!spotFound)
+            {
+                int xPos = Random.Range(0, (int)max.x);
+                int yPos = Random.Range(0, (int)max.y);
+                int ID = To1D(new Vector2(xPos, yPos));
+
+                if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL &&  Cells[ID].tileData.type != GameData.TileType.RESOURCE)
+                {
+                    SetTile(ID, GameData.Connection.None, GameData.Owner.NEUTRAL, GameData.TileType.OBSTACLE);
+                    spotFound = true;
+                }
+            }
+        }
     }
 
     public void SetSpawn(Vector2 player1Pos, Vector2 player2Pos)
@@ -57,15 +97,15 @@ public class Grid : MonoBehaviour
         SetTile(player2CellID, GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right, GameData.Owner.PLAYER_2);
     }
 
-    public void SetTile(int cellID, GameData.Connection rootType, GameData.Owner player)
+    public void SetTile(int cellID, GameData.Connection rootType, GameData.Owner player, GameData.TileType type = GameData.TileType.ROOT)
     {
         Cells[cellID].tileData.connections = rootType;
         Cells[cellID].tileData.rootID = (GameData.RootID)rootType;
         Cells[cellID].tileData._owner = player;
-        Cells[cellID].tileData.type = GameData.TileType.ROOT;
+        Cells[cellID].tileData.type = type;
         Cells[cellID].tileData.UpdateSprite();
     }
-    
+
     public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType, GameData.Owner player, out bool connectedToResource)
     {
         // Check if the tile is a soil type
@@ -85,6 +125,7 @@ public class Grid : MonoBehaviour
         }
 
         #region TopCheck
+
         if (HasFlag((uint)rootType, (uint)GameData.Connection.Top)) //do we have an up connection for this piece
         {
             if (!BoundsCheck(GridPosition + new Vector2(0, 1))) //does the connection go off the screen
@@ -118,6 +159,8 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
+                            WaterSource src = n.GetComponent<WaterSource>();
+                            src.ConnectTile(Cells[cellID].tileData);
                             resourceGain++;
                             break;
                         case GameData.TileType.OBSTACLE:
@@ -127,9 +170,11 @@ public class Grid : MonoBehaviour
                 }
             }
         }
+
         #endregion
-        
+
         #region LeftCheck
+
         if (HasFlag((uint)rootType, (uint)GameData.Connection.Left)) //do we have an left connection for this piece
         {
             if (!BoundsCheck(GridPosition + new Vector2(-1, 0))) //does the connection go off the screen
@@ -163,6 +208,8 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
+                            WaterSource src = n.GetComponent<WaterSource>();
+                            src.ConnectTile(Cells[cellID].tileData);
                             resourceGain++;
                             break;
                         case GameData.TileType.OBSTACLE:
@@ -172,9 +219,11 @@ public class Grid : MonoBehaviour
                 }
             }
         }
+
         #endregion
-        
+
         #region BottomCheck
+
         if (HasFlag((uint)rootType, (uint)GameData.Connection.Bottom)) //do we have an bottom connection for this piece
         {
             if (!BoundsCheck(GridPosition + new Vector2(0, -1))) //does the connection go off the screen
@@ -208,6 +257,8 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
+                            WaterSource src = n.GetComponent<WaterSource>();
+                            src.ConnectTile(Cells[cellID].tileData);
                             resourceGain++;
                             break;
                         case GameData.TileType.OBSTACLE:
@@ -217,9 +268,11 @@ public class Grid : MonoBehaviour
                 }
             }
         }
+
         #endregion
-        
+
         #region RightCheck
+
         if (HasFlag((uint)rootType, (uint)GameData.Connection.Right)) //do we have an bottom connection for this piece
         {
             if (!BoundsCheck(GridPosition + new Vector2(1, 0))) //does the connection go off the screen
@@ -253,6 +306,8 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
+                            WaterSource src = n.GetComponent<WaterSource>();
+                            src.ConnectTile(Cells[cellID].tileData);
                             resourceGain++;
                             break;
                         case GameData.TileType.OBSTACLE:
@@ -262,6 +317,7 @@ public class Grid : MonoBehaviour
                 }
             }
         }
+
         #endregion
 
 
@@ -271,6 +327,7 @@ public class Grid : MonoBehaviour
             Debug.Log($"Gained: {resourceGain} and lost: {resourceLoss}");
             if (resourceGain > 0)
             {
+
                 connectedToResource = true;
             }
             return true;
