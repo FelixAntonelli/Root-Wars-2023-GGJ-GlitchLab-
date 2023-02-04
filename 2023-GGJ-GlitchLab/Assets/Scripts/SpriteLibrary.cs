@@ -9,6 +9,7 @@ public class SpriteLibrary : MonoBehaviour
     [SerializeField] private List<Sprite> _playerOneSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> _playerTwoSprites = new List<Sprite>();
     [SerializeField] private Sprite _errorSprite;
+    [SerializeField] private Sprite _treeSprite;
     
         
     public Dictionary<GameData.RootID, int> RootIDToSpriteIndex = new Dictionary<GameData.RootID, int>
@@ -61,6 +62,10 @@ public class SpriteLibrary : MonoBehaviour
                 }
             case GameData.Owner.PLAYER_1:
                 {
+                    if(typeIndex == 1)
+                    {
+                        return _treeSprite;
+                    }
                     if (rootIndex < 0)
                     {
                         return _errorSprite;
@@ -69,6 +74,10 @@ public class SpriteLibrary : MonoBehaviour
                 }
             case GameData.Owner.PLAYER_2:
                 {
+                    if (typeIndex == 1)
+                    {
+                        return _treeSprite;
+                    }
                     if (rootIndex < 0)
                     {
                         return _errorSprite;

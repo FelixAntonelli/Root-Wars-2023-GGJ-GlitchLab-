@@ -24,7 +24,10 @@ public class Tile : MonoBehaviour
     public void Init(SpriteLibrary library)
     {
         _library = library;
-        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        if (_spriteRenderer == null)
+        {
+            _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        }
         UpdateSprite(); 
     }
 

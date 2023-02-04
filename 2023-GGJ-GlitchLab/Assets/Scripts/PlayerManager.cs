@@ -93,8 +93,8 @@ public class PlayerManager : MonoBehaviour
 
 
 
-        _playerMovement1Input.performed += MovePlayer1;
-        _playerMovement2Input.performed += MovePlayer2;
+        _playerMovement1Input.started += MovePlayer1;
+        _playerMovement2Input.canceled += MovePlayer2;
 
         _player1Confirm.performed += ConfirmTilePlacementPlayer1;
         _player2Confirm.performed += ConfirmTilePlacementPlayer2;
