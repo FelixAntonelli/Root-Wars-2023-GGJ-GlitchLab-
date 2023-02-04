@@ -186,11 +186,7 @@ public class PlayerManager : MonoBehaviour
         else
             _player1TileIndex++;
 
-        Debug.Log("this is player 1");
-
       SetSpritePlayer1(lib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player1TileIndex]));
-
-
     }
 
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
@@ -199,9 +195,6 @@ public class PlayerManager : MonoBehaviour
             _player2TileIndex = 0;
         else
             _player2TileIndex++;
-
-        Debug.Log("this is player 2");
-
 
         SetSpritePlayer2(lib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player2TileIndex]));
     }
