@@ -24,8 +24,18 @@ public class Plant : MonoBehaviour
         
     }
 
-    public void ScorePoint()
+    private void ScorePoint(int value)
     {
-
+        _score += value;
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Droplet droplet = collision.gameObject.GetComponent<Droplet>();
+        if (droplet != null)
+        {
+            ScorePoint(droplet.GetPointValue());
+            droplet.DestroyDroplet();
+        }
     }
 }

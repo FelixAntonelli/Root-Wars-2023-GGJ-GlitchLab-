@@ -34,5 +34,10 @@ public class Tile : MonoBehaviour
         _spriteRenderer.sprite = _library.GetSprite(_owner, type, rootID);
     }
 
+    public Tile GetWayTowardsPlant()
+    {
+        return _wayTowardsPlant.GetComponent<Tile>();
+    }
+
     public static bool HasFlag(uint bitFlag, uint flag) => ((bitFlag & flag) != 0);
 }
