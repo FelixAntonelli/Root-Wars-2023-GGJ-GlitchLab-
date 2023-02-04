@@ -62,6 +62,24 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Player1Change"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b1e82ae-88cf-42b6-b941-c92fd5699673"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Player2Change"",
+                    ""type"": ""Button"",
+                    ""id"": ""54a64a5f-8901-4f32-8d95-e23800ec18d1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +214,28 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                     ""action"": ""Player2Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""beefb10c-6fcc-4342-a7a9-f9e0c648f70c"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d3849ba-ed7f-488a-9321-ef7c30b4e1c7"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +248,8 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
         m_playerMovement_Player2Movement = m_playerMovement.FindAction("Player2Movement", throwIfNotFound: true);
         m_playerMovement_Player1Confirm = m_playerMovement.FindAction("Player1Confirm", throwIfNotFound: true);
         m_playerMovement_Player2Confirm = m_playerMovement.FindAction("Player2Confirm", throwIfNotFound: true);
+        m_playerMovement_Player1Change = m_playerMovement.FindAction("Player1Change", throwIfNotFound: true);
+        m_playerMovement_Player2Change = m_playerMovement.FindAction("Player2Change", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +313,8 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
     private readonly InputAction m_playerMovement_Player2Movement;
     private readonly InputAction m_playerMovement_Player1Confirm;
     private readonly InputAction m_playerMovement_Player2Confirm;
+    private readonly InputAction m_playerMovement_Player1Change;
+    private readonly InputAction m_playerMovement_Player2Change;
     public struct PlayerMovementActions
     {
         private @PlayerControllerActions m_Wrapper;
@@ -279,6 +323,8 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
         public InputAction @Player2Movement => m_Wrapper.m_playerMovement_Player2Movement;
         public InputAction @Player1Confirm => m_Wrapper.m_playerMovement_Player1Confirm;
         public InputAction @Player2Confirm => m_Wrapper.m_playerMovement_Player2Confirm;
+        public InputAction @Player1Change => m_Wrapper.m_playerMovement_Player1Change;
+        public InputAction @Player2Change => m_Wrapper.m_playerMovement_Player2Change;
         public InputActionMap Get() { return m_Wrapper.m_playerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -300,6 +346,12 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 @Player2Confirm.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Confirm;
                 @Player2Confirm.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Confirm;
                 @Player2Confirm.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Confirm;
+                @Player1Change.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer1Change;
+                @Player1Change.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer1Change;
+                @Player1Change.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer1Change;
+                @Player2Change.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Change;
+                @Player2Change.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Change;
+                @Player2Change.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Change;
             }
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -316,6 +368,12 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 @Player2Confirm.started += instance.OnPlayer2Confirm;
                 @Player2Confirm.performed += instance.OnPlayer2Confirm;
                 @Player2Confirm.canceled += instance.OnPlayer2Confirm;
+                @Player1Change.started += instance.OnPlayer1Change;
+                @Player1Change.performed += instance.OnPlayer1Change;
+                @Player1Change.canceled += instance.OnPlayer1Change;
+                @Player2Change.started += instance.OnPlayer2Change;
+                @Player2Change.performed += instance.OnPlayer2Change;
+                @Player2Change.canceled += instance.OnPlayer2Change;
             }
         }
     }
@@ -326,5 +384,7 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
         void OnPlayer2Movement(InputAction.CallbackContext context);
         void OnPlayer1Confirm(InputAction.CallbackContext context);
         void OnPlayer2Confirm(InputAction.CallbackContext context);
+        void OnPlayer1Change(InputAction.CallbackContext context);
+        void OnPlayer2Change(InputAction.CallbackContext context);
     }
 }
