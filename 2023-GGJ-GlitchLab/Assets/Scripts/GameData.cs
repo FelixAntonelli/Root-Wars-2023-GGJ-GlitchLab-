@@ -20,20 +20,20 @@ public static class GameData
         OBSTACLE = 3
     }
 
-    public enum RootID
+    [Flags] public enum RootID
     {
-        NOT_ROOT = 0,
-        FOUR_WAY = 1,
-        THREE_WAY_RDL = 2,
-        THREE_WAY_URD = 3,
-        THREE_WAY_URL = 4,
-        THREE_WAY_UDL = 5,
-        TWO_WAY_UL = 6,
-        TWO_WAY_DL = 7,
-        TWO_WAY_RD = 8,
-        TWO_WAY_UR = 9,
-        STRAIGHT_H = 10,
-        STRAIGHT_V = 11
+        NOT_ROOT = Connection.None,
+        FOUR_WAY = Connection.Top | Connection.Left | Connection.Bottom | Connection.Right,
+        THREE_WAY_RDL = Connection.Right | Connection.Bottom | Connection.Left, 
+        THREE_WAY_URD = Connection.Top | Connection.Right | Connection.Bottom,
+        THREE_WAY_URL = Connection.Top | Connection.Right | Connection.Left,
+        THREE_WAY_UDL = Connection.Top | Connection.Bottom | Connection.Left,
+        TWO_WAY_UL = Connection.Top | Connection.Left,
+        TWO_WAY_DL = Connection.Bottom | Connection.Left,
+        TWO_WAY_RD = Connection.Right | Connection.Bottom,
+        TWO_WAY_UR = Connection.Top | Connection.Right,
+        STRAIGHT_H = Connection.Top | Connection.Bottom,
+        STRAIGHT_V = Connection.Left | Connection.Right
     }
 
     [Flags] public enum Connection
