@@ -80,6 +80,24 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Player1Refresh"",
+                    ""type"": ""Button"",
+                    ""id"": ""181955de-7a69-4c0d-abd2-ee9abc69130c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Player2Refresh"",
+                    ""type"": ""Button"",
+                    ""id"": ""9fa3f2b0-ad65-47c1-8896-d8a3be3fd29b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -313,6 +331,28 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                     ""action"": ""Player2Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de406622-a7b7-498e-9e1c-61574be67074"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player1Refresh"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9de9f2d8-d53b-44fa-be7d-4bee83d1bb75"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Refresh"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -327,6 +367,8 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
         m_playerMovement_Player2Confirm = m_playerMovement.FindAction("Player2Confirm", throwIfNotFound: true);
         m_playerMovement_Player1Change = m_playerMovement.FindAction("Player1Change", throwIfNotFound: true);
         m_playerMovement_Player2Change = m_playerMovement.FindAction("Player2Change", throwIfNotFound: true);
+        m_playerMovement_Player1Refresh = m_playerMovement.FindAction("Player1Refresh", throwIfNotFound: true);
+        m_playerMovement_Player2Refresh = m_playerMovement.FindAction("Player2Refresh", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -392,6 +434,8 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
     private readonly InputAction m_playerMovement_Player2Confirm;
     private readonly InputAction m_playerMovement_Player1Change;
     private readonly InputAction m_playerMovement_Player2Change;
+    private readonly InputAction m_playerMovement_Player1Refresh;
+    private readonly InputAction m_playerMovement_Player2Refresh;
     public struct PlayerMovementActions
     {
         private @PlayerControllerActions m_Wrapper;
@@ -402,6 +446,8 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
         public InputAction @Player2Confirm => m_Wrapper.m_playerMovement_Player2Confirm;
         public InputAction @Player1Change => m_Wrapper.m_playerMovement_Player1Change;
         public InputAction @Player2Change => m_Wrapper.m_playerMovement_Player2Change;
+        public InputAction @Player1Refresh => m_Wrapper.m_playerMovement_Player1Refresh;
+        public InputAction @Player2Refresh => m_Wrapper.m_playerMovement_Player2Refresh;
         public InputActionMap Get() { return m_Wrapper.m_playerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -429,6 +475,12 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 @Player2Change.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Change;
                 @Player2Change.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Change;
                 @Player2Change.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Change;
+                @Player1Refresh.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer1Refresh;
+                @Player1Refresh.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer1Refresh;
+                @Player1Refresh.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer1Refresh;
+                @Player2Refresh.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Refresh;
+                @Player2Refresh.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Refresh;
+                @Player2Refresh.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPlayer2Refresh;
             }
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -451,6 +503,12 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 @Player2Change.started += instance.OnPlayer2Change;
                 @Player2Change.performed += instance.OnPlayer2Change;
                 @Player2Change.canceled += instance.OnPlayer2Change;
+                @Player1Refresh.started += instance.OnPlayer1Refresh;
+                @Player1Refresh.performed += instance.OnPlayer1Refresh;
+                @Player1Refresh.canceled += instance.OnPlayer1Refresh;
+                @Player2Refresh.started += instance.OnPlayer2Refresh;
+                @Player2Refresh.performed += instance.OnPlayer2Refresh;
+                @Player2Refresh.canceled += instance.OnPlayer2Refresh;
             }
         }
     }
@@ -463,5 +521,7 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
         void OnPlayer2Confirm(InputAction.CallbackContext context);
         void OnPlayer1Change(InputAction.CallbackContext context);
         void OnPlayer2Change(InputAction.CallbackContext context);
+        void OnPlayer1Refresh(InputAction.CallbackContext context);
+        void OnPlayer2Refresh(InputAction.CallbackContext context);
     }
 }

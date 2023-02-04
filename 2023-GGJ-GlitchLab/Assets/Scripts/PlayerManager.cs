@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] Grid _tileGrid;
-    [SerializeField] SpriteLibrary lib;
+    [SerializeField] SpriteLibrary _spriteLib;
 
     #region input vars
     public PlayerControllerActions _playerInput;
@@ -21,23 +21,32 @@ public class PlayerManager : MonoBehaviour
     private InputAction _player1Change;
     private InputAction _player2Change;
 
+    private InputAction _player1Refresh;
+    private InputAction _player2Refresh;
+
     #endregion
 
     public Vector2 _player1Pos;
     public Vector2 _player2Pos;
 
-    //[SerializeField] RectTransform _player1Obj;
-    //[SerializeField] RectTransform _player2Obj;
 
-    //[SerializeField] RawImage _player1Image;
-    //[SerializeField] RawImage _player2Image;
+    public GameObject[] tilesShownPlayer1 = new GameObject[4];
+    public GameObject[] tilesShownPlayer2 = new GameObject[4];
+
+    private int[] availableTilesPlayer1 = new int[4] { 0, 0, 0, 0 };
+    private int[] availableTilesPlayer2 = new int[4] { 0, 0, 0, 0 };
+
+    public int selectedSlotIndexPlayer1;
+    public int selectedSlotIndexPlayer2;
+
+    private bool disabledMovementPlayer1;
+    private bool disabledMovementPlayer2;
+
 
     [SerializeField] GameObject _player1Obj;
     [SerializeField] GameObject _player2Obj;
 
-
-    int _player1TileIndex;
-    int _player2TileIndex;
+    private float timeDisabled = 3;
 
     private Vector2 _maxGridSize;
 
@@ -45,6 +54,7 @@ public class PlayerManager : MonoBehaviour
     private Coroutine _p2Lerp;
     private float _lerpSpeed = 0.18f;
     private float _lerpAccuracy = 0.05f;
+
 
     private void Awake()
     {
@@ -63,7 +73,13 @@ public class PlayerManager : MonoBehaviour
         _player1Change = _playerInput.playerMovement.Player1Change;
         _player2Change = _playerInput.playerMovement.Player2Change;
 
+        _player1Refresh = _playerInput.playerMovement.Player1Refresh;
+        _player2Refresh = _playerInput.playerMovement.Player2Refresh;
 
+
+
+        _player1Refresh.Enable();
+        _player2Refresh.Enable();
 
         _playerMovement1Input.Enable();
         _playerMovement2Input.Enable();
@@ -84,6 +100,11 @@ public class PlayerManager : MonoBehaviour
 
         _player1Change.performed += SwitchSelectedTilePlayer1;
         _player2Change.performed += SwitchSelectedTilePlayer2;
+
+        _player1Refresh.performed += PlayerResetCallPlayer1;
+        _player2Refresh.performed += PlayerResetCallPlayer2;
+
+
     }
 
     private void OnDisable()
@@ -97,41 +118,38 @@ public class PlayerManager : MonoBehaviour
         _player1Change.Disable();
         _player2Change.Disable();
     }
-
-
-
     private void Start()
     {
-
         _player2Obj.transform.localScale = new Vector3(_tileGrid.CellSize, _tileGrid.CellSize, _tileGrid.CellSize);
         _player1Obj.transform.localScale = new Vector3(_tileGrid.CellSize, _tileGrid.CellSize, _tileGrid.CellSize);
 
+        StartSetTiles( 1);
+        StartSetTiles( 2);
 
-        SetSpritePlayer2(lib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player2TileIndex]));
-        SetSpritePlayer1(lib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player1TileIndex]));
+        SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[selectedSlotIndexPlayer2]]));
+        SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer1[selectedSlotIndexPlayer1]]));
 
+        _maxGridSize = _tileGrid.max;
 
-        _maxGridSize = _tileGrid.max;   
-
-        _player1Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.25f), _maxGridSize.y - 1);    //sets them at the start
+        _player1Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.25f), _maxGridSize.y - 2);    //sets them at the start
         _player1Obj.transform.position = new Vector3(_player1Pos.x, _player1Pos.y, 0);
 
-        _player2Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.75f), _maxGridSize.y - 1);
+        _player2Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.75f), _maxGridSize.y - 2);
         _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
-        
-        _tileGrid.SetSpawn(_player1Pos, _player2Pos);
+
+        _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1));
     }
 
 
     public void SetSpritePlayer1(Sprite newImage) => _player1Obj.GetComponent<SpriteRenderer>().sprite = newImage;
-
     public void SetSpritePlayer2(Sprite newImage) => _player2Obj.GetComponent<SpriteRenderer>().sprite = newImage;
 
 
-
-    //this gets called when the arrow keys or WASD keys are pressed and moves the player
     private void MovePlayer1(InputAction.CallbackContext context)
     {
+        if (disabledMovementPlayer1)
+            return;
+
         var contextVal = context.ReadValue<Vector2>();
 
         if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
@@ -153,6 +171,9 @@ public class PlayerManager : MonoBehaviour
     }
     private void MovePlayer2(InputAction.CallbackContext context)
     {
+        if (disabledMovementPlayer2)
+            return;
+
         var contextVal = context.ReadValue<Vector2>();
 
         if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
@@ -162,7 +183,6 @@ public class PlayerManager : MonoBehaviour
 
             if (newPos == _player1Pos)
                 return;
-
 
             if (newPos.x >= _maxGridSize.x || newPos.y >= _maxGridSize.y || newPos.x < 0 || newPos.y < 0)
                 return;
@@ -175,38 +195,129 @@ public class PlayerManager : MonoBehaviour
     }
 
 
-    // this in the future will be when the player confirms the placement of the tile he has choosen
     private void ConfirmTilePlacementPlayer1(InputAction.CallbackContext context)
     {
+        if (disabledMovementPlayer1)
+            return;
+
         bool connectedToResource;
-       _tileGrid.PlaceTile(_player1Pos, lib.SpriteIndexToRootID[_player1TileIndex], GameData.Owner.PLAYER_1, out connectedToResource);
+        if (_tileGrid.PlaceTile(_player1Pos, _spriteLib.SpriteIndexToRootID[availableTilesPlayer1[selectedSlotIndexPlayer1]], GameData.Owner.PLAYER_1, out connectedToResource))
+        {
+            SetRandomIndex(selectedSlotIndexPlayer1, 1);
+
+            SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer1[selectedSlotIndexPlayer1]]));
+        }
     }
     private void ConfirmTilePlacementPlayer2(InputAction.CallbackContext context)
     {
+        if (disabledMovementPlayer2)
+            return;
+
         bool connectedToResource;
-        _tileGrid.PlaceTile(_player2Pos, lib.SpriteIndexToRootID[_player2TileIndex], GameData.Owner.PLAYER_2, out connectedToResource);
+        if (_tileGrid.PlaceTile(_player2Pos, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[selectedSlotIndexPlayer2]], GameData.Owner.PLAYER_2, out connectedToResource))
+        {
+            SetRandomIndex(selectedSlotIndexPlayer2, 2);
+
+            SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[selectedSlotIndexPlayer2]]));
+        }
     }
 
-    //small issue it changes all of them
-    // this is for the switching of the tiles like cycling through them, i erased the blackboard so i dont remember if this is what we decided but anyway its here in case delete
+
     private void SwitchSelectedTilePlayer1(InputAction.CallbackContext context)
     {
-        if (_player1TileIndex + 1 == 11)
-            _player1TileIndex = 0;
+        if (selectedSlotIndexPlayer1 + 1 == 4)
+            selectedSlotIndexPlayer1 = 0;
         else
-            _player1TileIndex++;
+            selectedSlotIndexPlayer1++;
 
-      SetSpritePlayer1(lib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player1TileIndex]));
+        SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer1[selectedSlotIndexPlayer1]]));
     }
-
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
     {
-        if (_player2TileIndex + 1 == 11)
-            _player2TileIndex = 0;
+        if (selectedSlotIndexPlayer2 + 1 == 4)
+            selectedSlotIndexPlayer2 = 0;
         else
-            _player2TileIndex++;
+            selectedSlotIndexPlayer2++;
 
-        SetSpritePlayer2(lib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, lib.SpriteIndexToRootID[_player2TileIndex]));
+        SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[selectedSlotIndexPlayer2]]));
+    }
+
+
+
+    private void PlayerResetCallPlayer1(InputAction.CallbackContext context)
+    {
+        if (disabledMovementPlayer1)
+            return;
+
+        for (int i = 0; i < 4; i++)
+        {
+            SetRandomIndex(i, 1);
+        }
+
+        SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer1[selectedSlotIndexPlayer1]]));
+
+        StartCoroutine(DisableTimer(1));
+    }
+    private void PlayerResetCallPlayer2(InputAction.CallbackContext context)
+    {
+        if (disabledMovementPlayer2)
+            return;
+
+        for (int i = 0; i < 4; i++)
+        {
+            SetRandomIndex(i, 2);
+        }
+
+        SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[selectedSlotIndexPlayer2]]));
+
+
+        StartCoroutine(DisableTimer(2));
+    }
+
+
+    private void StartSetTiles(int playerNum) 
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            SetRandomIndex(i, playerNum);
+        }
+    }
+    private void SetRandomIndex(int indexToChange, int playerNum)
+    {
+        if (playerNum == 1)
+        {
+            availableTilesPlayer1[indexToChange] = Random.Range(0, 11);
+            tilesShownPlayer1[indexToChange].GetComponent<SpriteRenderer>().sprite = _spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer1[indexToChange]]);
+        }
+        else
+        {
+            availableTilesPlayer2[indexToChange] = Random.Range(0, 11);
+            tilesShownPlayer2[indexToChange].GetComponent<SpriteRenderer>().sprite = _spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[indexToChange]]);
+        }
+    }
+    IEnumerator DisableTimer(int playerNum)
+    {
+        if (playerNum == 1)
+        {
+            disabledMovementPlayer1 = true;
+        }
+        else
+        {
+            disabledMovementPlayer2 = true;
+        }
+
+
+        yield return new WaitForSeconds(timeDisabled);
+
+
+        if (playerNum == 1)
+        {
+            disabledMovementPlayer1 = false;
+        }
+        else
+        {
+            disabledMovementPlayer2 = false;
+        }
     }
 
     private IEnumerator LerpSelectionBox(GameObject playerBox, Vector3 newPos, GameData.Owner owner)

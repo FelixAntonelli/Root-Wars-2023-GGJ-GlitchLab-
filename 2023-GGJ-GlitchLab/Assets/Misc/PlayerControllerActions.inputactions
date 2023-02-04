@@ -58,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Player1Refresh",
+                    "type": "Button",
+                    "id": "181955de-7a69-4c0d-abd2-ee9abc69130c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Player2Refresh",
+                    "type": "Button",
+                    "id": "9fa3f2b0-ad65-47c1-8896-d8a3be3fd29b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -289,6 +307,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Player2Change",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de406622-a7b7-498e-9e1c-61574be67074",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player1Refresh",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9de9f2d8-d53b-44fa-be7d-4bee83d1bb75",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Refresh",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
