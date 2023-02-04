@@ -53,12 +53,12 @@ public class Grid : MonoBehaviour
       int player1CellID = To1D(player1Pos);
       int player2CellID = To1D(player2Pos);
       
-      Cells[player1CellID].tileData.connections = GameData.Connection.Top & GameData.Connection.Left & GameData.Connection.Bottom & GameData.Connection.Right;
+      Cells[player1CellID].tileData.connections = GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right;
       Cells[player1CellID].tileData.rootID = GameData.RootID.FOUR_WAY;
       Cells[player1CellID].tileData._owner = GameData.Owner.PLAYER_1;
       Cells[player1CellID].tileData.UpdateSprite();
       
-      Cells[player2CellID].tileData.connections = GameData.Connection.Top & GameData.Connection.Left & GameData.Connection.Bottom & GameData.Connection.Right;
+      Cells[player2CellID].tileData.connections = GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right;
       Cells[player2CellID].tileData.rootID = GameData.RootID.FOUR_WAY;
       Cells[player2CellID].tileData._owner = GameData.Owner.PLAYER_2;
       Cells[player2CellID].tileData.UpdateSprite();
@@ -82,7 +82,7 @@ public class Grid : MonoBehaviour
       //if above is in bounds and we have a connection going up on the tile we want to place
       if (BoundsCheck(GridPosition + new Vector2(0, 1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Top))
       {
-         Vector2 parentTile = GridPosition + new Vector2(0, 1);
+         Vector2 parentTile = GridPosition + new Vector2(0, -1);
          int parentTileID = To1D(parentTile);
          if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Bottom)) //if we can connect
          {
@@ -95,11 +95,13 @@ public class Grid : MonoBehaviour
          }
       }
       
+      bool test1 = BoundsCheck(GridPosition + new Vector2(-1, 0));
+      bool test2 = HasFlag((uint)rootType, (uint)GameData.Connection.Left);
       //LEFT
       //if left is in bounds and we have a connection going left on the tile we want to place
-      if (BoundsCheck(GridPosition + new Vector2(-1, 0)) && HasFlag((uint)rootType, (uint)GameData.Connection.Left))
+      if (test1 && test2)
       {
-         Vector2 parentTile = GridPosition + new Vector2(-1, 0);
+         Vector2 parentTile = GridPosition + new Vector2(1, 0);
          int parentTileID = To1D(parentTile);
          if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Right)) //if we can connect
          {
@@ -116,7 +118,7 @@ public class Grid : MonoBehaviour
       //if below is in bounds and we have a connection going down on the tile we want to place
       if (BoundsCheck(GridPosition + new Vector2(0, -1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Bottom))
       {
-         Vector2 parentTile = GridPosition + new Vector2(0, -1);
+         Vector2 parentTile = GridPosition + new Vector2(0, 1);
          int parentTileID = To1D(parentTile);
          if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Top)) //if we can connect
          {
@@ -207,7 +209,7 @@ public class Grid : MonoBehaviour
    }
    public bool BoundsCheck(Vector2 pos)
    {
-      return (Mathf.Abs(pos.x) == 0 || Mathf.Abs(pos.x) == 1) && (Mathf.Abs(pos.y) == 0 || Mathf.Abs(pos.y) == 1);
+      return !(pos.x >= max.x || pos.y >= max.y || pos.x < 0 || pos.y < 0);
    }
 }
 

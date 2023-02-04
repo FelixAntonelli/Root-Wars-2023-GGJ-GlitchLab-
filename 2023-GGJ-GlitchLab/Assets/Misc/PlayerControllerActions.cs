@@ -218,7 +218,7 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 {
                     ""name"": """",
                     ""id"": ""beefb10c-6fcc-4342-a7a9-f9e0c648f70c"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

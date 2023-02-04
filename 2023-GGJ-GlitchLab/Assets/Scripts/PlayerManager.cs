@@ -169,12 +169,12 @@ public class PlayerManager : MonoBehaviour
     private void ConfirmTilePlacementPlayer1(InputAction.CallbackContext context)
     {
         bool connectedToResource;
-       _tileGrid.PlaceTile(_player1Pos,(GameData.RootID)_player1TileIndex, GameData.Owner.PLAYER_1, out connectedToResource);
+       _tileGrid.PlaceTile(_player1Pos, lib.SpriteIndexToRootID[_player1TileIndex], GameData.Owner.PLAYER_1, out connectedToResource);
     }
     private void ConfirmTilePlacementPlayer2(InputAction.CallbackContext context)
     {
         bool connectedToResource;
-        _tileGrid.PlaceTile(_player2Pos, (GameData.RootID)_player2TileIndex, GameData.Owner.PLAYER_2, out connectedToResource);
+        _tileGrid.PlaceTile(_player2Pos, lib.SpriteIndexToRootID[_player2TileIndex], GameData.Owner.PLAYER_2, out connectedToResource);
     }
 
     //small issue it changes all of them
