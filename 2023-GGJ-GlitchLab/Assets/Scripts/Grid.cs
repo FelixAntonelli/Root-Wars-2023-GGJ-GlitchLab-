@@ -43,6 +43,8 @@ public class Grid : MonoBehaviour
 
    public bool PlaceTile(Vector2 GridPosition, uint tileConnections)
    {
+        Debug.Log(tileConnections);
+        Debug.Log(GridPosition);
       // Check if the tile is a soil type
       //    If No, return false.
       //    If Yes, check the four neighbours for a connection point

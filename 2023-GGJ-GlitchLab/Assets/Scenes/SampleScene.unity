@@ -892,7 +892,8 @@ MonoBehaviour:
   _player2Obj: {fileID: 34048552}
   _player1Image: {fileID: 1744162556}
   _player2Image: {fileID: 506681866}
-  test: {fileID: 2800000, guid: 31a04f62a1a09c74cac1a86513a9d775, type: 3}
+  _player1TileIndex: 0
+  _player2TileIndex: 0
 --- !u!4 &1993532030
 Transform:
   m_ObjectHideFlags: 0

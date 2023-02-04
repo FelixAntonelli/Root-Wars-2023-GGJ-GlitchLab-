@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] Grid _tileGrid;
+    [SerializeField]
 
     #region input vars
     public PlayerControllerActions _playerInput;
@@ -31,9 +32,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] RawImage _player1Image;
     [SerializeField] RawImage _player2Image;
 
-    private Vector2 _maxGridSize;
+    [SerializeField] uint _player1TileIndex;
+    [SerializeField] uint _player2TileIndex;
 
-    public Texture test;   // to delete
+    private Vector2 _maxGridSize;
 
 
 
@@ -101,10 +103,10 @@ public class PlayerManager : MonoBehaviour
 
         _maxGridSize = _tileGrid.max;   //why is the size of the grid multiplied by the size of the cell? this sort of breaks things as for example if the x is 20 and the size is 0.5 then the max index is set to 10 on th x axis 
 
-        _player1Pos = new Vector2((int) Mathf.Lerp(0, _maxGridSize.x, 0.25f), _maxGridSize.y - 1);    //sets them at the start
+        _player1Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.25f), _maxGridSize.y - 1);    //sets them at the start
         _player1Obj.transform.position = new Vector3(_player1Pos.x, _player1Pos.y, 0);
 
-        _player2Pos = new Vector2((int) Mathf.Lerp(0, _maxGridSize.x, 0.75f),_maxGridSize.y -1);
+        _player2Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.75f), _maxGridSize.y - 1);
         _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
     }
 
@@ -112,11 +114,11 @@ public class PlayerManager : MonoBehaviour
     //give this the texture and this changes the raw images/icon of the player
     public void SetImagePlayer1(Texture newImage) => _player1Image.texture = newImage;
     public void SetImagePlayer2(Texture newImage) => _player2Image.texture = newImage;
-    
+
 
 
     //this gets called when the arrow keys or WASD keys are pressed and moves the player
-    private void MovePlayer1(InputAction.CallbackContext context) 
+    private void MovePlayer1(InputAction.CallbackContext context)
     {
         var contextVal = context.ReadValue<Vector2>();
 
@@ -128,21 +130,21 @@ public class PlayerManager : MonoBehaviour
                 return;
 
             if (newPos.x >= _maxGridSize.x || newPos.y >= _maxGridSize.y || newPos.x < 0 || newPos.y < 0)   //checks if its inside the grid
-                return; 
+                return;
 
             _player1Pos = newPos;   //sets the new position
             _player1Obj.transform.position = new Vector3(_player1Pos.x, _player1Pos.y, 0);  //sets the new pos of the obj,  to change
         }
     }
     private void MovePlayer2(InputAction.CallbackContext context)
-    { 
+    {
         var contextVal = context.ReadValue<Vector2>();
 
-        if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1)    && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1)) 
+        if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1))
         {
             Vector2 newPos = _player2Pos + contextVal;
 
-            if (newPos == _player1Pos) 
+            if (newPos == _player1Pos)
                 return;
 
 
@@ -150,30 +152,36 @@ public class PlayerManager : MonoBehaviour
                 return;
 
             _player2Pos = newPos;
-            _player2Obj.transform.position = new Vector3(_player2Pos.x,_player2Pos.y,0);
+            _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
         }
     }
-    
+
 
     // this in the future will be when the player confirms the placement of the tile he has choosen
-    private void ConfirmTilePlacementPlayer1(InputAction.CallbackContext context) 
+    private void ConfirmTilePlacementPlayer1(InputAction.CallbackContext context)
     {
-    
+        _tileGrid.PlaceTile(_player1Pos, _player1TileIndex);
     }
     private void ConfirmTilePlacementPlayer2(InputAction.CallbackContext context)
     {
-
+        _tileGrid.PlaceTile(_player2Pos, _player2TileIndex);
     }
 
 
     // this is for the switching of the tiles like cycling through them, i erased the blackboard so i dont remember if this is what we decided but anyway its here in case delete
     private void SwitchSelectedTilePlayer1(InputAction.CallbackContext context)
     {
-        SetImagePlayer1(test); // this is a test, press the left shift to change the texture, this will be delete
+        if (_player1TileIndex + 1 == 12)
+            _player1TileIndex = 0;
+        else
+            _player1TileIndex++;
     }
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
     {
-
+        if (_player2TileIndex + 1 == 12)
+            _player2TileIndex = 0;
+        else
+            _player2TileIndex++;
     }
 
 
