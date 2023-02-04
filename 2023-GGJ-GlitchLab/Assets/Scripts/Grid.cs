@@ -8,11 +8,11 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-   [SerializeField] private SpriteLibrary _spriteLibrary;
-   [SerializeField] private Cell cellPrefab;
-   [SerializeField] private int gridXAxisSize = 10;
-   [SerializeField] private int gridYAxisSize = 10;
-   [SerializeField] private float cellSize = 1;
+    [SerializeField] private SpriteLibrary _spriteLibrary;
+    [SerializeField] private Cell cellPrefab;
+    [SerializeField] private int gridXAxisSize = 10;
+    [SerializeField] private int gridYAxisSize = 10;
+    [SerializeField] private float cellSize = 1;
     public float CellSize
     {
         get { return cellSize; }
@@ -21,209 +21,334 @@ public class Grid : MonoBehaviour
 
 
     public List<Cell> Cells = new List<Cell>();
-   
-   public Vector2 max => new Vector2(gridXAxisSize, gridYAxisSize);
 
-   public static bool HasFlag(uint bitFlag, uint flag) => ((bitFlag & flag) != 0);
-   
-   private void Awake()
-   {
-      // int numberOfCellsOnXAxis = Mathf.FloorToInt(gridXAxisSize / cellSize);
-      // int numberOfCellsOnYAxis = Mathf.FloorToInt(gridYAxisSize / cellSize);
-      // int halfXSize = numberOfCellsOnXAxis / 2;
-      // int halfYSize = numberOfCellsOnYAxis / 2;
-      Vector2 origin = transform.position;
+    public Vector2 max => new Vector2(gridXAxisSize, gridYAxisSize);
 
-      for (int i = 0; i < gridXAxisSize; i++)
-      {
-         for (int j = 0; j < gridYAxisSize; j++)
-         {
-            Cell newCell = Instantiate(cellPrefab,  new Vector2(i, j), Quaternion.identity, transform);
-            newCell.tileData.Init(_spriteLibrary);
-            newCell.position = new Vector2(i, j);
-            newCell.size = cellSize;
-            newCell.transform.localScale = new Vector2(newCell.size, newCell.size);
-            Cells.Add(newCell);
-         }
-      }
-   }
+    public static bool HasFlag(uint bitFlag, uint flag) => ((bitFlag & flag) != 0);
 
-   public void SetSpawn(Vector2 player1Pos, Vector2 player2Pos)
-   {
-      int player1CellID = To1D(player1Pos);
-      int player2CellID = To1D(player2Pos);
-      
-      Cells[player1CellID].tileData.connections = GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right;
-      Cells[player1CellID].tileData.rootID = GameData.RootID.FOUR_WAY;
-      Cells[player1CellID].tileData._owner = GameData.Owner.PLAYER_1;
-      Cells[player1CellID].tileData.UpdateSprite();
-      
-      Cells[player2CellID].tileData.connections = GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right;
-      Cells[player2CellID].tileData.rootID = GameData.RootID.FOUR_WAY;
-      Cells[player2CellID].tileData._owner = GameData.Owner.PLAYER_2;
-      Cells[player2CellID].tileData.UpdateSprite();
-   }
+    private void Awake()
+    {
+        // int numberOfCellsOnXAxis = Mathf.FloorToInt(gridXAxisSize / cellSize);
+        // int numberOfCellsOnYAxis = Mathf.FloorToInt(gridYAxisSize / cellSize);
+        // int halfXSize = numberOfCellsOnXAxis / 2;
+        // int halfYSize = numberOfCellsOnYAxis / 2;
+        Vector2 origin = transform.position;
 
-   public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType, GameData.Owner player,out bool connectedToResource)
-   {
-      // Check if the tile is a soil type
-      //    If No, return false.
-      //    If Yes, check the four neighbours for a connection point
-      //       If no, return false
-      //       If yes, Update tile data and update grid 
-       connectedToResource = false;
-      int cellID = To1D(GridPosition);
-      if (Cells[cellID].tileData.type != GameData.TileType.SOIL)
-      {
-         return false;
-      }
+        for (int i = 0; i < gridXAxisSize; i++)
+        {
+            for (int j = 0; j < gridYAxisSize; j++)
+            {
+                Cell newCell = Instantiate(cellPrefab, new Vector2(i, j), Quaternion.identity, transform);
+                newCell.tileData.Init(_spriteLibrary);
+                newCell.position = new Vector2(i, j);
+                newCell.size = cellSize;
+                newCell.transform.localScale = new Vector2(newCell.size, newCell.size);
+                Cells.Add(newCell);
+            }
+        }
+    }
 
-      //TOP
-      //if above is in bounds and we have a connection going up on the tile we want to place
-      if (BoundsCheck(GridPosition + new Vector2(0, 1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Top))
-      {
-         Vector2 parentTile = GridPosition + new Vector2(0, -1);
-         int parentTileID = To1D(parentTile);
-         if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Bottom)) //if we can connect
-         {
-            Cells[cellID].tileData.connections = (GameData.Connection)rootType;
-            Cells[cellID].tileData.rootID = rootType;
-            Cells[cellID].tileData._owner = player;
-            Cells[cellID].tileData.UpdateSprite();
-            connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
-            return true;
-         }
-      }
-      
-      bool test1 = BoundsCheck(GridPosition + new Vector2(-1, 0));
-      bool test2 = HasFlag((uint)rootType, (uint)GameData.Connection.Left);
-      //LEFT
-      //if left is in bounds and we have a connection going left on the tile we want to place
-      if (test1 && test2)
-      {
-         Vector2 parentTile = GridPosition + new Vector2(1, 0);
-         int parentTileID = To1D(parentTile);
-         if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Right)) //if we can connect
-         {
-            Cells[cellID].tileData.connections = (GameData.Connection)rootType;
-            Cells[cellID].tileData.rootID = rootType;
-            Cells[cellID].tileData._owner = player;
-            Cells[cellID].tileData.UpdateSprite();
-            connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
-            return true;
-         }
-      }
-      
-      //BOTTOM
-      //if below is in bounds and we have a connection going down on the tile we want to place
-      if (BoundsCheck(GridPosition + new Vector2(0, -1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Bottom))
-      {
-         Vector2 parentTile = GridPosition + new Vector2(0, 1);
-         int parentTileID = To1D(parentTile);
-         if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Top)) //if we can connect
-         {
-            Cells[cellID].tileData.connections = (GameData.Connection)rootType;
-            Cells[cellID].tileData.type = GameData.TileType.ROOT;
-            Cells[cellID].tileData.rootID = rootType;
-            Cells[cellID].tileData._owner = player;
-            Cells[cellID].tileData.UpdateSprite();
-            connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
-            return true;
-         }
-      }
-      
-      //RIGHT
-      //if right is in bounds and we have a connection going right on the tile we want to place
-      if (BoundsCheck(GridPosition + new Vector2(1, 0)) && HasFlag((uint)rootType, (uint)GameData.Connection.Right))
-      {
-         Vector2 parentTile = GridPosition + new Vector2(-1, 0);
-         int parentTileID = To1D(parentTile);
-         if (HasFlag((uint)Cells[parentTileID].tileData.connections, (uint)GameData.Connection.Left)) //if we can connect
-         {
-            Cells[cellID].tileData.connections = (GameData.Connection)rootType;
-            Cells[cellID].tileData.type = GameData.TileType.ROOT;
-            Cells[cellID].tileData.rootID = rootType;
-            Cells[cellID].tileData._owner = player;
-            Cells[cellID].tileData.UpdateSprite();
-            connectedToResource = IsNeighbourTileResource(GridPosition, rootType);
-            return true;
-         }
-      }
-      
-      return false;
-   }
+    public void SetSpawn(Vector2 player1Pos, Vector2 player2Pos)
+    {
+        int player1CellID = To1D(player1Pos);
+        int player2CellID = To1D(player2Pos);
 
-   public bool IsNeighbourTileResource(Vector2 gridCell, GameData.RootID rootType)
-   {
-      //TOP
-      if (BoundsCheck(gridCell + new Vector2(0, 1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Top))
-      {
-         int nCellID = To1D(gridCell + new Vector2(0, 1));
-         if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
-         {
-            return true;
-         }
-      }
-      
-      //LEFT
-      if (BoundsCheck(gridCell + new Vector2(-1, 0)) && HasFlag((uint)rootType, (uint)GameData.Connection.Left))
-      {
-         int nCellID = To1D(gridCell + new Vector2(-1, 0));
-         if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
-         {
-            return true;
-         }
-      }
-      
-      //BOTTOM
-      if (BoundsCheck(gridCell + new Vector2(0, -1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Bottom))
-      {
-         int nCellID = To1D(gridCell + new Vector2(0, -1));
-         if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
-         {
-            return true;
-         }
-      }
-      
-      //RIGHT
-      if (BoundsCheck(gridCell + new Vector2(1, 0)) && HasFlag((uint)rootType, (uint)GameData.Connection.Right))
-      {
-         int nCellID = To1D(gridCell + new Vector2(1, 0));
-         if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
-         {
-            return true;
-         }
-      }
-      
-      return false;
-   }
+        SetTile(player1CellID, GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right, GameData.Owner.PLAYER_1);
+        SetTile(player2CellID, GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right, GameData.Owner.PLAYER_2);
+    }
 
-   public int To1D(Vector2 pos)
-   {
-      return (int)(pos.x * gridYAxisSize + pos.y); //Can just hard cast to int as we shouldn't be passing in non-aligned positions
-   }
+    public void SetTile(int cellID, GameData.Connection rootType, GameData.Owner player)
+    {
+        Cells[cellID].tileData.connections = rootType;
+        Cells[cellID].tileData.rootID = (GameData.RootID)rootType;
+        Cells[cellID].tileData._owner = player;
+        Cells[cellID].tileData.type = GameData.TileType.ROOT;
+        Cells[cellID].tileData.UpdateSprite();
+    }
+    
+    public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType, GameData.Owner player, out bool connectedToResource)
+    {
+        // Check if the tile is a soil type
+        //    If No, return false.
+        //    If Yes, check the four neighbours for a connection point
+        //       If no, return false
+        //       If yes, Update tile data and update grid 
+        int resourceGain = 0;
+        int resourceLoss = 0;
+        bool placeTile = false;
 
-   public Vector2 To2D(int index)
-   {
-      return new Vector2(index % gridYAxisSize, index / gridXAxisSize);
-   }
-   public bool BoundsCheck(Vector2 pos)
-   {
-      return !(pos.x >= max.x || pos.y >= max.y || pos.x < 0 || pos.y < 0);
-   }
+        connectedToResource = false;
+        int cellID = To1D(GridPosition);
+        if (Cells[cellID].tileData.type != GameData.TileType.SOIL)
+        {
+            return false;
+        }
+
+        #region TopCheck
+        if (HasFlag((uint)rootType, (uint)GameData.Connection.Top)) //do we have an up connection for this piece
+        {
+            if (!BoundsCheck(GridPosition + new Vector2(0, 1))) //does the connection go off the screen
+            {
+                resourceLoss++;
+            }
+            else
+            {
+                Cell n = Cells[To1D(GridPosition + new Vector2(0, 1))];
+                if (!(n.tileData._owner == player || n.tileData._owner == GameData.Owner.NEUTRAL)) //if the other player owns the tile then its a resource loss
+                {
+                    resourceLoss--;
+                }
+                else
+                {
+                    switch (n.tileData.type)
+                    {
+                        case GameData.TileType.ROOT:
+                            //Check if connection
+                            if (HasFlag((uint)n.tileData.connections, (uint)GameData.Connection.Bottom))
+                            {
+                                //assign tile
+                                placeTile = true;
+                            }
+                            else
+                            {
+                                resourceLoss++;
+                            }
+                            break;
+                        case GameData.TileType.SOIL:
+                            //Neutral
+                            break;
+                        case GameData.TileType.RESOURCE:
+                            resourceGain++;
+                            break;
+                        case GameData.TileType.OBSTACLE:
+                            resourceLoss--;
+                            break;
+                    }
+                }
+            }
+        }
+        #endregion
+        
+        #region LeftCheck
+        if (HasFlag((uint)rootType, (uint)GameData.Connection.Left)) //do we have an left connection for this piece
+        {
+            if (!BoundsCheck(GridPosition + new Vector2(-1, 0))) //does the connection go off the screen
+            {
+                resourceLoss++;
+            }
+            else
+            {
+                Cell n = Cells[To1D(GridPosition + new Vector2(-1, 0))];
+                if (!(n.tileData._owner == player || n.tileData._owner == GameData.Owner.NEUTRAL)) //if the other player owns the tile then its a resource loss
+                {
+                    resourceLoss--;
+                }
+                else
+                {
+                    switch (n.tileData.type)
+                    {
+                        case GameData.TileType.ROOT:
+                            //Check if connection
+                            if (HasFlag((uint)n.tileData.connections, (uint)GameData.Connection.Right))
+                            {
+                                //assign tile
+                                placeTile = true;
+                            }
+                            else
+                            {
+                                resourceLoss++;
+                            }
+                            break;
+                        case GameData.TileType.SOIL:
+                            //Neutral
+                            break;
+                        case GameData.TileType.RESOURCE:
+                            resourceGain++;
+                            break;
+                        case GameData.TileType.OBSTACLE:
+                            resourceLoss--;
+                            break;
+                    }
+                }
+            }
+        }
+        #endregion
+        
+        #region BottomCheck
+        if (HasFlag((uint)rootType, (uint)GameData.Connection.Bottom)) //do we have an bottom connection for this piece
+        {
+            if (!BoundsCheck(GridPosition + new Vector2(0, -1))) //does the connection go off the screen
+            {
+                resourceLoss++;
+            }
+            else
+            {
+                Cell n = Cells[To1D(GridPosition + new Vector2(0, -1))];
+                if (!(n.tileData._owner == player || n.tileData._owner == GameData.Owner.NEUTRAL)) //if the other player owns the tile then its a resource loss
+                {
+                    resourceLoss--;
+                }
+                else
+                {
+                    switch (n.tileData.type)
+                    {
+                        case GameData.TileType.ROOT:
+                            //Check if connection
+                            if (HasFlag((uint)n.tileData.connections, (uint)GameData.Connection.Top))
+                            {
+                                //assign tile
+                                placeTile = true;
+                            }
+                            else
+                            {
+                                resourceLoss++;
+                            }
+                            break;
+                        case GameData.TileType.SOIL:
+                            //Neutral
+                            break;
+                        case GameData.TileType.RESOURCE:
+                            resourceGain++;
+                            break;
+                        case GameData.TileType.OBSTACLE:
+                            resourceLoss--;
+                            break;
+                    }
+                }
+            }
+        }
+        #endregion
+        
+        #region RightCheck
+        if (HasFlag((uint)rootType, (uint)GameData.Connection.Right)) //do we have an bottom connection for this piece
+        {
+            if (!BoundsCheck(GridPosition + new Vector2(1, 0))) //does the connection go off the screen
+            {
+                resourceLoss++;
+            }
+            else
+            {
+                Cell n = Cells[To1D(GridPosition + new Vector2(1, 0))];
+                if (!(n.tileData._owner == player || n.tileData._owner == GameData.Owner.NEUTRAL)) //if the other player owns the tile then its a resource loss
+                {
+                    resourceLoss--;
+                }
+                else
+                {
+                    switch (n.tileData.type)
+                    {
+                        case GameData.TileType.ROOT:
+                            //Check if connection
+                            if (HasFlag((uint)n.tileData.connections, (uint)GameData.Connection.Left))
+                            {
+                                //assign tile
+                                placeTile = true;
+                            }
+                            else
+                            {
+                                resourceLoss++;
+                            }
+                            break;
+                        case GameData.TileType.SOIL:
+                            //Neutral
+                            break;
+                        case GameData.TileType.RESOURCE:
+                            resourceGain++;
+                            break;
+                        case GameData.TileType.OBSTACLE:
+                            resourceLoss--;
+                            break;
+                    }
+                }
+            }
+        }
+        #endregion
+
+
+        if (placeTile)
+        {
+            SetTile(cellID, (GameData.Connection)rootType, player);
+            Debug.Log($"Gained: {resourceGain} and lost: {resourceLoss}");
+            if (resourceGain > 0)
+            {
+                connectedToResource = true;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsNeighbourTileResource(Vector2 gridCell, GameData.RootID rootType)
+    {
+        //TOP
+        if (BoundsCheck(gridCell + new Vector2(0, 1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Top))
+        {
+            int nCellID = To1D(gridCell + new Vector2(0, 1));
+            if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
+            {
+                return true;
+            }
+        }
+
+        //LEFT
+        if (BoundsCheck(gridCell + new Vector2(-1, 0)) && HasFlag((uint)rootType, (uint)GameData.Connection.Left))
+        {
+            int nCellID = To1D(gridCell + new Vector2(-1, 0));
+            if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
+            {
+                return true;
+            }
+        }
+
+        //BOTTOM
+        if (BoundsCheck(gridCell + new Vector2(0, -1)) && HasFlag((uint)rootType, (uint)GameData.Connection.Bottom))
+        {
+            int nCellID = To1D(gridCell + new Vector2(0, -1));
+            if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
+            {
+                return true;
+            }
+        }
+
+        //RIGHT
+        if (BoundsCheck(gridCell + new Vector2(1, 0)) && HasFlag((uint)rootType, (uint)GameData.Connection.Right))
+        {
+            int nCellID = To1D(gridCell + new Vector2(1, 0));
+            if (Cells[nCellID].tileData.type == GameData.TileType.RESOURCE)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public int To1D(Vector2 pos)
+    {
+        return (int)(pos.x * gridYAxisSize + pos.y); //Can just hard cast to int as we shouldn't be passing in non-aligned positions
+    }
+
+    public Vector2 To2D(int index)
+    {
+        return new Vector2(index % gridYAxisSize, index / gridXAxisSize);
+    }
+    public bool BoundsCheck(Vector2 pos)
+    {
+        return !(pos.x >= max.x || pos.y >= max.y || pos.x < 0 || pos.y < 0);
+    }
 }
 
 [CustomEditor(typeof(Grid))]
 public class GridEditor : Editor
 {
-   private void OnSceneGUI()
-   {
-      Grid grid = target as Grid;
+    private void OnSceneGUI()
+    {
+        Grid grid = target as Grid;
 
-      foreach (Cell cell in grid.Cells)
-      {
-         Handles.color = Color.red;
-         Handles.DrawWireCube(cell.position, new Vector3(cell.size, cell.size, 0));
-      }
-   }
+        foreach (Cell cell in grid.Cells)
+        {
+            Handles.color = Color.red;
+            Handles.DrawWireCube(cell.position, new Vector3(cell.size, cell.size, 0));
+        }
+    }
 }
