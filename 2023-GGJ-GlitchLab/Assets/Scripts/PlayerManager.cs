@@ -40,6 +40,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         _playerInput = new PlayerControllerActions();
+        _playerInput.Enable();
     }
 
     private void OnEnable()
