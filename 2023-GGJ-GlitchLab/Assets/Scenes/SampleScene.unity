@@ -10919,7 +10919,7 @@ MonoBehaviour:
   - {fileID: 965241805, guid: 9c9926a8b5f711d47b79541e885ed01c, type: 3}
   - {fileID: -1923096361, guid: 9c9926a8b5f711d47b79541e885ed01c, type: 3}
   _errorSprite: {fileID: 21300000, guid: 87e49278a1b276d45adb9f3f0d15d7b4, type: 3}
-  _treeSprite: {fileID: 21300000, guid: 7e58d63c068aacf4fa6fcb09601c0614, type: 3}
+  _treeSprite: {fileID: 0}
 --- !u!4 &1863524821
 Transform:
   m_ObjectHideFlags: 0
@@ -10967,6 +10967,7 @@ MonoBehaviour:
   _spriteLibrary: {fileID: 1863524820}
   cellPrefab: {fileID: 5450860855830393759, guid: 3f9adfe176700044297f7f252e374f7e, type: 3}
   waterPrefab: {fileID: 4356747880789827792, guid: 6c99c137830f3ec40a728bf2a7669429, type: 3}
+  plantPrefab: {fileID: 57192052528446114, guid: 54cdb747940c8d3468726f381790e913, type: 3}
   gridXAxisSize: 20
   gridYAxisSize: 10
   cellSize: 3

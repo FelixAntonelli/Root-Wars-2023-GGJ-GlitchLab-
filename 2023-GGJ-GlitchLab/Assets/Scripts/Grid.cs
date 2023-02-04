@@ -13,6 +13,7 @@ public class Grid : MonoBehaviour
     [SerializeField] private SpriteLibrary _spriteLibrary;
     [SerializeField] private Cell cellPrefab;
     [SerializeField] private WaterSource waterPrefab;
+    [SerializeField] private Plant plantPrefab;
     [SerializeField] private int gridXAxisSize = 10;
     [SerializeField] private int gridYAxisSize = 10;
     [SerializeField] private float cellSize = 1;
@@ -98,6 +99,15 @@ public class Grid : MonoBehaviour
 
         SetTile(player1CellID, GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right, GameData.Owner.PLAYER_1);
         SetTile(player2CellID, GameData.Connection.Top | GameData.Connection.Left | GameData.Connection.Bottom | GameData.Connection.Right, GameData.Owner.PLAYER_2);
+        
+        Vector3 player1PlantPos = player1Pos + new Vector2(0, 1);
+        Vector3 player2PlantPos = player2Pos + new Vector2(0, 1);
+        
+        Plant player1Plant = Instantiate(plantPrefab, player1PlantPos, Quaternion.identity);
+        Plant player2Plant = Instantiate(plantPrefab, player2PlantPos, Quaternion.identity);
+        
+        Cells[player1CellID].tileData._wayTowardsPlant = player1Plant.gameObject;
+        Cells[player2CellID].tileData._wayTowardsPlant = player2Plant.gameObject;
     }
 
     public void SetTile(int cellID, GameData.Connection rootType, GameData.Owner player, GameData.TileType type = GameData.TileType.ROOT)
@@ -119,8 +129,9 @@ public class Grid : MonoBehaviour
         int resourceGain = 0;
         int resourceLoss = 0;
         bool placeTile = false;
-
         connectedToResource = false;
+        List<WaterSource> sources = new List<WaterSource>();
+
         int cellID = To1D(GridPosition);
         if (Cells[cellID].tileData.type != GameData.TileType.SOIL)
         {
@@ -163,8 +174,7 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
-                            WaterSource src = n.waterSource;
-                            src.ConnectTile(Cells[cellID].tileData);
+                            sources.Add(n.waterSource);
                             resourceGain++;
                             break;
                         case GameData.TileType.OBSTACLE:
@@ -213,8 +223,7 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
-                            WaterSource src = n.waterSource;
-                            src.ConnectTile(Cells[cellID].tileData);
+                            sources.Add(n.waterSource);
                             resourceGain++;
                             break;
                         case GameData.TileType.OBSTACLE:
@@ -263,8 +272,7 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
-                            WaterSource src = n.waterSource;
-                            src.ConnectTile(Cells[cellID].tileData);
+                            sources.Add(n.waterSource);
                             resourceGain++;
                             break;
                         case GameData.TileType.OBSTACLE:
@@ -313,8 +321,7 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
-                            WaterSource src = n.waterSource;
-                            src.ConnectTile(Cells[cellID].tileData);
+                            sources.Add(n.waterSource);
                             resourceGain++;
                             break;
                         case GameData.TileType.OBSTACLE:
@@ -334,7 +341,10 @@ public class Grid : MonoBehaviour
             Debug.Log($"Gained: {resourceGain} and lost: {resourceLoss}");
             if (resourceGain > 0)
             {
-
+                foreach (WaterSource src in sources)
+                {
+                    src.ConnectTile(Cells[cellID].tileData);
+                }
                 connectedToResource = true;
             }
             return true;

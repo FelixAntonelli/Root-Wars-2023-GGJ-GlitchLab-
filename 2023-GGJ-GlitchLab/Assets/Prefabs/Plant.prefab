@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 57192052528446142}
-  _owner: 1
+  _owner: 0
   type: 2
   rootID: 0
   connections: 4
