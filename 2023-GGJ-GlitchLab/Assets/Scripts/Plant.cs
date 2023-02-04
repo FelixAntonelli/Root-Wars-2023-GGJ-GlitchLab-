@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Plant : MonoBehaviour
 {
     [SerializeField] private GameData.Owner _owner;
     [SerializeField] private int _score;
+    private TMP_Text _scoreCounter;
 
     private void Awake()
     {
@@ -27,7 +29,12 @@ public class Plant : MonoBehaviour
     private void ScorePoint(int value)
     {
         _score += value;
+
+        _scoreCounter.text = $"Score: {_score}";
     }
+
+
+    public void SetTextUI(TMP_Text text) => _scoreCounter = text;
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
