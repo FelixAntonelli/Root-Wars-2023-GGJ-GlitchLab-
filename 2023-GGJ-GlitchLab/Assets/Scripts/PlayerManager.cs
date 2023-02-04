@@ -125,8 +125,8 @@ public class PlayerManager : MonoBehaviour
 
 
 
-        _playerMovement1Input.started += MovePlayer1;
-        _playerMovement2Input.started += MovePlayer2;
+        _playerMovement1Input.performed += MovePlayer1;
+        _playerMovement2Input.performed += MovePlayer2;
 
         _player1Confirm.performed += ConfirmTilePlacementPlayer1;
         _player2Confirm.performed += ConfirmTilePlacementPlayer2;
@@ -294,7 +294,7 @@ public class PlayerManager : MonoBehaviour
         {
             StopCoroutine(p1IconLerpCo);
         }
-        StartCoroutine(PlayerSelectionLerpFunc(_player1Marker.transform, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, 0.2f, p1SelectionLerpCo));
+        p1SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player1Marker.transform, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, 0.2f, p1SelectionLerpCo));
     }
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
     {
@@ -309,7 +309,7 @@ public class PlayerManager : MonoBehaviour
         {
             StopCoroutine(p2SelectionLerpCo);
         }
-        StartCoroutine(PlayerSelectionLerpFunc(_player2Marker.transform, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, 0.2f, p2SelectionLerpCo));
+        p2SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player2Marker.transform, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, 0.2f, p2SelectionLerpCo));
     }
 
 

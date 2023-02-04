@@ -11895,9 +11895,9 @@ MonoBehaviour:
   - {fileID: 229639934}
   _player1Obj: {fileID: 1569032223}
   _player2Obj: {fileID: 1584868024}
-  _clockText: {fileID: 0}
-  _PlayerOneText: {fileID: 0}
-  _PlayerTwoText: {fileID: 0}
+  _clockText: {fileID: 1303085332}
+  _PlayerOneText: {fileID: 1488185281}
+  _PlayerTwoText: {fileID: 272115173}
   _player1Marker: {fileID: 1927424104}
   _player2Marker: {fileID: 1886060313}
 --- !u!4 &1993532030
