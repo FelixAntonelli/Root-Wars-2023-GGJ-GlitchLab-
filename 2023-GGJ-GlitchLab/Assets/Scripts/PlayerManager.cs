@@ -41,6 +41,7 @@ public class PlayerManager : MonoBehaviour
 
     private Vector2 _maxGridSize;
 
+    // Lerping stuff for the player boxes.
     private Coroutine _p1Lerp;
     private Coroutine _p2Lerp;
     private float _lerpSpeed = 0.18f;
