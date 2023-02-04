@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+   [SerializeField] private Cell cellPrefab;
    [SerializeField] private int gridXAxisSize = 10;
    [SerializeField] private int gridYAxisSize = 10;
    [SerializeField] private float cellSize = 1;
@@ -15,24 +16,6 @@ public class Grid : MonoBehaviour
    public List<Cell> Cells = new List<Cell>();
    
    public Vector2 max => new Vector2(gridXAxisSize * cellSize, gridYAxisSize * cellSize);
-
-   public class Cell
-   {
-      public Vector2 position;
-      public float size;
-      public Tile tileData = new Tile();
-      
-      //Connections
-      bool above = false;
-      bool left = false;
-      bool below = false;
-      bool right = false;
-   }
-
-   enum Connection
-   {
-      
-   }
 
    public static bool HasFlag(uint bitFlag, uint flag) => ((bitFlag & flag) != 0);
    
@@ -44,14 +27,14 @@ public class Grid : MonoBehaviour
       // int halfYSize = numberOfCellsOnYAxis / 2;
       Vector2 origin = transform.position;
 
-      for (int i = 0; i < numberOfCellsOnXAxis; i++)
+      for (int i = 0; i < gridXAxisSize; i++)
       {
-         for (int j = 0; j < numberOfCellsOnYAxis; j++)
+         for (int j = 0; j < gridYAxisSize; j++)
          {
-            Cell newCell = new Cell();
-            newCell.position = new Vector2(i * cellSize, j * cellSize);
-            newCell.size  = cellSize;
-            Cells.Add(newCell);
+            Cell newCell = Instantiate(cellPrefab, new Vector2(i, j), Quaternion.identity, transform);
+            newCell.position = new Vector2(i, j);
+            newCell.size = cellSize;
+            newCell.transform.localScale = new Vector2(newCell.size, newCell.size);
          }
       }
    }
@@ -93,7 +76,7 @@ public class GridEditor : Editor
    {
       Grid grid = target as Grid;
 
-      foreach (Grid.Cell cell in grid.Cells)
+      foreach (Cell cell in grid.Cells)
       {
          Handles.color = Color.red;
          Handles.DrawWireCube(cell.position, new Vector3(cell.size, cell.size, 0));
