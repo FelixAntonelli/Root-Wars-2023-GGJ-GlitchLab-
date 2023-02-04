@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+   [SerializeField] private SpriteLibrary _spriteLibrary;
    [SerializeField] private Cell cellPrefab;
    [SerializeField] private int gridXAxisSize = 10;
    [SerializeField] private int gridYAxisSize = 10;
@@ -32,6 +33,7 @@ public class Grid : MonoBehaviour
          for (int j = 0; j < gridYAxisSize; j++)
          {
             Cell newCell = Instantiate(cellPrefab,  new Vector2(i, j), Quaternion.identity, transform);
+            newCell.tileData.Init(_spriteLibrary);
             newCell.position = new Vector2(i, j);
             newCell.size = cellSize;
             newCell.transform.localScale = new Vector2(newCell.size, newCell.size);
@@ -64,6 +66,7 @@ public class Grid : MonoBehaviour
             Cells[cellID].tileData.connections = (GameData.Connection)tileConnections;
             Cells[cellID].tileData.type = GameData.TileType.ROOT;
             //TODO: Tell cell to update sprite
+            Cells[cellID].tileData.UpdateSprite();
             return true;
          }
       }
@@ -79,6 +82,7 @@ public class Grid : MonoBehaviour
             Cells[cellID].tileData.connections = (GameData.Connection)tileConnections;
             Cells[cellID].tileData.type = GameData.TileType.ROOT;
             //TODO: Tell cell to update sprite
+            Cells[cellID].tileData.UpdateSprite();
             return true;
          }
       }
@@ -94,6 +98,7 @@ public class Grid : MonoBehaviour
             Cells[cellID].tileData.connections = (GameData.Connection)tileConnections;
             Cells[cellID].tileData.type = GameData.TileType.ROOT;
             //TODO: Tell cell to update sprite
+            Cells[cellID].tileData.UpdateSprite();
             return true;
          }
       }
@@ -109,6 +114,7 @@ public class Grid : MonoBehaviour
             Cells[cellID].tileData.connections = (GameData.Connection)tileConnections;
             Cells[cellID].tileData.type = GameData.TileType.ROOT;
             //TODO: Tell cell to update sprite
+            Cells[cellID].tileData.UpdateSprite();
             return true;
          }
       }

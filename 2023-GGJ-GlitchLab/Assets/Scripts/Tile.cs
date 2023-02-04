@@ -11,6 +11,9 @@ public class Tile : MonoBehaviour
     [SerializeField] public GameData.RootID rootID;
     [SerializeField] public GameData.Connection connections;
     [SerializeField] private GameObject _wayTowardsPlant;
+    
+    private SpriteLibrary _library;
+    
     public Tile()
     {
         _owner = GameData.Owner.NEUTRAL;
@@ -18,23 +21,17 @@ public class Tile : MonoBehaviour
         rootID = GameData.RootID.NOT_ROOT;
         connections = GameData.Connection.None;
     }
-
-    private void Awake()
+    public void Init(SpriteLibrary library)
     {
+        _library = library;
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        UpdateSprite();
+        UpdateSprite(); 
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void UpdateSprite()
     {
-        
-    }
-
-    private void UpdateSprite()
-    {
-        GameObject sprlib = GameObject.FindGameObjectWithTag("SpriteLibrary");
-        _spriteRenderer.sprite = sprlib.GetComponent<SpriteLibrary>().GetSprite(_owner, type, rootID);
+        // GameObject sprlib = GameObject.FindGameObjectWithTag("SpriteLibrary");
+        _spriteRenderer.sprite = _library.GetSprite(_owner, type, rootID);
     }
 
     public static bool HasFlag(uint bitFlag, uint flag) => ((bitFlag & flag) != 0);

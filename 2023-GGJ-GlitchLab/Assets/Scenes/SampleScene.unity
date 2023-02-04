@@ -714,7 +714,7 @@ GameObject:
   - component: {fileID: 1863524820}
   m_Layer: 0
   m_Name: SpriteLibrary
-  m_TagString: Untagged
+  m_TagString: SpriteLibrary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -759,6 +759,7 @@ MonoBehaviour:
   - {fileID: 354675438, guid: 9c9926a8b5f711d47b79541e885ed01c, type: 3}
   - {fileID: 965241805, guid: 9c9926a8b5f711d47b79541e885ed01c, type: 3}
   - {fileID: -1923096361, guid: 9c9926a8b5f711d47b79541e885ed01c, type: 3}
+  _errorSprite: {fileID: 0}
 --- !u!4 &1863524821
 Transform:
   m_ObjectHideFlags: 0
@@ -803,6 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d5a4e08508d3f4fb7ae7dbcc4ff7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteLibrary: {fileID: 1863524820}
   cellPrefab: {fileID: 5450860855830393759, guid: 3f9adfe176700044297f7f252e374f7e, type: 3}
   gridXAxisSize: 20
   gridYAxisSize: 10
