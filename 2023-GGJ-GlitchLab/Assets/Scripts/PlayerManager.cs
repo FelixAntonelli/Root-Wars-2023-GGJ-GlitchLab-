@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] Grid _tileGrid;
-    [SerializeField]
+    [SerializeField] SpriteLibrary lib;
 
     #region input vars
     public PlayerControllerActions _playerInput;
@@ -32,12 +32,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] RawImage _player1Image;
     [SerializeField] RawImage _player2Image;
 
-    [SerializeField] uint _player1TileIndex;
-    [SerializeField] uint _player2TileIndex;
+    uint _player1TileIndex;
+     uint _player2TileIndex;
 
     private Vector2 _maxGridSize;
-
-
+    
 
     private void Awake()
     {
@@ -160,25 +159,30 @@ public class PlayerManager : MonoBehaviour
     // this in the future will be when the player confirms the placement of the tile he has choosen
     private void ConfirmTilePlacementPlayer1(InputAction.CallbackContext context)
     {
-        _tileGrid.PlaceTile(_player1Pos, _player1TileIndex);
+       _tileGrid.PlaceTile(_player1Pos,(GameData.RootID)_player1TileIndex );
     }
     private void ConfirmTilePlacementPlayer2(InputAction.CallbackContext context)
     {
-        _tileGrid.PlaceTile(_player2Pos, _player2TileIndex);
+        _tileGrid.PlaceTile(_player2Pos, (GameData.RootID)_player2TileIndex);
     }
 
 
     // this is for the switching of the tiles like cycling through them, i erased the blackboard so i dont remember if this is what we decided but anyway its here in case delete
     private void SwitchSelectedTilePlayer1(InputAction.CallbackContext context)
     {
-        if (_player1TileIndex + 1 == 12)
+        if (_player1TileIndex + 1 == 11)
             _player1TileIndex = 0;
         else
             _player1TileIndex++;
+
+
+     // SetImagePlayer1(lib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT,   ).texture);
+
+
     }
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
     {
-        if (_player2TileIndex + 1 == 12)
+        if (_player2TileIndex + 1 == 11)
             _player2TileIndex = 0;
         else
             _player2TileIndex++;

@@ -44,9 +44,6 @@ public class Grid : MonoBehaviour
 
    public bool PlaceTile(Vector2 GridPosition, GameData.RootID rootType, out bool connectedToResource)
    {
-        Debug.Log(rootType);
-        Debug.Log(GridPosition);
-        connectedToResource = false;
       // Check if the tile is a soil type
       //    If No, return false.
       //    If Yes, check the four neighbours for a connection point

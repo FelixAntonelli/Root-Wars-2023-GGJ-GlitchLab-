@@ -886,14 +886,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileGrid: {fileID: 1896656317}
+  lib: {fileID: 1863524820}
   _player1Pos: {x: 0, y: 0}
   _player2Pos: {x: 0, y: 0}
   _player1Obj: {fileID: 223715577}
   _player2Obj: {fileID: 34048552}
   _player1Image: {fileID: 1744162556}
   _player2Image: {fileID: 506681866}
-  _player1TileIndex: 0
-  _player2TileIndex: 0
 --- !u!4 &1993532030
 Transform:
   m_ObjectHideFlags: 0
