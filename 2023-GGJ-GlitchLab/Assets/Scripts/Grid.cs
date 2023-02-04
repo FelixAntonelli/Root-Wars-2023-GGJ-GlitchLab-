@@ -37,6 +37,7 @@ public class Grid : MonoBehaviour
             newCell.position = new Vector2(i, j);
             newCell.size = cellSize;
             newCell.transform.localScale = new Vector2(newCell.size, newCell.size);
+            Cells.Add(newCell);
          }
       }
    }

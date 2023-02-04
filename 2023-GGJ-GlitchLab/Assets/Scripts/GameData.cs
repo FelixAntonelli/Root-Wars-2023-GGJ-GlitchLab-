@@ -20,11 +20,11 @@ public static class GameData
         OBSTACLE = 3
     }
 
-    public enum RootID
+    [Flags] public enum RootID
     {
         NOT_ROOT = 0,
-        FOUR_WAY = 1,
-        THREE_WAY_RDL = 2,
+        FOUR_WAY = 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4,
+        THREE_WAY_RDL = 1 << 4 | 1 << 3 | 1 << 2, 
         THREE_WAY_URD = 3,
         THREE_WAY_URL = 4,
         THREE_WAY_UDL = 5,
