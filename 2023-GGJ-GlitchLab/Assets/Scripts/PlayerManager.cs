@@ -159,11 +159,13 @@ public class PlayerManager : MonoBehaviour
     // this in the future will be when the player confirms the placement of the tile he has choosen
     private void ConfirmTilePlacementPlayer1(InputAction.CallbackContext context)
     {
-       _tileGrid.PlaceTile(_player1Pos,(GameData.RootID)_player1TileIndex );
+        bool connectedToResource;
+       _tileGrid.PlaceTile(_player1Pos,(GameData.RootID)_player1TileIndex, out connectedToResource);
     }
     private void ConfirmTilePlacementPlayer2(InputAction.CallbackContext context)
     {
-        _tileGrid.PlaceTile(_player2Pos, (GameData.RootID)_player2TileIndex);
+        bool connectedToResource;
+        _tileGrid.PlaceTile(_player2Pos, (GameData.RootID)_player2TileIndex, out connectedToResource);
     }
 
 
