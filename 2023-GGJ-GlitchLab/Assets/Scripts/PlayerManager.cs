@@ -57,7 +57,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] TMP_Text _PlayerOneText;
     [SerializeField] TMP_Text _PlayerTwoText;
 
-    private float maxTimer = 90;
+    private float _currTimer = 60;
+    private float _currSec = 1;
+
 
     // Lerping stuff for the player boxes.
     private Coroutine _p1Lerp;
@@ -169,6 +171,9 @@ public class PlayerManager : MonoBehaviour
         _player2Marker.transform.localScale = new Vector3(_tileGrid.CellSize * 1.1f, _tileGrid.CellSize * 1.1f, _tileGrid.CellSize * 1.1f);
 
         #endregion
+
+
+        _clockText.text = $"Timer: {_currTimer}";
 
 
         StartSetTiles(1);
@@ -424,7 +429,17 @@ public class PlayerManager : MonoBehaviour
     }
 
 
-    
+    private void Update()
+    {
+        if (_currSec > 0)
+            _currSec -= Time.deltaTime;
+        else 
+        {
+            _currSec = 1;
+            _currTimer -= 1;
+            _clockText.text = $"Timer: {_currTimer}";
+        }
+    }
 
 
     private IEnumerator LerpSelectionBoxBelow(GameObject selectionBox, Vector3 newPos, GameData.Owner owner)
