@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private GameData.Owner _owner;
     [SerializeField] public GameData.TileType type;
     [SerializeField] public GameData.RootID rootID;
-    [SerializeField] public GameData.ValidExits validExits;
+    [SerializeField] public GameData.Connection validExits;
     [SerializeField] private GameObject _wayTowardsPlant;
     public Tile()
     {

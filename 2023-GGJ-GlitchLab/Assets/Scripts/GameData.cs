@@ -36,7 +36,7 @@ public static class GameData
         STRAIGHT_V = 11
     }
 
-    [Flags] enum Connection
+    [Flags] public enum Connection
     {
         None = 0,
         Top = 1,
