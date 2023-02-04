@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,6 +12,7 @@ public class Grid : MonoBehaviour
 {
     [SerializeField] private SpriteLibrary _spriteLibrary;
     [SerializeField] private Cell cellPrefab;
+    [SerializeField] private WaterSource waterPrefab;
     [SerializeField] private int gridXAxisSize = 10;
     [SerializeField] private int gridYAxisSize = 10;
     [SerializeField] private float cellSize = 1;
@@ -43,7 +45,7 @@ public class Grid : MonoBehaviour
             {
                 Cell newCell = Instantiate(cellPrefab, new Vector2(i, j), Quaternion.identity, transform);
                 newCell.tileData.Init(_spriteLibrary);
-                newCell.position = new Vector2(i, j);
+                // newCell.position = new Vector2(i, j);
                 newCell.size = cellSize;
                 newCell.transform.localScale = new Vector2(newCell.size, newCell.size);
                 Cells.Add(newCell);
@@ -59,12 +61,13 @@ public class Grid : MonoBehaviour
             while (!spotFound)
             {
                 int xPos = Random.Range(0, (int)max.x);
-                int yPos = Random.Range(0, (int)max.y);
+                int yPos = Random.Range(0, (int)max.y - 1);
                 int ID = To1D(new Vector2(xPos, yPos));
 
                 if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL)
                 {
                     SetTile(ID, GameData.Connection.None, GameData.Owner.NEUTRAL, GameData.TileType.RESOURCE);
+                    Cells[ID].waterSource = Instantiate(waterPrefab, Cells[ID].transform);
                     spotFound = true;   
                 }
             }
@@ -76,7 +79,7 @@ public class Grid : MonoBehaviour
             while (!spotFound)
             {
                 int xPos = Random.Range(0, (int)max.x);
-                int yPos = Random.Range(0, (int)max.y);
+                int yPos = Random.Range(0, (int)max.y - 1);
                 int ID = To1D(new Vector2(xPos, yPos));
 
                 if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL &&  Cells[ID].tileData.type != GameData.TileType.RESOURCE)
@@ -149,6 +152,7 @@ public class Grid : MonoBehaviour
                             {
                                 //assign tile
                                 placeTile = true;
+                                Cells[cellID].tileData._wayTowardsPlant = n.gameObject;
                             }
                             else
                             {
@@ -159,7 +163,7 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
-                            WaterSource src = n.GetComponent<WaterSource>();
+                            WaterSource src = n.waterSource;
                             src.ConnectTile(Cells[cellID].tileData);
                             resourceGain++;
                             break;
@@ -198,6 +202,7 @@ public class Grid : MonoBehaviour
                             {
                                 //assign tile
                                 placeTile = true;
+                                Cells[cellID].tileData._wayTowardsPlant = n.gameObject;
                             }
                             else
                             {
@@ -208,7 +213,7 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
-                            WaterSource src = n.GetComponent<WaterSource>();
+                            WaterSource src = n.waterSource;
                             src.ConnectTile(Cells[cellID].tileData);
                             resourceGain++;
                             break;
@@ -247,6 +252,7 @@ public class Grid : MonoBehaviour
                             {
                                 //assign tile
                                 placeTile = true;
+                                Cells[cellID].tileData._wayTowardsPlant = n.gameObject;
                             }
                             else
                             {
@@ -257,7 +263,7 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
-                            WaterSource src = n.GetComponent<WaterSource>();
+                            WaterSource src = n.waterSource;
                             src.ConnectTile(Cells[cellID].tileData);
                             resourceGain++;
                             break;
@@ -296,6 +302,7 @@ public class Grid : MonoBehaviour
                             {
                                 //assign tile
                                 placeTile = true;
+                                Cells[cellID].tileData._wayTowardsPlant = n.gameObject;
                             }
                             else
                             {
@@ -306,7 +313,7 @@ public class Grid : MonoBehaviour
                             //Neutral
                             break;
                         case GameData.TileType.RESOURCE:
-                            WaterSource src = n.GetComponent<WaterSource>();
+                            WaterSource src = n.waterSource;
                             src.ConnectTile(Cells[cellID].tileData);
                             resourceGain++;
                             break;
