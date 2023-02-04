@@ -92,7 +92,7 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public void SetSpawn(Vector2 player1Pos, Vector2 player2Pos)
+    public void SetSpawn(Vector2 player1Pos, Vector2 player2Pos, out Plant player1Plant, out Plant player2Plant)
     {
         int player1CellID = To1D(player1Pos);
         int player2CellID = To1D(player2Pos);
@@ -103,8 +103,8 @@ public class Grid : MonoBehaviour
         Vector3 player1PlantPos = player1Pos + new Vector2(0, 1);
         Vector3 player2PlantPos = player2Pos + new Vector2(0, 1);
         
-        Plant player1Plant = Instantiate(plantPrefab, player1PlantPos, Quaternion.identity);
-        Plant player2Plant = Instantiate(plantPrefab, player2PlantPos, Quaternion.identity);
+        player1Plant = Instantiate(plantPrefab, player1PlantPos, Quaternion.identity);
+        player2Plant = Instantiate(plantPrefab, player2PlantPos, Quaternion.identity);
         
         Cells[player1CellID].tileData._wayTowardsPlant = player1Plant.gameObject;
         Cells[player2CellID].tileData._wayTowardsPlant = player2Plant.gameObject;
@@ -233,7 +233,6 @@ public class Grid : MonoBehaviour
                 }
             }
         }
-
         #endregion
 
         #region BottomCheck
@@ -331,9 +330,7 @@ public class Grid : MonoBehaviour
                 }
             }
         }
-
         #endregion
-
 
         if (placeTile)
         {

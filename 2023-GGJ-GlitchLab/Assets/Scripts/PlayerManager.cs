@@ -1,14 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
+using Random = UnityEngine.Random;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] Grid _tileGrid;
     [SerializeField] SpriteLibrary _spriteLib;
 
+    public Action GameEnd;
+    
     #region input vars
     public PlayerControllerActions _playerInput;
 
@@ -41,13 +46,25 @@ public class PlayerManager : MonoBehaviour
     private bool _disabledMovementPlayer1;
     private bool _disabledMovementPlayer2;
 
-
     [SerializeField] GameObject _player1Obj;
     [SerializeField] GameObject _player2Obj;
+
+    private Plant _player1Plant;
+    private Plant _player2Plant;
 
     private float timeDisabled = 3;
 
     private Vector2 _maxGridSize;
+
+    //ui stuff
+    [SerializeField] TMP_Text _clockText;
+    [SerializeField] TMP_Text _PlayerOneText;
+    [SerializeField] TMP_Text _PlayerTwoText;
+
+    private float _currTimer = 60;
+    private float _currSec = 1;
+    private bool doTimer = true;
+
 
     // Lerping stuff for the player boxes.
     private Coroutine _p1Lerp;
@@ -56,11 +73,19 @@ public class PlayerManager : MonoBehaviour
     private delegate IEnumerator PlayerIconLerpDel(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine);
     private PlayerIconLerpDel PlayerIconLerpFunc;
     
-    private Coroutine p1Co;
-    private Coroutine p2Co;
+    private Coroutine p1IconLerpCo;
+    private Coroutine p2IconLerpCo;
+    
+    private delegate IEnumerator PlayerSelectionLerpDel(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine);
+    private PlayerSelectionLerpDel PlayerSelectionLerpFunc;
+    
+    private Coroutine p1SelectionLerpCo;
+    private Coroutine p2SelectionLerpCo;
     
     private float _lerpSpeed = 0.18f;
     private float _lerpAccuracy = 0.05f;
+
+
 
 
     //private Coroutine _p1LerpBox;
@@ -74,9 +99,9 @@ public class PlayerManager : MonoBehaviour
     {
         _playerInput = new PlayerControllerActions();
         _playerInput.Enable();
-        PlayerIconLerpFunc = PlayerIconLerp;
+        PlayerIconLerpFunc = Lerp;
+        PlayerSelectionLerpFunc = Lerp;
     }
-
     private void OnEnable()
     {
         _playerMovement1Input = _playerInput.playerMovement.Player1Movement;
@@ -107,8 +132,8 @@ public class PlayerManager : MonoBehaviour
 
 
 
-        _playerMovement1Input.started += MovePlayer1;
-        _playerMovement2Input.started += MovePlayer2;
+        _playerMovement1Input.performed += MovePlayer1;
+        _playerMovement2Input.performed += MovePlayer2;
 
         _player1Confirm.performed += ConfirmTilePlacementPlayer1;
         _player2Confirm.performed += ConfirmTilePlacementPlayer2;
@@ -121,7 +146,6 @@ public class PlayerManager : MonoBehaviour
 
 
     }
-
     private void OnDisable()
     {
         _playerMovement1Input.Disable();
@@ -154,6 +178,9 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
 
+        _clockText.text = $"Timer: {_currTimer}";
+
+
         StartSetTiles(1);
         StartSetTiles(2);
 
@@ -168,7 +195,11 @@ public class PlayerManager : MonoBehaviour
         _player2Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.75f), _maxGridSize.y - 2);
         _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
 
-        _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1));
+
+        _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1), out _player1Plant, out _player2Plant);
+
+        _player1Plant.SetTextUI(_PlayerOneText);
+        _player2Plant.SetTextUI(_PlayerTwoText);
 
         StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[0].transform.position, GameData.Owner.PLAYER_1));
         StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[0].transform.position, GameData.Owner.PLAYER_2));
@@ -181,9 +212,6 @@ public class PlayerManager : MonoBehaviour
 
     private void MovePlayer1(InputAction.CallbackContext context)
     {
-       
- 
-
         var contextVal = context.ReadValue<Vector2>();
 
         if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
@@ -200,16 +228,15 @@ public class PlayerManager : MonoBehaviour
             _player1Pos = newPos;   //sets the new position
 
             // _p1Lerp = StartCoroutine(LerpSelectionBox(_player1Obj, newPos, GameData.Owner.PLAYER_1));
-            if (p1Co != null)
+            if (p1IconLerpCo != null)
             {
-                StopCoroutine(p1Co);
+                StopCoroutine(p1IconLerpCo);
             }
-            p1Co = StartCoroutine(PlayerIconLerpFunc(_player1Obj.transform, newPos, 0.2f, p1Co));
+            p1IconLerpCo = StartCoroutine(PlayerIconLerpFunc(_player1Obj.transform, newPos, 0.2f, p1IconLerpCo));
         }
     }
     private void MovePlayer2(InputAction.CallbackContext context)
     {
-
         var contextVal = context.ReadValue<Vector2>();
 
         if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
@@ -226,11 +253,11 @@ public class PlayerManager : MonoBehaviour
             _player2Pos = newPos;
 
             // _p2Lerp = StartCoroutine(LerpSelectionBox(_player2Obj, newPos, GameData.Owner.PLAYER_2));
-            if (p2Co != null)
+            if (p2IconLerpCo != null)
             {
-                StopCoroutine(p2Co);
+                StopCoroutine(p2IconLerpCo);
             }
-            p2Co = StartCoroutine(PlayerIconLerpFunc(_player2Obj.transform, newPos, 0.2f, p2Co));
+            p2IconLerpCo = StartCoroutine(PlayerIconLerpFunc(_player2Obj.transform, newPos, 0.2f, p2IconLerpCo));
         }
     }
 
@@ -271,7 +298,13 @@ public class PlayerManager : MonoBehaviour
             _selectedSlotIndexPlayer1++;
 
         SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
-        StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, GameData.Owner.PLAYER_1));
+        // StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, GameData.Owner.PLAYER_1));
+
+        if (p1SelectionLerpCo != null)
+        {
+            StopCoroutine(p1IconLerpCo);
+        }
+        p1SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player1Marker.transform, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, 0.2f, p1SelectionLerpCo));
     }
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
     {
@@ -281,8 +314,12 @@ public class PlayerManager : MonoBehaviour
             _selectedSlotIndexPlayer2++;
 
         SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
-        StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, GameData.Owner.PLAYER_2));
-
+        // StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, GameData.Owner.PLAYER_2));
+        if (p2SelectionLerpCo != null)
+        {
+            StopCoroutine(p2SelectionLerpCo);
+        }
+        p2SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player2Marker.transform, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, 0.2f, p2SelectionLerpCo));
     }
 
 
@@ -362,7 +399,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayerIconLerp(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine)
+    private IEnumerator Lerp(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine)
     {
         Vector2 start =  transform.position;
         float time = 0;
@@ -374,7 +411,6 @@ public class PlayerManager : MonoBehaviour
         }
         coroutine = null;
     }
-
     private IEnumerator LerpSelectionBox(GameObject playerBox, Vector3 newPos, GameData.Owner owner)
     {
         while (Vector3.Distance(playerBox.transform.position, newPos) > _lerpAccuracy)
@@ -398,7 +434,27 @@ public class PlayerManager : MonoBehaviour
     }
 
 
-
+    private void Update()
+    {
+        if (!doTimer)
+        {
+            return;
+        }
+        
+        if (_currSec > 0)
+            _currSec -= Time.deltaTime;
+        else 
+        {
+            _currSec = 1;
+            _currTimer -= 1;
+            _clockText.text = $"Timer: {_currTimer}";
+            if (_currTimer == 0)
+            {
+                doTimer = false;
+                GameEnd?.Invoke();
+            }
+        }
+    }
 
 
     private IEnumerator LerpSelectionBoxBelow(GameObject selectionBox, Vector3 newPos, GameData.Owner owner)
