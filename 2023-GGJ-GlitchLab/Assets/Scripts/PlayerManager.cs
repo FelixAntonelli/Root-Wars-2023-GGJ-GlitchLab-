@@ -302,7 +302,7 @@ public class PlayerManager : MonoBehaviour
 
         if (p1SelectionLerpCo != null)
         {
-            StopCoroutine(p1IconLerpCo);
+            StopCoroutine(p1SelectionLerpCo);
         }
         p1SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player1Marker.transform, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, 0.2f, p1SelectionLerpCo));
     }
