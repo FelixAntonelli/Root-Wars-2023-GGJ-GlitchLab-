@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -41,13 +42,22 @@ public class PlayerManager : MonoBehaviour
     private bool _disabledMovementPlayer1;
     private bool _disabledMovementPlayer2;
 
-
     [SerializeField] GameObject _player1Obj;
     [SerializeField] GameObject _player2Obj;
+
+    private Plant _player1Plant;
+    private Plant _player2Plant;
 
     private float timeDisabled = 3;
 
     private Vector2 _maxGridSize;
+
+    //ui stuff
+    [SerializeField] TMP_Text _clockText;
+    [SerializeField] TMP_Text _PlayerOneText;
+    [SerializeField] TMP_Text _PlayerTwoText;
+
+    private float maxTimer = 90;
 
     // Lerping stuff for the player boxes.
     private Coroutine _p1Lerp;
@@ -69,6 +79,8 @@ public class PlayerManager : MonoBehaviour
     private float _lerpAccuracy = 0.05f;
 
 
+
+
     //private Coroutine _p1LerpBox;
     //private Coroutine _p2LerpBox;
 
@@ -83,7 +95,6 @@ public class PlayerManager : MonoBehaviour
         PlayerIconLerpFunc = Lerp;
         PlayerSelectionLerpFunc = Lerp;
     }
-
     private void OnEnable()
     {
         _playerMovement1Input = _playerInput.playerMovement.Player1Movement;
@@ -128,7 +139,6 @@ public class PlayerManager : MonoBehaviour
 
 
     }
-
     private void OnDisable()
     {
         _playerMovement1Input.Disable();
@@ -175,7 +185,11 @@ public class PlayerManager : MonoBehaviour
         _player2Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.75f), _maxGridSize.y - 2);
         _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
 
-        _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1));
+
+        _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1), out _player1Plant, out _player2Plant);
+
+        _player1Plant.SetTextUI(_PlayerOneText);
+        _player2Plant.SetTextUI(_PlayerTwoText);
 
         StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[0].transform.position, GameData.Owner.PLAYER_1));
         StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[0].transform.position, GameData.Owner.PLAYER_2));
@@ -387,7 +401,6 @@ public class PlayerManager : MonoBehaviour
         }
         coroutine = null;
     }
-
     private IEnumerator LerpSelectionBox(GameObject playerBox, Vector3 newPos, GameData.Owner owner)
     {
         while (Vector3.Distance(playerBox.transform.position, newPos) > _lerpAccuracy)
@@ -411,7 +424,7 @@ public class PlayerManager : MonoBehaviour
     }
 
 
-
+    
 
 
     private IEnumerator LerpSelectionBoxBelow(GameObject selectionBox, Vector3 newPos, GameData.Owner owner)
