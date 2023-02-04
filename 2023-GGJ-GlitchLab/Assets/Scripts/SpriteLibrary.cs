@@ -15,23 +15,30 @@ public class SpriteLibrary : MonoBehaviour
         int typeIndex = (int)type - 1;
         int rootIndex = (int)root - 1;
 
-        if (rootIndex < 0)
-        {
-            return _errorSprite;
-        }
-
         switch (owner)
         {
             case GameData.Owner.NEUTRAL:
                 {
+                    if (typeIndex < 0)
+                    {
+                        return _errorSprite;
+                    }
                     return _neutralSprites[typeIndex];
                 }
             case GameData.Owner.PLAYER_1:
                 {
+                    if (rootIndex < 0)
+                    {
+                        return _errorSprite;
+                    }
                     return _playerOneSprites[rootIndex];
                 }
             case GameData.Owner.PLAYER_2:
-                {                    
+                {
+                    if (rootIndex < 0)
+                    {
+                        return _errorSprite;
+                    }
                     return _playerTwoSprites[rootIndex];
                 }
         }
