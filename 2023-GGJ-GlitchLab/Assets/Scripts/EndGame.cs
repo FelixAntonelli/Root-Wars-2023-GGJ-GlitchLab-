@@ -21,6 +21,9 @@ public class EndGame : MonoBehaviour
     [SerializeField] private Transform winnerTextEnd;
     [SerializeField] private Transform winnerTextUi;
     [SerializeField] private TMP_Text winnerText;
+    [SerializeField] private Transform menuButtonStart;
+    [SerializeField] private Transform menuButtonEnd;
+    [SerializeField] private Transform menuButton;
     [Header("Camera Keyframes")]
     [SerializeField] private Transform start;
     [SerializeField] private Transform overdrive;
@@ -40,6 +43,7 @@ public class EndGame : MonoBehaviour
         playerOneUi.position = playerOneUiStart.position;
         playerTwoUi.position = playerTwoUiStart.position;
         winnerTextUi.position = winnerTextStart.position;
+        menuButton.position = menuButtonStart.position;
     }
 
     private void OnEndGame()
@@ -51,15 +55,21 @@ public class EndGame : MonoBehaviour
     {
         //Lerp to overdrive
         // yield return StartCoroutine(CameraLerpFunc(camera.transform, overdrive.position, 0.5f));
-        StartCoroutine(LerpFunc(camera.transform, end.position, 1.5f));
-        yield return new WaitForSeconds(1.0f);
-        StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f));
-        yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f));
         playerOneScoreText.text = "Score: " + playerManager.player1Plant.score.ToString();
         playerTwoScoreText.text = "Score: " + playerManager.player2Plant.score.ToString();
+        
+        StartCoroutine(LerpFunc(camera.transform, end.position, 1.5f));
+        yield return new WaitForSeconds(1.0f);
+        
+        StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f));
+        yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f));
+        
         yield return new WaitForSeconds(5.0f);
         winnerText.text = playerManager.player1Plant.score == playerManager.player2Plant.score ? "It's a DRAW!!" : playerManager.player1Plant.score > playerManager.player2Plant.score ? "Player One Wins!!" : "Player Two Wins!!";
         StartCoroutine(LerpFunc(winnerTextUi, winnerTextEnd.position, 0.5f));
+        
+        yield return new WaitForSeconds(2.5f);
+        StartCoroutine(LerpFunc(menuButton, menuButtonEnd.position, 0.5f));
     }
 
     private IEnumerator CameraLerp(Transform toMove, Vector3 end, float moveTime)
