@@ -213,8 +213,8 @@ public class PlayerManager : MonoBehaviour
         player1Plant.Anim = _scoreAnimPlayer1;
         player2Plant.Anim = _scoreAnimPlayer2;
 
-        player1Plant.Effect = _fireworkEffect;
-        player2Plant.Effect = _fireworkEffect;
+       // player1Plant.Effect = _fireworkEffect;
+        //player2Plant.Effect = _fireworkEffect;
 
         StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[0].transform.position, GameData.Owner.PLAYER_1));
         StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[0].transform.position, GameData.Owner.PLAYER_2));

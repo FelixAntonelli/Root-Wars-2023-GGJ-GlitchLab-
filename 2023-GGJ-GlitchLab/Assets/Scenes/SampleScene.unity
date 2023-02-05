@@ -8785,6 +8785,7 @@ GameObject:
   - component: {fileID: 272115172}
   - component: {fileID: 272115174}
   - component: {fileID: 272115173}
+  - component: {fileID: 272115175}
   m_Layer: 5
   m_Name: ScorePlayerTwo
   m_TagString: Untagged
@@ -8909,6 +8910,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 272115171}
   m_CullTransparentMesh: 0
+--- !u!95 &272115175
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272115171}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: af5b64adf671201478b541405b822df7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &283113055
 GameObject:
   m_ObjectHideFlags: 0
@@ -14422,6 +14443,7 @@ GameObject:
   - component: {fileID: 1303085331}
   - component: {fileID: 1303085333}
   - component: {fileID: 1303085332}
+  - component: {fileID: 1303085334}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -14546,6 +14568,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1303085330}
   m_CullTransparentMesh: 0
+--- !u!95 &1303085334
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303085330}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 164476d59a6c3b642b46db1b2a18d5c0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1320404747
 GameObject:
   m_ObjectHideFlags: 0
@@ -14880,6 +14922,7 @@ GameObject:
   - component: {fileID: 1488185280}
   - component: {fileID: 1488185282}
   - component: {fileID: 1488185281}
+  - component: {fileID: 1488185283}
   m_Layer: 5
   m_Name: ScorePlayerOne
   m_TagString: Untagged
@@ -15004,6 +15047,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488185279}
   m_CullTransparentMesh: 0
+--- !u!95 &1488185283
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488185279}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: af5b64adf671201478b541405b822df7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1569032223
 GameObject:
   m_ObjectHideFlags: 0
@@ -25195,6 +25258,10 @@ MonoBehaviour:
   _clockText: {fileID: 1303085332}
   _PlayerOneText: {fileID: 1488185281}
   _PlayerTwoText: {fileID: 272115173}
+  _wobbleClock: {fileID: 1303085334}
+  _scoreAnimPlayer1: {fileID: 1488185283}
+  _scoreAnimPlayer2: {fileID: 272115175}
+  _fireworkEffect: {fileID: 0}
   _player1Marker: {fileID: 1927424104}
   _player2Marker: {fileID: 1886060313}
 --- !u!4 &1993532030
