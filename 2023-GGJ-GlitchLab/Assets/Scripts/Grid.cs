@@ -56,40 +56,54 @@ public class Grid : MonoBehaviour
         int waterSourceCount = Random.Range(_waterSourcesRange.x, _waterSourcesRange.y);
         int obstacleCount = Random.Range(_obstaclesRange.x, _obstaclesRange.y);
 
-        for (int i = 0; i < waterSourceCount; i++)
-        {
-            bool spotFound = false;
-            while (!spotFound)
-            {
-                int xPos = Random.Range(0, (int)max.x);
-                int yPos = Random.Range(0, (int)max.y - 1);
-                int ID = To1D(new Vector2(xPos, yPos));
 
-                if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL)
+
+
+
+
+
+
+        for (int j = 0; j < 2; j++)
+        {
+            for (int i = 0; i < (int)waterSourceCount / 2; i++)
+            {
+                bool spotFound = false;
+                while (!spotFound)
                 {
-                    SetTile(ID, GameData.Connection.None, GameData.Owner.NEUTRAL, GameData.TileType.RESOURCE);
-                    Cells[ID].waterSource = Instantiate(waterPrefab, Cells[ID].transform);
-                    spotFound = true;   
+                    int xPos =  j == 0 ? Random.Range(0, (int)max.x / 2) : Random.Range((int) max.x/2, (int)max.x);
+                    int yPos = Random.Range(0, (int)max.y - 1);
+                    int ID = To1D(new Vector2(xPos, yPos));
+
+                    if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL)
+                    {
+                        SetTile(ID, GameData.Connection.None, GameData.Owner.NEUTRAL, GameData.TileType.RESOURCE);
+                        Cells[ID].waterSource = Instantiate(waterPrefab, Cells[ID].transform);
+                        spotFound = true;
+                    }
                 }
             }
-        }
 
-        for (int i = 0; i < obstacleCount; i++)
-        {
-            bool spotFound = false;
-            while (!spotFound)
+            for (int i = 0; i < (int)obstacleCount / 2; i++)
             {
-                int xPos = Random.Range(0, (int)max.x);
-                int yPos = Random.Range(0, (int)max.y - 1);
-                int ID = To1D(new Vector2(xPos, yPos));
-
-                if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL &&  Cells[ID].tileData.type != GameData.TileType.RESOURCE)
+                bool spotFound = false;
+                while (!spotFound)
                 {
-                    SetTile(ID, GameData.Connection.None, GameData.Owner.NEUTRAL, GameData.TileType.OBSTACLE);
-                    spotFound = true;
+                    int xPos = j == 0 ? Random.Range(0, (int)max.x / 2) : Random.Range((int)max.x / 2, (int)max.x);
+                    int yPos = Random.Range(0, (int)max.y - 1);
+                    int ID = To1D(new Vector2(xPos, yPos));
+
+                    if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL && Cells[ID].tileData.type != GameData.TileType.RESOURCE)
+                    {
+                        SetTile(ID, GameData.Connection.None, GameData.Owner.NEUTRAL, GameData.TileType.OBSTACLE);
+                        spotFound = true;
+                    }
                 }
             }
+
         }
+
+
+
     }
 
     public void SetSpawn(Vector2 player1Pos, Vector2 player2Pos, out Plant player1Plant, out Plant player2Plant)
