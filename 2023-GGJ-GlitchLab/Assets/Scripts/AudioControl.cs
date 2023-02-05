@@ -18,7 +18,7 @@ public class AudioControl : MonoBehaviour
 
     private void Awake()
     {
-        Music = FMODUnity.RuntimeManager.GetBus("bus:/MASTER/Music&Bg");
+        Music = FMODUnity.RuntimeManager.GetBus("bus:/MASTER/MusicBG");
         UI = FMODUnity.RuntimeManager.GetBus("bus:/MASTER/UI");
         SFX = FMODUnity.RuntimeManager.GetBus("bus:/MASTER/OneShots");
         Master = FMODUnity.RuntimeManager.GetBus("bus:/MASTER");
@@ -26,27 +26,32 @@ public class AudioControl : MonoBehaviour
 
     void Update()
     {
-        Music.setVolume(MusicVol);
-        Music.setVolume(UIVol);
-        Music.setVolume(SFXVol);
-        Music.setVolume(MasterVol);
+        
+        
+        
+       
     }
 
-    public void setMusicVol (System.Single newVol)
+    public void setMusicVol (float newVol)
     {
-        MusicVol = newVol - 19F;
+
+        MusicVol = newVol;
+        Music.setVolume(MusicVol);
     }
-    public void setUIVol(System.Single newVol)
+    public void setUIVol(float newVol)
     {
-        UIVol = newVol - 19F;
+        UIVol = newVol;
+        Music.setVolume(UIVol);
     }
-    public void setSFXVol(System.Single newVol)
+    public void setSFXVol(float newVol)
     {
-        SFXVol = newVol - 19f;
+        SFXVol = newVol;
+        Music.setVolume(SFXVol);
     }
-    public void setMasterVol(System.Single newVol)
+    public void setMasterVol(float newVol)
     {
-        MasterVol = newVol - 19f;
+        MasterVol = newVol;
+        Music.setVolume(MasterVol);
     }
 
 
