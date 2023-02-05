@@ -13,7 +13,7 @@ public class Droplet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        GameObject.Find("bloop").GetComponent<FMODUnity.StudioEventEmitter>().Play();
     }
 
     // Update is called once per frame
