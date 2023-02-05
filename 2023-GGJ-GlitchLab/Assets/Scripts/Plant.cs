@@ -12,6 +12,7 @@ public class Plant : MonoBehaviour
     private Animator _anim;
     private GameObject _effect;
 
+
     public TMP_Text ScoreCounter 
     {
         set { _scoreCounter = value; }

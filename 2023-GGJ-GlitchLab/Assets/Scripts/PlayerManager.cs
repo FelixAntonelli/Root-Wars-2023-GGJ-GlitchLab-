@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private FMODUnity.StudioEventEmitter PlaceEmitter;
     [SerializeField] private FMODUnity.StudioEventEmitter DenyEmitter;
     [SerializeField] private FMODUnity.StudioEventEmitter SelectEmitter;
+    [SerializeField] private FMODUnity.StudioEventEmitter vicEmitter;
 
 
 
@@ -504,6 +505,8 @@ public class PlayerManager : MonoBehaviour
             ForceEndGame = false;
             doTimer = false;
             GameEnd?.Invoke();
+            GameObject.Find("[BMG]").GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+            vicEmitter.Play();
             return;
         }
         
@@ -518,6 +521,8 @@ public class PlayerManager : MonoBehaviour
             {
                 doTimer = false;
                 GameEnd?.Invoke();
+                GameObject.Find("[BMG]").GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+                vicEmitter.Play();
             }
             if (_currTimer < 21) 
             {

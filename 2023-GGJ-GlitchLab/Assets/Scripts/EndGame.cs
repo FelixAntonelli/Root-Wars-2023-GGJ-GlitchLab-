@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndGame : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class EndGame : MonoBehaviour
     [SerializeField] private Transform overdrive;
     [SerializeField] private Transform end;
 
+    private bool loadUp = false;
+    
     private delegate IEnumerator CameraMoveDel();
     private CameraMoveDel CameraMoveFunc;
     private delegate IEnumerator CameraLerpDel(Transform toMove, Vector3 end, float moveTime, LerpType type);
@@ -171,6 +174,30 @@ public class EndGame : MonoBehaviour
             
             yield return null;
         }
+    }
+
+    public void LoadMainMenu()
+    {
+        StartCoroutine(LoadAsync());
+        loadUp = true;
+    }
+    
+    public IEnumerator LoadAsync()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainMenu");
+        asyncLoad.allowSceneActivation = false;
+
+        while (!asyncLoad.isDone)
+        {
+            if (loadUp)
+            {
+                asyncLoad.allowSceneActivation = true;
+                loadUp = false;
+                yield return null;
+            }
+            yield return null;
+        }
+
     }
 
     public static float Quadratic(float val)

@@ -15067,6 +15067,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1563466060 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7567192854716176179, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+  m_PrefabInstance: {fileID: 7567192855223324728}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e5026749478cf44cbbe9929b7d2c99c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1569032223
 GameObject:
   m_ObjectHideFlags: 0
@@ -25159,6 +25170,7 @@ GameObject:
   - component: {fileID: 1993532034}
   - component: {fileID: 1993532033}
   - component: {fileID: 1993532032}
+  - component: {fileID: 1993532036}
   m_Layer: 0
   m_Name: PlayersManager
   m_TagString: Untagged
@@ -25240,10 +25252,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd7e9927329e5e43816ff90478d4c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovmentEmitter: {fileID: 0}
-  PlaceEmitter: {fileID: 0}
-  DenyEmitter: {fileID: 0}
-  SelectEmitter: {fileID: 0}
+  MovmentEmitter: {fileID: 1993532035}
+  PlaceEmitter: {fileID: 1993532034}
+  DenyEmitter: {fileID: 1993532033}
+  SelectEmitter: {fileID: 1993532032}
+  vicEmitter: {fileID: 0}
   ForceEndGame: 0
   _tileGrid: {fileID: 1896656317}
   _spriteLib: {fileID: 1863524820}
@@ -25443,6 +25456,36 @@ MonoBehaviour:
       Data3: -638554222
       Data4: -542525719
     Path: event:/Player/Move
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1993532036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993532027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1758931225
+      Data2: 1113727236
+      Data3: -525225299
+      Data4: 2100840248
+    Path: event:/Music/Victory_music
   Event: 
   PlayEvent: 0
   StopEvent: 0
@@ -25740,6 +25783,34 @@ PrefabInstance:
     - target: {fileID: 7567192855469469074, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
       propertyPath: m_text
       value: 'Score: ---'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567192856231894975, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567192856231894975, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567192856231894975, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1563466060}
+    - target: {fileID: 7567192856231894975, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567192856231894975, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567192856231894975, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EndGame, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567192856231894975, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7567192856299571862, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
       propertyPath: m_IsActive
