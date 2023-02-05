@@ -45,6 +45,11 @@ public class WaterSource : MonoBehaviour
         }
     }
 
+    public void StopSpawning()
+    {
+        StopAllCoroutines();
+    }
+
     private IEnumerator SpawnWater()
     {
         while (_reservoireSize > 0)

@@ -85,7 +85,7 @@ public class PlayerManager : MonoBehaviour
 
 
 
-    private float _currTimer = 60;
+    private float _currTimer = 90;
     private float _currSec = 1;
     private bool doTimer = true;
 
@@ -242,7 +242,10 @@ public class PlayerManager : MonoBehaviour
 
     private void MovePlayer1(InputAction.CallbackContext context)
     {
-        
+
+        if (_disabledMovementPlayer1)
+            return;
+
         var contextVal = context.ReadValue<Vector2>();
 
         if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
@@ -270,7 +273,9 @@ public class PlayerManager : MonoBehaviour
     }
     private void MovePlayer2(InputAction.CallbackContext context)
     {
-        
+        if (_disabledMovementPlayer2)
+            return;
+
         var contextVal = context.ReadValue<Vector2>();
 
         if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
@@ -388,8 +393,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
-
-        StartCoroutine(DisableTimer(1));
+        _disabledMovementPlayer1 = true;
+        //StartCoroutine(DisableTimer(1));
         
     }
     private void PlayerResetCallPlayer2(InputAction.CallbackContext context)
@@ -405,8 +410,8 @@ public class PlayerManager : MonoBehaviour
 
         SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
 
-
-        StartCoroutine(DisableTimer(2));
+        _disabledMovementPlayer2 = true;
+        //StartCoroutine(DisableTimer(2));
         
     }
 
@@ -503,6 +508,17 @@ public class PlayerManager : MonoBehaviour
     {
         if (!doTimer)
         {
+            var droplets = FindObjectsOfType<Droplet>();
+            foreach (var droplet in droplets)
+            {
+                droplet.DestroyDroplet();
+            }
+
+            var waterSources = FindObjectsOfType<WaterSource>();
+            foreach (var source in waterSources)
+            {
+                source.StopSpawning();
+            }
             return;
         }
 
