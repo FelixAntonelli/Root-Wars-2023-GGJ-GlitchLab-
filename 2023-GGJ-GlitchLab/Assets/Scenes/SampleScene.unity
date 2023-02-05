@@ -25240,10 +25240,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd7e9927329e5e43816ff90478d4c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovmentEmitter: {fileID: 1993532035}
-  PlaceEmitter: {fileID: 1993532034}
-  DenyEmitter: {fileID: 1993532033}
-  SelectEmitter: {fileID: 1993532032}
+  MovmentEmitter: {fileID: 0}
+  PlaceEmitter: {fileID: 0}
+  DenyEmitter: {fileID: 0}
+  SelectEmitter: {fileID: 0}
   ForceEndGame: 0
   _tileGrid: {fileID: 1896656317}
   _spriteLib: {fileID: 1863524820}
@@ -25736,6 +25736,14 @@ PrefabInstance:
     - target: {fileID: 7567192855382091385, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567192855469469074, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_text
+      value: 'Score: ---'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567192856299571862, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7567192856478195577, guid: a5abce8d7a88c5040a76c48031f36092, type: 3}
       propertyPath: m_AnchorMax.y

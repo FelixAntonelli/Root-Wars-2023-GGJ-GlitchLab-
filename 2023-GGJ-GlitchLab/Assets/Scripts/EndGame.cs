@@ -72,8 +72,8 @@ public class EndGame : MonoBehaviour
     {
         //Lerp to overdrive
         // yield return StartCoroutine(CameraLerpFunc(camera.transform, overdrive.position, 0.5f));
-        playerOneScoreText.text = "Score: " + playerManager.player1Plant.score.ToString();
-        playerTwoScoreText.text = "Score: " + playerManager.player2Plant.score.ToString();
+        // playerOneScoreText.text = "Score: " + playerManager.player1Plant.score.ToString();
+        // playerTwoScoreText.text = "Score: " + playerManager.player2Plant.score.ToString();
 
         StartCoroutine(LerpFunc(camera.transform, end.position, 1.5f, LerpType.CUBIC));
         yield return new WaitForSeconds(1.0f);
@@ -81,10 +81,10 @@ public class EndGame : MonoBehaviour
         StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f, LerpType.QUADRATIC));
         yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f, LerpType.QUADRATIC));
         
-        StartCoroutine(CountUp(playerOneScoreText, playerManager.player1Plant.score, 2.0f, LerpType.CUBIC));
-        StartCoroutine(CountUp(playerTwoScoreText, playerManager.player2Plant.score, 2.0f, LerpType.CUBIC));
+        StartCoroutine(CountUp(playerOneScoreText, playerManager.player1Plant.score, 4f, LerpType.CUBIC));
+        StartCoroutine(CountUp(playerTwoScoreText, playerManager.player2Plant.score, 4f, LerpType.CUBIC));
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(5f);
         winnerText.text = playerManager.player1Plant.score == playerManager.player2Plant.score ? "It's a DRAW!!" :
             playerManager.player1Plant.score > playerManager.player2Plant.score ? "Player One Wins!!" : "Player Two Wins!!";
         StartCoroutine(LerpFunc(winnerTextUi, winnerTextEnd.position, 0.5f, LerpType.QUADRATIC));
@@ -99,9 +99,37 @@ public class EndGame : MonoBehaviour
         while (time < countTime)
         {
             time += Time.deltaTime;
-            text.text = "Score: " + (target * (time / countTime));
+            switch (type)
+            {
+                case LerpType.STRAIGHT:
+                    text.text = "Score: " + Mathf.Ceil(target * (time / countTime));
+                    break;
+                case LerpType.QUADRATIC:
+                    text.text = "Score: " + Mathf.Ceil(target * Quadratic(time / countTime));
+                    break;
+                case LerpType.CUBIC:
+                    text.text = "Score: " + Mathf.Ceil(target * Cubic(time / countTime));
+                    break;
+                case LerpType.QUARTIC:
+                    text.text = "Score: " + Mathf.Ceil(target * Quartic(time / countTime));
+                    break;
+                case LerpType.QUINTIC:
+                    text.text = "Score: " + Mathf.Ceil(target * Quintic(time / countTime));
+                    break;
+                case LerpType.SINO:
+                    text.text = "Score: " + Mathf.Ceil(target * Sinusoidal(time / countTime));
+                    break;
+                case LerpType.EXPO:
+                    break;
+                case LerpType.CIRC:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+            
             yield return null;
         }
+        text.text = "Score: " + target;
     }
 
     private IEnumerator CameraLerp(Transform toMove, Vector3 end, float moveTime, LerpType type)
