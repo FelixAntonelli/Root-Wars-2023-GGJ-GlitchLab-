@@ -54,8 +54,6 @@ public class PlayerManager : MonoBehaviour
     private int _selectedSlotIndexPlayer1;
     private int _selectedSlotIndexPlayer2;
 
-    private bool _disabledMovementPlayer1;
-    private bool _disabledMovementPlayer2;
 
     [SerializeField] GameObject _player1Obj;
     [SerializeField] GameObject _player2Obj;
@@ -71,6 +69,21 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] TMP_Text _clockText;
     [SerializeField] TMP_Text _PlayerOneText;
     [SerializeField] TMP_Text _PlayerTwoText;
+
+
+    
+    [SerializeField] Slider _scrollPlayer1;
+    [SerializeField] Slider _scrollPlayer2;
+    private float _disabledResetTimer = 3f;
+
+    private float _disableCurrTimerPlayer1 = 0;
+    private float _disableCurrTimerPlayer2 = 0;
+
+    private bool _disabledMovementPlayer1;
+    private bool _disabledMovementPlayer2;
+
+
+
 
     private float _currTimer = 60;
     private float _currSec = 1;
@@ -99,7 +112,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Animator _wobbleClock; 
     [SerializeField] Animator _scoreAnimPlayer1; 
     [SerializeField] Animator _scoreAnimPlayer2;
-    [SerializeField] GameObject _fireworkEffect;
 
 
     //private Coroutine _p1LerpBox;
@@ -206,9 +218,6 @@ public class PlayerManager : MonoBehaviour
 
         _player1Pos = new Vector2(Mathf.Floor(_maxGridSize.x / 4), _maxGridSize.y - 2);    //sets them at the start
         _player1Obj.transform.position = new Vector3(_player1Pos.x, _player1Pos.y, 0);
-
-        //Debug.Log(_maxGridSize.x / 4);   //5
-        //Debug.Log(Mathf.Floor(_maxGridSize.x / 4));    //5
        
         _player2Pos = new Vector2(Mathf.Floor(_maxGridSize.x - _player1Pos.x) - 1, _maxGridSize.y - 2);
         _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
@@ -221,9 +230,6 @@ public class PlayerManager : MonoBehaviour
 
         player1Plant.Anim = _scoreAnimPlayer1;
         player2Plant.Anim = _scoreAnimPlayer2;
-
-       // player1Plant.Effect = _fireworkEffect;
-        //player2Plant.Effect = _fireworkEffect;
 
         StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[0].transform.position, GameData.Owner.PLAYER_1));
         StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[0].transform.position, GameData.Owner.PLAYER_2));
@@ -425,30 +431,38 @@ public class PlayerManager : MonoBehaviour
             _tilesShownPlayer2[indexToChange].GetComponent<SpriteRenderer>().sprite = _spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[indexToChange]]);
         }
     }
-    IEnumerator DisableTimer(int playerNum)
-    {
-        if (playerNum == 1)
-        {
-            _disabledMovementPlayer1 = true;
-        }
-        else
-        {
-            _disabledMovementPlayer2 = true;
-        }
 
 
-        yield return new WaitForSeconds(timeDisabled);
 
 
-        if (playerNum == 1)
-        {
-            _disabledMovementPlayer1 = false;
-        }
-        else
-        {
-            _disabledMovementPlayer2 = false;
-        }
-    }
+
+
+
+
+
+
+    //IEnumerator DisableTimer(int playerNum)
+    //{
+    //    if (playerNum == 1)
+    //    {
+    //        _disabledMovementPlayer1 = true;
+    //    }
+    //    else
+    //    {
+    //        _disabledMovementPlayer2 = true;
+    //    }
+
+    //    yield return new WaitForSeconds(timeDisabled);
+
+    //    if (playerNum == 1)
+    //    {
+    //        _disabledMovementPlayer1 = false;
+    //    }
+    //    else
+    //    {
+    //        _disabledMovementPlayer2 = false;
+    //    }
+    //}
 
     private IEnumerator Lerp(Transform transform, Vector2 target, float lerpTime, Coroutine coroutine)
     {
@@ -521,6 +535,50 @@ public class PlayerManager : MonoBehaviour
                 _wobbleClock.SetBool("TimerRunningOut", true);
             }
         }
+
+
+
+        if (!_disabledMovementPlayer1) 
+        {
+            _disableCurrTimerPlayer1 = _disabledResetTimer;
+        }
+        else 
+        {
+            _disableCurrTimerPlayer1 -= Time.deltaTime;
+
+            _scrollPlayer1.value = 1- (_disableCurrTimerPlayer1 / _disabledResetTimer);
+            if (_disableCurrTimerPlayer1 < 0) 
+            {
+                _disabledMovementPlayer1 = false;
+                _scrollPlayer1.value = 1;
+            }
+        }
+
+
+
+
+
+
+
+        if (!_disabledMovementPlayer2)
+        {
+            _disableCurrTimerPlayer2 = _disabledResetTimer;
+        }
+        else
+        {
+            _disableCurrTimerPlayer2 -= Time.deltaTime;
+
+            _scrollPlayer2.value = 1 - (_disableCurrTimerPlayer2 / _disabledResetTimer);
+            if (_disableCurrTimerPlayer2 < 0)
+            {
+                _disabledMovementPlayer2 = false;
+                _scrollPlayer2.value = 1;
+            }
+        }
+
+
+
+
     }
 
 

@@ -10,7 +10,6 @@ public class Plant : MonoBehaviour
     [SerializeField] private GameObject _plant;
     private TMP_Text _scoreCounter;
     private Animator _anim;
-    private GameObject _effect;
 
 
     public TMP_Text ScoreCounter 
@@ -21,12 +20,6 @@ public class Plant : MonoBehaviour
     {
         set { _anim = value; }
     }
-
-    public GameObject Effect
-    {
-        set { _effect = value; }
-    }
-
 
     private void Awake()
     {
@@ -54,7 +47,6 @@ public class Plant : MonoBehaviour
         if (score % 200 == 0) 
         {
             _anim.SetTrigger("CounterCall");
-           // Instantiate(_effect, _scoreCounter.transform.position,_scoreCounter.transform.rotation);
         }
     }
 
