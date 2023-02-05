@@ -7,6 +7,7 @@ public class Plant : MonoBehaviour
 {
     [SerializeField] private GameData.Owner _owner;
     [SerializeField] private int _score;
+    [SerializeField] private GameObject _plant;
     private TMP_Text _scoreCounter;
 
     private void Awake()
@@ -41,8 +42,14 @@ public class Plant : MonoBehaviour
         Droplet droplet = collision.gameObject.GetComponent<Droplet>();
         if (droplet != null)
         {
+            GrowPlant();
             ScorePoint(droplet.GetPointValue());
             droplet.DestroyDroplet();
         }
+    }
+
+    private void GrowPlant()
+    {
+        _plant.transform.localScale += Vector3.one * 0.01f;
     }
 }
