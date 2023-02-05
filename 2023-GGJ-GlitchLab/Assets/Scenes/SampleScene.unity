@@ -9476,7 +9476,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 885.1662, y: 979.8131}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &463771740
 GameObject:
@@ -9513,7 +9513,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 885.1662, y: 979.8131}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &491441359
 GameObject:
@@ -9800,7 +9800,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.63, y: -10.32, z: -10}
+  m_LocalPosition: {x: 9.63, y: 5.16, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9986,12 +9986,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 1993532029}
   camera: {fileID: 519420031}
-  playerOneUiStart: {fileID: 0}
-  playerOneUiEnd: {fileID: 0}
-  playerTwoUiStart: {fileID: 0}
-  playerTwoUiEnd: {fileID: 0}
-  playerOneUi: {fileID: 0}
-  playerTwoUi: {fileID: 0}
+  playerOneUiStart: {fileID: 923650921}
+  playerOneUiEnd: {fileID: 34318958}
+  playerTwoUiStart: {fileID: 1746863062}
+  playerTwoUiEnd: {fileID: 901977310}
+  playerOneUi: {fileID: 312099206}
+  playerTwoUi: {fileID: 1988593540}
+  playerOneScoreText: {fileID: 324304298}
+  playerTwoScoreText: {fileID: 422365619}
   start: {fileID: 0}
   overdrive: {fileID: 679197643}
   end: {fileID: 1047637583}
@@ -14928,7 +14930,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1900, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &947376565
@@ -16060,8 +16062,8 @@ MonoBehaviour:
   m_Spacing: 50
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -26170,7 +26172,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1900, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1863524819
@@ -26651,6 +26653,8 @@ MonoBehaviour:
   - {fileID: 229639934}
   _player1Obj: {fileID: 1569032223}
   _player2Obj: {fileID: 1584868024}
+  player1Plant: {fileID: 0}
+  player2Plant: {fileID: 0}
   _clockText: {fileID: 1303085332}
   _PlayerOneText: {fileID: 1488185281}
   _PlayerTwoText: {fileID: 272115173}

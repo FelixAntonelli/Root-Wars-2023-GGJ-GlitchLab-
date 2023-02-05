@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EndGame : MonoBehaviour
@@ -14,6 +15,8 @@ public class EndGame : MonoBehaviour
     [SerializeField] private Transform playerTwoUiEnd;
     [SerializeField] private Transform playerOneUi;
     [SerializeField] private Transform playerTwoUi;
+    [SerializeField] private TMP_Text playerOneScoreText;
+    [SerializeField] private TMP_Text playerTwoScoreText;
     [Header("Camera Keyframes")]
     [SerializeField] private Transform start;
     [SerializeField] private Transform overdrive;
@@ -47,6 +50,8 @@ public class EndGame : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f));
         yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f));
+        playerOneScoreText.text = "Score: " + playerManager.player1Plant.score.ToString();
+        playerTwoScoreText.text = "Score: " + playerManager.player2Plant.score.ToString();
     }
 
     private IEnumerator CameraLerp(Transform toMove, Vector3 end, float moveTime)

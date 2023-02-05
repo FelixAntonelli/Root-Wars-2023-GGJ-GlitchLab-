@@ -51,8 +51,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] GameObject _player1Obj;
     [SerializeField] GameObject _player2Obj;
 
-    private Plant _player1Plant;
-    private Plant _player2Plant;
+    public Plant player1Plant;
+    public Plant player2Plant;
 
     private float timeDisabled = 3;
 
@@ -208,10 +208,10 @@ public class PlayerManager : MonoBehaviour
 
 
 
-        _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1), out _player1Plant, out _player2Plant);
+        _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1), out player1Plant, out player2Plant);
 
-        _player1Plant.ScoreCounter = _PlayerOneText;
-        _player2Plant.ScoreCounter = _PlayerTwoText;
+        player1Plant.ScoreCounter = _PlayerOneText;
+        player2Plant.ScoreCounter = _PlayerTwoText;
 
         StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[0].transform.position, GameData.Owner.PLAYER_1));
         StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[0].transform.position, GameData.Owner.PLAYER_2));
