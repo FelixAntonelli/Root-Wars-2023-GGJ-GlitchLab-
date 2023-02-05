@@ -25195,6 +25195,10 @@ MonoBehaviour:
   _clockText: {fileID: 1303085332}
   _PlayerOneText: {fileID: 1488185281}
   _PlayerTwoText: {fileID: 272115173}
+  _wobbleClock: {fileID: 0}
+  _scoreAnimPlayer1: {fileID: 0}
+  _scoreAnimPlayer2: {fileID: 0}
+  _fireworkEffect: {fileID: 0}
   _player1Marker: {fileID: 1927424104}
   _player2Marker: {fileID: 1886060313}
 --- !u!4 &1993532030
