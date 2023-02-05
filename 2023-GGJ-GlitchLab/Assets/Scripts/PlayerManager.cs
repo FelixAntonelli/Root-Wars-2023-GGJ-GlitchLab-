@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 
 public class PlayerManager : MonoBehaviour
 {
+    [SerializeField] private bool ForceEndGame;
+    
     [SerializeField] Grid _tileGrid;
     [SerializeField] SpriteLibrary _spriteLib;
 
@@ -439,6 +441,14 @@ public class PlayerManager : MonoBehaviour
     {
         if (!doTimer)
         {
+            return;
+        }
+
+        if (ForceEndGame)
+        {
+            ForceEndGame = false;
+            doTimer = false;
+            GameEnd?.Invoke();
             return;
         }
         
