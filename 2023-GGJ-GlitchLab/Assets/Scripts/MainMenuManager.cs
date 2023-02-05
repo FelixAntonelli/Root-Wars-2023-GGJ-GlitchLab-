@@ -10,6 +10,8 @@ public class MainMenuManager : MonoBehaviour
     public bool move = false;
     public bool loadup = false;
     public GameObject mainMenu;
+    public GameObject startMusic;
+    public GameObject mainMusic;
     public void StartGame()
     {
         move = true;
@@ -27,11 +29,13 @@ public class MainMenuManager : MonoBehaviour
         if (!move) return;
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, EndPostition, step);
-
+        startMusic.SetActive(true);
         if (transform.position == EndPostition)
         {
+            mainMusic.SetActive(true);
             move = false;
             loadup = true;
+            
         }
     }
 
