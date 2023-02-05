@@ -482,10 +482,10 @@ MonoBehaviour:
   m_Name: FMODStudioSettings
   m_EditorClassIdentifier: 
   switchSettingsMigration: 1
-  HasSourceProject: 0
-  HasPlatforms: 0
+  HasSourceProject: 1
+  HasPlatforms: 1
   sourceProjectPath: Fmod SoundBank/Roots_FMOD/Roots_FMOD.fspro
-  sourceBankPath: Fmod SoundBank/Build/Desktop
+  sourceBankPath: Fmod SoundBank/Roots_FMOD/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
@@ -687,8 +687,8 @@ MonoBehaviour:
   active: 1
   Properties:
     LiveUpdate:
-      Value: 0
-      HasValue: 0
+      Value: 1
+      HasValue: 1
     LiveUpdatePort:
       Value: 9264
       HasValue: 1
