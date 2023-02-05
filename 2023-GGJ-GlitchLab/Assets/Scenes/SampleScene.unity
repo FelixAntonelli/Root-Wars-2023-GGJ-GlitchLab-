@@ -20280,8 +20280,8 @@ MonoBehaviour:
   gridXAxisSize: 20
   gridYAxisSize: 10
   cellSize: 3
-  _waterSourcesRange: {x: 10, y: 15}
-  _obstaclesRange: {x: 5, y: 10}
+  _waterSourcesRange: {x: 4, y: 8}
+  _obstaclesRange: {x: 2, y: 5}
   Cells: []
 --- !u!4 &1896656318
 Transform:

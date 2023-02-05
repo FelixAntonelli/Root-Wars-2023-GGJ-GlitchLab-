@@ -10,6 +10,12 @@ public class Plant : MonoBehaviour
     [SerializeField] private GameObject _plant;
     private TMP_Text _scoreCounter;
 
+    public TMP_Text ScoreCounter 
+    {
+        set { _scoreCounter = value; }
+    }
+
+
     private void Awake()
     {
         _score = 0;
@@ -35,8 +41,6 @@ public class Plant : MonoBehaviour
     }
 
 
-    public void SetTextUI(TMP_Text text) => _scoreCounter = text;
-    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Droplet droplet = collision.gameObject.GetComponent<Droplet>();
