@@ -236,180 +236,172 @@ public class PlayerManager : MonoBehaviour
 
     private void MovePlayer1(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[0])
+        
+        var contextVal = context.ReadValue<Vector2>();
+
+        if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
+            _p1Lerp == null)   //checks if the vectro2 input is valid
         {
-            var contextVal = context.ReadValue<Vector2>();
+            Vector2 newPos = _player1Pos + contextVal;
 
-            if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
-                _p1Lerp == null)   //checks if the vectro2 input is valid
+            if (newPos == _player2Pos)   //checks if its going to overlap the other player
+                return;
+
+            if (newPos.x >= _maxGridSize.x || newPos.y >= _maxGridSize.y || newPos.x < 0 || newPos.y < 0)   //checks if its inside the grid
+                return;
+
+            _player1Pos = newPos;   //sets the new position
+            // MovmentEmitter.Play();
+            // _p1Lerp = StartCoroutine(LerpSelectionBox(_player1Obj, newPos, GameData.Owner.PLAYER_1));
+            if (p1IconLerpCo != null)
             {
-                Vector2 newPos = _player1Pos + contextVal;
-
-                if (newPos == _player2Pos)   //checks if its going to overlap the other player
-                    return;
-
-                if (newPos.x >= _maxGridSize.x || newPos.y >= _maxGridSize.y || newPos.x < 0 || newPos.y < 0)   //checks if its inside the grid
-                    return;
-
-                _player1Pos = newPos;   //sets the new position
-                // MovmentEmitter.Play();
-                // _p1Lerp = StartCoroutine(LerpSelectionBox(_player1Obj, newPos, GameData.Owner.PLAYER_1));
-                if (p1IconLerpCo != null)
-                {
-                    StopCoroutine(p1IconLerpCo);
-                }
-                p1IconLerpCo = StartCoroutine(PlayerIconLerpFunc(_player1Obj.transform, newPos, 0.2f, p1IconLerpCo));
+                StopCoroutine(p1IconLerpCo);
             }
+            p1IconLerpCo = StartCoroutine(PlayerIconLerpFunc(_player1Obj.transform, newPos, 0.2f, p1IconLerpCo));
         }
+        
         
     }
     private void MovePlayer2(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[1])       
+        
+        var contextVal = context.ReadValue<Vector2>();
+
+        if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
+            _p2Lerp == null)
         {
-            var contextVal = context.ReadValue<Vector2>();
+            Vector2 newPos = _player2Pos + contextVal;
 
-            if ((Mathf.Abs(contextVal.x) == 0 || Mathf.Abs(contextVal.x) == 1) && (Mathf.Abs(contextVal.y) == 0 || Mathf.Abs(contextVal.y) == 1) &&
-                _p2Lerp == null)
+            if (newPos == _player1Pos)
+                return;
+
+            if (newPos.x >= _maxGridSize.x || newPos.y >= _maxGridSize.y || newPos.x < 0 || newPos.y < 0)
+                return;
+
+            _player2Pos = newPos;
+            // MovmentEmitter.Play();
+            // _p2Lerp = StartCoroutine(LerpSelectionBox(_player2Obj, newPos, GameData.Owner.PLAYER_2));
+            if (p2IconLerpCo != null)
             {
-                Vector2 newPos = _player2Pos + contextVal;
-
-                if (newPos == _player1Pos)
-                    return;
-
-                if (newPos.x >= _maxGridSize.x || newPos.y >= _maxGridSize.y || newPos.x < 0 || newPos.y < 0)
-                    return;
-
-                _player2Pos = newPos;
-                // MovmentEmitter.Play();
-                // _p2Lerp = StartCoroutine(LerpSelectionBox(_player2Obj, newPos, GameData.Owner.PLAYER_2));
-                if (p2IconLerpCo != null)
-                {
-                    StopCoroutine(p2IconLerpCo);
-                }
-                p2IconLerpCo = StartCoroutine(PlayerIconLerpFunc(_player2Obj.transform, newPos, 0.2f, p2IconLerpCo));
+                StopCoroutine(p2IconLerpCo);
             }
-        }        
+            p2IconLerpCo = StartCoroutine(PlayerIconLerpFunc(_player2Obj.transform, newPos, 0.2f, p2IconLerpCo));
+        }
+               
     }
 
 
     private void ConfirmTilePlacementPlayer1(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[0])
-        {
-            if (_disabledMovementPlayer1)
-                return;
+        
+        if (_disabledMovementPlayer1)
+            return;
 
-            bool connectedToResource;
-            if (_tileGrid.PlaceTile(_player1Pos, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]], GameData.Owner.PLAYER_1, out connectedToResource))
-            {
-                SetRandomIndex(_selectedSlotIndexPlayer1, 1);
-                // PlaceEmitter.Play();
-                SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
-            }
-            else
-            {
-                // DenyEmitter.Play();
-            }
+        bool connectedToResource;
+        if (_tileGrid.PlaceTile(_player1Pos, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]], GameData.Owner.PLAYER_1, out connectedToResource))
+        {
+            SetRandomIndex(_selectedSlotIndexPlayer1, 1);
+            // PlaceEmitter.Play();
+            SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
         }
+        else
+        {
+            // DenyEmitter.Play();
+        }
+        
     }
     private void ConfirmTilePlacementPlayer2(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[1])
-        {
-            if (_disabledMovementPlayer2)
-                return;
+        
+        if (_disabledMovementPlayer2)
+            return;
 
-            bool connectedToResource;
-            if (_tileGrid.PlaceTile(_player2Pos, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]], GameData.Owner.PLAYER_2, out connectedToResource))
-            {
-                SetRandomIndex(_selectedSlotIndexPlayer2, 2);
-                // PlaceEmitter.Play();
-                SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
-            }
-            else
-            {
-                // DenyEmitter.Play();
-            }
+        bool connectedToResource;
+        if (_tileGrid.PlaceTile(_player2Pos, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]], GameData.Owner.PLAYER_2, out connectedToResource))
+        {
+            SetRandomIndex(_selectedSlotIndexPlayer2, 2);
+            // PlaceEmitter.Play();
+            SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
         }
+        else
+        {
+            // DenyEmitter.Play();
+        }
+        
     }
 
 
     private void SwitchSelectedTilePlayer1(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[0])
+       
+        if (_selectedSlotIndexPlayer1 + 1 == 4)
+            _selectedSlotIndexPlayer1 = 0;
+        else
+            _selectedSlotIndexPlayer1++;
+
+        SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
+        // StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, GameData.Owner.PLAYER_1));
+
+        if (p1SelectionLerpCo != null)
         {
-            if (_selectedSlotIndexPlayer1 + 1 == 4)
-                _selectedSlotIndexPlayer1 = 0;
-            else
-                _selectedSlotIndexPlayer1++;
-
-            SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
-            // StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, GameData.Owner.PLAYER_1));
-
-            if (p1SelectionLerpCo != null)
-            {
-                StopCoroutine(p1SelectionLerpCo);
-            }
-            p1SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player1Marker.transform, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, 0.2f, p1SelectionLerpCo));
-            // SelectEmitter.Play();
+            StopCoroutine(p1SelectionLerpCo);
         }
+        p1SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player1Marker.transform, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, 0.2f, p1SelectionLerpCo));
+        // SelectEmitter.Play();
+        
     }
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[1])
-        {
-            if (_selectedSlotIndexPlayer2 + 1 == 4)
-                _selectedSlotIndexPlayer2 = 0;
-            else
-                _selectedSlotIndexPlayer2++;
+        
+        if (_selectedSlotIndexPlayer2 + 1 == 4)
+            _selectedSlotIndexPlayer2 = 0;
+        else
+            _selectedSlotIndexPlayer2++;
 
-            SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
-            // StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, GameData.Owner.PLAYER_2));
-            if (p2SelectionLerpCo != null)
-            {
-                StopCoroutine(p2SelectionLerpCo);
-            }
-            p2SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player2Marker.transform, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, 0.2f, p2SelectionLerpCo));
-            // SelectEmitter.Play();
+        SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
+        // StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, GameData.Owner.PLAYER_2));
+        if (p2SelectionLerpCo != null)
+        {
+            StopCoroutine(p2SelectionLerpCo);
         }
+        p2SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player2Marker.transform, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, 0.2f, p2SelectionLerpCo));
+        // SelectEmitter.Play();
+        
     }
 
 
     private void PlayerResetCallPlayer1(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[0])
+        
+        if (_disabledMovementPlayer1)
+            return;
+
+        for (int i = 0; i < 4; i++)
         {
-            if (_disabledMovementPlayer1)
-                return;
-
-            for (int i = 0; i < 4; i++)
-            {
-                SetRandomIndex(i, 1);
-            }
-
-            SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
-
-            StartCoroutine(DisableTimer(1));
+            SetRandomIndex(i, 1);
         }
+
+        SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
+
+        StartCoroutine(DisableTimer(1));
+        
     }
     private void PlayerResetCallPlayer2(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[1])
+        
+        if (_disabledMovementPlayer2)
+            return;
+
+        for (int i = 0; i < 4; i++)
         {
-            if (_disabledMovementPlayer2)
-                return;
-
-            for (int i = 0; i < 4; i++)
-            {
-                SetRandomIndex(i, 2);
-            }
-
-            SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
-
-
-            StartCoroutine(DisableTimer(2));
+            SetRandomIndex(i, 2);
         }
+
+        SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
+
+
+        StartCoroutine(DisableTimer(2));
+        
     }
 
 
