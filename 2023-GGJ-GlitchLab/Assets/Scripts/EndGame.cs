@@ -12,6 +12,8 @@ public class EndGame : MonoBehaviour
     [SerializeField] private Transform playerOneUiEnd;
     [SerializeField] private Transform playerTwoUiStart;
     [SerializeField] private Transform playerTwoUiEnd;
+    [SerializeField] private Transform playerOneUi;
+    [SerializeField] private Transform playerTwoUi;
     [Header("Camera Keyframes")]
     [SerializeField] private Transform start;
     [SerializeField] private Transform overdrive;
@@ -24,10 +26,12 @@ public class EndGame : MonoBehaviour
     
     
     private void Awake()
-    {
+    {   
         playerManager.GameEnd += OnEndGame;
         LerpFunc = CameraLerp;
         CameraMoveFunc = CameraMove;
+        playerOneUi.position = playerOneUiStart.position;
+        playerTwoUi.position = playerTwoUiStart.position;
     }
 
     private void OnEndGame()
@@ -41,6 +45,8 @@ public class EndGame : MonoBehaviour
         // yield return StartCoroutine(CameraLerpFunc(camera.transform, overdrive.position, 0.5f));
         StartCoroutine(LerpFunc(camera.transform, end.position, 1.5f));
         yield return new WaitForSeconds(1.0f);
+        StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f));
+        yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f));
     }
 
     private IEnumerator CameraLerp(Transform toMove, Vector3 end, float moveTime)
