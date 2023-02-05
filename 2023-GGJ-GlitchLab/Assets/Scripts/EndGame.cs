@@ -27,6 +27,7 @@ public class EndGame : MonoBehaviour
     [SerializeField] private Transform menuButtonEnd;
     [SerializeField] private Transform menuButton;
     [SerializeField] private Transform bannerTransform;
+    [SerializeField] private Transform timerUITransform;
     [Header("Camera Keyframes")]
     [SerializeField] private Transform start;
     [SerializeField] private Transform overdrive;
@@ -80,6 +81,7 @@ public class EndGame : MonoBehaviour
         // playerTwoScoreText.text = "Score: " + playerManager.player2Plant.score.ToString();
 
         StartCoroutine(LerpFunc(camera.transform, end.position, 1.5f, LerpType.CUBIC));
+        timerUITransform.gameObject.SetActive(false);
         yield return new WaitForSeconds(1.0f);
 
         StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f, LerpType.QUADRATIC));
