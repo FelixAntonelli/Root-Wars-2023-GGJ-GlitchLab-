@@ -245,6 +245,61 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Movement",
+                    "id": "e1cf875a-ccab-4563-950a-49f444a183de",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "5f5adc18-bff5-403c-acb1-407851b851ee",
+                    "path": "<XInputController>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "d1d1bb61-c5e3-49c5-b98b-7ce6f7343c4c",
+                    "path": "<XInputController>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "d9a9175e-9666-49f2-bfc1-7f5e31a6edd4",
+                    "path": "<XInputController>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "278bebc9-86cc-4305-aff0-c0858341c65e",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "2bb71b9a-7595-4a2f-b2c3-1f3792883956",
                     "path": "<Keyboard>/space",
@@ -270,6 +325,17 @@
                     "name": "",
                     "id": "161a8ee5-8de2-4d51-becb-45a8f73360da",
                     "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e287d4d-963c-4840-b551-d0b69b820c1b",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -312,6 +378,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d4e92c54-18e4-4a54-b1d8-a5592cccc3d7",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Change",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "de406622-a7b7-498e-9e1c-61574be67074",
                     "path": "<Keyboard>/x",
                     "interactions": "",
@@ -323,8 +400,30 @@
                 },
                 {
                     "name": "",
+                    "id": "f0781004-77c8-4e86-85fb-cfb6800d9586",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player1Refresh",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9de9f2d8-d53b-44fa-be7d-4bee83d1bb75",
                     "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Player2Refresh",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aed97346-97f1-43be-8fb8-670a6b9a1758",
+                    "path": "<XInputController>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

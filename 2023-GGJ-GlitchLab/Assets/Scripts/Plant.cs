@@ -9,10 +9,21 @@ public class Plant : MonoBehaviour
     public int score;
     [SerializeField] private GameObject _plant;
     private TMP_Text _scoreCounter;
+    private Animator _anim;
+    private GameObject _effect;
 
     public TMP_Text ScoreCounter 
     {
         set { _scoreCounter = value; }
+    }
+    public Animator Anim
+    {
+        set { _anim = value; }
+    }
+
+    public GameObject Effect
+    {
+        set { _effect = value; }
     }
 
 
@@ -38,6 +49,12 @@ public class Plant : MonoBehaviour
         score += value;
 
         _scoreCounter.text = $"Score: {score}";
+
+        if (score % 200 == 0) 
+        {
+            _anim.SetTrigger("CounterCall");
+            Instantiate(_effect, _scoreCounter.transform.position,_scoreCounter.transform.rotation);
+        }
     }
 
 
