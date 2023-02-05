@@ -25159,6 +25159,7 @@ GameObject:
   - component: {fileID: 1993532034}
   - component: {fileID: 1993532033}
   - component: {fileID: 1993532032}
+  - component: {fileID: 1993532036}
   m_Layer: 0
   m_Name: PlayersManager
   m_TagString: Untagged
@@ -25244,6 +25245,7 @@ MonoBehaviour:
   PlaceEmitter: {fileID: 1993532034}
   DenyEmitter: {fileID: 1993532033}
   SelectEmitter: {fileID: 1993532032}
+  vicEmitter: {fileID: 1993532036}
   ForceEndGame: 0
   _tileGrid: {fileID: 1896656317}
   _spriteLib: {fileID: 1863524820}
@@ -25443,6 +25445,36 @@ MonoBehaviour:
       Data3: -638554222
       Data4: -542525719
     Path: event:/Player/Move
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1993532036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993532027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1758931225
+      Data2: 1113727236
+      Data3: -525225299
+      Data4: 2100840248
+    Path: event:/Music/Victory_music
   Event: 
   PlayEvent: 0
   StopEvent: 0
