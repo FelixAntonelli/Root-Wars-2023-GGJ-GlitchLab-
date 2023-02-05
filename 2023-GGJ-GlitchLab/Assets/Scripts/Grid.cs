@@ -58,20 +58,15 @@ public class Grid : MonoBehaviour
 
 
 
-
-
-
-
-
         for (int j = 0; j < 2; j++)
         {
-            for (int i = 0; i < (int)waterSourceCount / 2; i++)
+            for (int i = 0; i < waterSourceCount; i++)
             {
                 bool spotFound = false;
                 while (!spotFound)
                 {
-                    int xPos =  j == 0 ? Random.Range(0, (int)max.x / 2) : Random.Range((int) max.x/2, (int)max.x);
-                    int yPos = Random.Range(0, (int)max.y - 1);
+                    int xPos =  j == 0 ? Random.Range(0, (int)max.x / 2) : Random.Range((int)max.x/2, (int)max.x);
+                    int yPos = Random.Range(0, (int)max.y - 2);
                     int ID = To1D(new Vector2(xPos, yPos));
 
                     if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL)
@@ -83,13 +78,13 @@ public class Grid : MonoBehaviour
                 }
             }
 
-            for (int i = 0; i < (int)obstacleCount / 2; i++)
+            for (int i = 0; i < obstacleCount; i++)
             {
                 bool spotFound = false;
                 while (!spotFound)
                 {
                     int xPos = j == 0 ? Random.Range(0, (int)max.x / 2) : Random.Range((int)max.x / 2, (int)max.x);
-                    int yPos = Random.Range(0, (int)max.y - 1);
+                    int yPos = Random.Range(0, (int)max.y - 2);
                     int ID = To1D(new Vector2(xPos, yPos));
 
                     if (Cells[ID].tileData._owner == GameData.Owner.NEUTRAL && Cells[ID].tileData.type != GameData.TileType.RESOURCE)
