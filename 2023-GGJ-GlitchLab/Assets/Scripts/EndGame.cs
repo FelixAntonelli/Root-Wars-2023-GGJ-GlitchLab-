@@ -17,6 +17,10 @@ public class EndGame : MonoBehaviour
     [SerializeField] private Transform playerTwoUi;
     [SerializeField] private TMP_Text playerOneScoreText;
     [SerializeField] private TMP_Text playerTwoScoreText;
+    [SerializeField] private Transform winnerTextStart;
+    [SerializeField] private Transform winnerTextEnd;
+    [SerializeField] private Transform winnerTextUi;
+    [SerializeField] private TMP_Text winnerText;
     [Header("Camera Keyframes")]
     [SerializeField] private Transform start;
     [SerializeField] private Transform overdrive;
@@ -35,6 +39,7 @@ public class EndGame : MonoBehaviour
         CameraMoveFunc = CameraMove;
         playerOneUi.position = playerOneUiStart.position;
         playerTwoUi.position = playerTwoUiStart.position;
+        winnerTextUi.position = winnerTextStart.position;
     }
 
     private void OnEndGame()
@@ -52,6 +57,9 @@ public class EndGame : MonoBehaviour
         yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f));
         playerOneScoreText.text = "Score: " + playerManager.player1Plant.score.ToString();
         playerTwoScoreText.text = "Score: " + playerManager.player2Plant.score.ToString();
+        yield return new WaitForSeconds(5.0f);
+        winnerText.text = playerManager.player1Plant.score == playerManager.player2Plant.score ? "It's a DRAW!!" : playerManager.player1Plant.score > playerManager.player2Plant.score ? "Player One Wins!!" : "Player Two Wins!!";
+        StartCoroutine(LerpFunc(winnerTextUi, winnerTextEnd.position, 0.5f));
     }
 
     private IEnumerator CameraLerp(Transform toMove, Vector3 end, float moveTime)
