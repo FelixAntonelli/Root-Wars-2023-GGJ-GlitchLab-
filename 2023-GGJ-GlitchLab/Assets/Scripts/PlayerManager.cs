@@ -87,6 +87,11 @@ public class PlayerManager : MonoBehaviour
     private float _lerpSpeed = 0.18f;
     private float _lerpAccuracy = 0.05f;
 
+    [SerializeField] Animator _wobbleClock; 
+    [SerializeField] Animator _scoreAnimPlayer1; 
+    [SerializeField] Animator _scoreAnimPlayer2;
+    [SerializeField] GameObject _fireworkEffect;
+
 
     //private Coroutine _p1LerpBox;
     //private Coroutine _p2LerpBox;
@@ -200,16 +205,16 @@ public class PlayerManager : MonoBehaviour
         _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
 
 
-
-
-
-
-
-
         _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1), out player1Plant, out player2Plant);
 
         player1Plant.ScoreCounter = _PlayerOneText;
         player2Plant.ScoreCounter = _PlayerTwoText;
+
+        player1Plant.Anim = _scoreAnimPlayer1;
+        player2Plant.Anim = _scoreAnimPlayer2;
+
+        player1Plant.Effect = _fireworkEffect;
+        player2Plant.Effect = _fireworkEffect;
 
         StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[0].transform.position, GameData.Owner.PLAYER_1));
         StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[0].transform.position, GameData.Owner.PLAYER_2));
@@ -495,6 +500,10 @@ public class PlayerManager : MonoBehaviour
             {
                 doTimer = false;
                 GameEnd?.Invoke();
+            }
+            if (_currTimer < 21) 
+            {
+                _wobbleClock.SetBool("TimerRunningOut", true);
             }
         }
     }
