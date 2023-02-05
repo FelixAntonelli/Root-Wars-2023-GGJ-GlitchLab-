@@ -172,8 +172,9 @@ public class PlayerManager : MonoBehaviour
             _tilesShownPlayer2[i].transform.localScale = new Vector3(_tileGrid.CellSize, _tileGrid.CellSize, _tileGrid.CellSize);
         }
 
-        _player1Marker.transform.localScale = new Vector3(_tileGrid.CellSize * 1.1f, _tileGrid.CellSize * 1.1f, _tileGrid.CellSize * 1.1f);
-        _player2Marker.transform.localScale = new Vector3(_tileGrid.CellSize * 1.1f, _tileGrid.CellSize * 1.1f, _tileGrid.CellSize * 1.1f);
+        float selectorScale = 0.85f;
+        _player1Marker.transform.localScale = new Vector3(_tileGrid.CellSize * selectorScale, _tileGrid.CellSize * selectorScale, _tileGrid.CellSize * selectorScale);
+        _player2Marker.transform.localScale = new Vector3(_tileGrid.CellSize * selectorScale, _tileGrid.CellSize * selectorScale, _tileGrid.CellSize * selectorScale);
 
         #endregion
 
