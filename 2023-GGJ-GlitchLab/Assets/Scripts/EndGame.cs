@@ -26,6 +26,7 @@ public class EndGame : MonoBehaviour
     [SerializeField] private Transform menuButtonStart;
     [SerializeField] private Transform menuButtonEnd;
     [SerializeField] private Transform menuButton;
+    [SerializeField] private Transform bannerTransform;
     [Header("Camera Keyframes")]
     [SerializeField] private Transform start;
     [SerializeField] private Transform overdrive;
@@ -84,16 +85,34 @@ public class EndGame : MonoBehaviour
         StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f, LerpType.QUADRATIC));
         yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f, LerpType.QUADRATIC));
         
-        StartCoroutine(CountUp(playerOneScoreText, playerManager.player1Plant.score, 4f, LerpType.CUBIC));
-        StartCoroutine(CountUp(playerTwoScoreText, playerManager.player2Plant.score, 4f, LerpType.CUBIC));
+        StartCoroutine(CountUp(playerOneScoreText, playerManager.player1Plant.score, 4f, LerpType.QUINTIC));
+        StartCoroutine(CountUp(playerTwoScoreText, playerManager.player2Plant.score, 4f, LerpType.QUINTIC));
 
         yield return new WaitForSeconds(5f);
         winnerText.text = playerManager.player1Plant.score == playerManager.player2Plant.score ? "It's a DRAW!!" :
             playerManager.player1Plant.score > playerManager.player2Plant.score ? "Player One Wins!!" : "Player Two Wins!!";
-        StartCoroutine(LerpFunc(winnerTextUi, winnerTextEnd.position, 0.5f, LerpType.QUADRATIC));
+        yield return StartCoroutine(LerpFunc(winnerTextUi, winnerTextEnd.position, 0.5f, LerpType.QUADRATIC));
+        
+        StartCoroutine(BannerBounce(bannerTransform, 7, 15));
 
         yield return new WaitForSeconds(2.5f);
         StartCoroutine(LerpFunc(menuButton, menuButtonEnd.position, 1f, LerpType.CUBIC));
+    }
+
+    private IEnumerator BannerBounce(Transform banner, float radius, float time)
+    {
+        float t = 0;
+        Vector3 startPos = banner.position;
+        while (true)
+        {
+            t += Time.deltaTime;
+            if (t >= time)
+            {
+                t = 0;
+            }
+            banner.transform.position = startPos +  new Vector3(0 , Mathf.Sin(360 * (t / time)) * radius, 0);
+            yield return null;
+        }
     }
 
     private IEnumerator CountUp(TMP_Text text, int target, float countTime, LerpType type)

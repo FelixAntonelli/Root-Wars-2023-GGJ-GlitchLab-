@@ -102,6 +102,7 @@ MonoBehaviour:
   menuButtonStart: {fileID: 7567192854902841109}
   menuButtonEnd: {fileID: 7567192855378926269}
   menuButton: {fileID: 7567192856065347112}
+  bannerTransform: {fileID: 7567192856299571863}
   start: {fileID: 0}
   overdrive: {fileID: 7567192854813895667}
   end: {fileID: 7567192855115234935}
