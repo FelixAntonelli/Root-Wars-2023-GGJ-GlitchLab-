@@ -192,17 +192,26 @@ public class PlayerManager : MonoBehaviour
 
         _maxGridSize = _tileGrid.max;
 
-        _player1Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.25f), _maxGridSize.y - 2);    //sets them at the start
+        _player1Pos = new Vector2(Mathf.Floor(_maxGridSize.x / 4), _maxGridSize.y - 2);    //sets them at the start
         _player1Obj.transform.position = new Vector3(_player1Pos.x, _player1Pos.y, 0);
 
-        _player2Pos = new Vector2((int)Mathf.Lerp(0, _maxGridSize.x, 0.75f), _maxGridSize.y - 2);
+        //Debug.Log(_maxGridSize.x / 4);   //5
+        //Debug.Log(Mathf.Floor(_maxGridSize.x / 4));    //5
+       
+        _player2Pos = new Vector2(Mathf.Floor(_maxGridSize.x - _player1Pos.x) - 1, _maxGridSize.y - 2);
         _player2Obj.transform.position = new Vector3(_player2Pos.x, _player2Pos.y, 0);
+
+
+
+
+
+
 
 
         _tileGrid.SetSpawn(new Vector2(_player1Pos.x, _player1Pos.y + 1), new Vector2(_player2Pos.x, _player2Pos.y +1), out _player1Plant, out _player2Plant);
 
-        _player1Plant.SetTextUI(_PlayerOneText);
-        _player2Plant.SetTextUI(_PlayerTwoText);
+        _player1Plant.ScoreCounter = _PlayerOneText;
+        _player2Plant.ScoreCounter = _PlayerTwoText;
 
         StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[0].transform.position, GameData.Owner.PLAYER_1));
         StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[0].transform.position, GameData.Owner.PLAYER_2));

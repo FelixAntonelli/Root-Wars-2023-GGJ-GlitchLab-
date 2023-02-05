@@ -7,7 +7,14 @@ public class Plant : MonoBehaviour
 {
     [SerializeField] private GameData.Owner _owner;
     [SerializeField] private int _score;
+    [SerializeField] private GameObject _plant;
     private TMP_Text _scoreCounter;
+
+    public TMP_Text ScoreCounter 
+    {
+        set { _scoreCounter = value; }
+    }
+
 
     private void Awake()
     {
@@ -34,15 +41,19 @@ public class Plant : MonoBehaviour
     }
 
 
-    public void SetTextUI(TMP_Text text) => _scoreCounter = text;
-    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Droplet droplet = collision.gameObject.GetComponent<Droplet>();
         if (droplet != null)
         {
+            GrowPlant();
             ScorePoint(droplet.GetPointValue());
             droplet.DestroyDroplet();
         }
+    }
+
+    private void GrowPlant()
+    {
+        _plant.transform.localScale += Vector3.one * 0.01f;
     }
 }
