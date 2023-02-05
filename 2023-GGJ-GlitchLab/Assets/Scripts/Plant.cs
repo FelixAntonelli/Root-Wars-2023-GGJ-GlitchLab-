@@ -12,6 +12,7 @@ public class Plant : MonoBehaviour
     private Animator _anim;
     private GameObject _effect;
 
+
     public TMP_Text ScoreCounter 
     {
         set { _scoreCounter = value; }
@@ -53,7 +54,7 @@ public class Plant : MonoBehaviour
         if (score % 200 == 0) 
         {
             _anim.SetTrigger("CounterCall");
-            Instantiate(_effect, _scoreCounter.transform.position,_scoreCounter.transform.rotation);
+           // Instantiate(_effect, _scoreCounter.transform.position,_scoreCounter.transform.rotation);
         }
     }
 

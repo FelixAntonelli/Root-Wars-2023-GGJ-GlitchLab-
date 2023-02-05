@@ -9,6 +9,15 @@ using Random = UnityEngine.Random;
 
 public class PlayerManager : MonoBehaviour
 {
+
+    [SerializeField] private FMODUnity.StudioEventEmitter MovmentEmitter;
+    [SerializeField] private FMODUnity.StudioEventEmitter PlaceEmitter;
+    [SerializeField] private FMODUnity.StudioEventEmitter DenyEmitter;
+    [SerializeField] private FMODUnity.StudioEventEmitter SelectEmitter;
+    [SerializeField] private FMODUnity.StudioEventEmitter vicEmitter;
+
+
+
     [SerializeField] private bool ForceEndGame;
     
     [SerializeField] Grid _tileGrid;
@@ -213,8 +222,8 @@ public class PlayerManager : MonoBehaviour
         player1Plant.Anim = _scoreAnimPlayer1;
         player2Plant.Anim = _scoreAnimPlayer2;
 
-        player1Plant.Effect = _fireworkEffect;
-        player2Plant.Effect = _fireworkEffect;
+       // player1Plant.Effect = _fireworkEffect;
+        //player2Plant.Effect = _fireworkEffect;
 
         StartCoroutine(LerpSelectionBoxBelow(_player1Marker, _tilesShownPlayer1[0].transform.position, GameData.Owner.PLAYER_1));
         StartCoroutine(LerpSelectionBoxBelow(_player2Marker, _tilesShownPlayer2[0].transform.position, GameData.Owner.PLAYER_2));
@@ -243,7 +252,7 @@ public class PlayerManager : MonoBehaviour
                     return;
 
                 _player1Pos = newPos;   //sets the new position
-
+                // MovmentEmitter.Play();
                 // _p1Lerp = StartCoroutine(LerpSelectionBox(_player1Obj, newPos, GameData.Owner.PLAYER_1));
                 if (p1IconLerpCo != null)
                 {
@@ -256,7 +265,7 @@ public class PlayerManager : MonoBehaviour
     }
     private void MovePlayer2(InputAction.CallbackContext context)
     {
-        if (context.control.device == Gamepad.all[1])
+        if (context.control.device == Gamepad.all[1])       
         {
             var contextVal = context.ReadValue<Vector2>();
 
@@ -272,7 +281,7 @@ public class PlayerManager : MonoBehaviour
                     return;
 
                 _player2Pos = newPos;
-
+                // MovmentEmitter.Play();
                 // _p2Lerp = StartCoroutine(LerpSelectionBox(_player2Obj, newPos, GameData.Owner.PLAYER_2));
                 if (p2IconLerpCo != null)
                 {
@@ -295,8 +304,12 @@ public class PlayerManager : MonoBehaviour
             if (_tileGrid.PlaceTile(_player1Pos, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]], GameData.Owner.PLAYER_1, out connectedToResource))
             {
                 SetRandomIndex(_selectedSlotIndexPlayer1, 1);
-
+                // PlaceEmitter.Play();
                 SetSpritePlayer1(_spriteLib.GetSprite(GameData.Owner.PLAYER_1, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[_availableTilesPlayer1[_selectedSlotIndexPlayer1]]));
+            }
+            else
+            {
+                // DenyEmitter.Play();
             }
         }
     }
@@ -311,8 +324,12 @@ public class PlayerManager : MonoBehaviour
             if (_tileGrid.PlaceTile(_player2Pos, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]], GameData.Owner.PLAYER_2, out connectedToResource))
             {
                 SetRandomIndex(_selectedSlotIndexPlayer2, 2);
-
+                // PlaceEmitter.Play();
                 SetSpritePlayer2(_spriteLib.GetSprite(GameData.Owner.PLAYER_2, GameData.TileType.ROOT, _spriteLib.SpriteIndexToRootID[availableTilesPlayer2[_selectedSlotIndexPlayer2]]));
+            }
+            else
+            {
+                // DenyEmitter.Play();
             }
         }
     }
@@ -335,6 +352,7 @@ public class PlayerManager : MonoBehaviour
                 StopCoroutine(p1SelectionLerpCo);
             }
             p1SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player1Marker.transform, _tilesShownPlayer1[_selectedSlotIndexPlayer1].transform.position, 0.2f, p1SelectionLerpCo));
+            // SelectEmitter.Play();
         }
     }
     private void SwitchSelectedTilePlayer2(InputAction.CallbackContext context)
@@ -353,6 +371,7 @@ public class PlayerManager : MonoBehaviour
                 StopCoroutine(p2SelectionLerpCo);
             }
             p2SelectionLerpCo = StartCoroutine(PlayerSelectionLerpFunc(_player2Marker.transform, _tilesShownPlayer2[_selectedSlotIndexPlayer2].transform.position, 0.2f, p2SelectionLerpCo));
+            // SelectEmitter.Play();
         }
     }
 
@@ -486,6 +505,8 @@ public class PlayerManager : MonoBehaviour
             ForceEndGame = false;
             doTimer = false;
             GameEnd?.Invoke();
+            GameObject.Find("[BMG]").GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+            vicEmitter.Play();
             return;
         }
         
@@ -500,6 +521,8 @@ public class PlayerManager : MonoBehaviour
             {
                 doTimer = false;
                 GameEnd?.Invoke();
+                GameObject.Find("[BMG]").GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+                vicEmitter.Play();
             }
             if (_currTimer < 21) 
             {
