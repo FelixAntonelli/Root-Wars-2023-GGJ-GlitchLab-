@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndGame : MonoBehaviour
 {
@@ -25,15 +26,22 @@ public class EndGame : MonoBehaviour
     [SerializeField] private Transform menuButtonStart;
     [SerializeField] private Transform menuButtonEnd;
     [SerializeField] private Transform menuButton;
+    [SerializeField] private Transform bannerTransform;
+    [SerializeField] private Transform timerUITransform;
     [Header("Camera Keyframes")]
     [SerializeField] private Transform start;
     [SerializeField] private Transform overdrive;
     [SerializeField] private Transform end;
 
+    private bool loadUp = false;
+    
     private delegate IEnumerator CameraMoveDel();
     private CameraMoveDel CameraMoveFunc;
     private delegate IEnumerator CameraLerpDel(Transform toMove, Vector3 end, float moveTime, LerpType type);
     private CameraLerpDel LerpFunc;
+    
+    private delegate IEnumerator CountUpDel(TMP_Text text, int target, float countTime, LerpType type);
+    private CountUpDel CountUpFunc;
 
 
     private enum LerpType
@@ -53,6 +61,7 @@ public class EndGame : MonoBehaviour
         playerManager.GameEnd += OnEndGame;
         LerpFunc = CameraLerp;
         CameraMoveFunc = CameraMove;
+        CountUpFunc = CountUp;
         playerOneUi.position = playerOneUiStart.position;
         playerTwoUi.position = playerTwoUiStart.position;
         winnerTextUi.position = winnerTextStart.position;
@@ -68,22 +77,83 @@ public class EndGame : MonoBehaviour
     {
         //Lerp to overdrive
         // yield return StartCoroutine(CameraLerpFunc(camera.transform, overdrive.position, 0.5f));
-        playerOneScoreText.text = "Score: " + playerManager.player1Plant.score.ToString();
-        playerTwoScoreText.text = "Score: " + playerManager.player2Plant.score.ToString();
+        // playerOneScoreText.text = "Score: " + playerManager.player1Plant.score.ToString();
+        // playerTwoScoreText.text = "Score: " + playerManager.player2Plant.score.ToString();
 
         StartCoroutine(LerpFunc(camera.transform, end.position, 1.5f, LerpType.CUBIC));
+        timerUITransform.gameObject.SetActive(false);
         yield return new WaitForSeconds(1.0f);
 
         StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f, LerpType.QUADRATIC));
         yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f, LerpType.QUADRATIC));
+        
+        StartCoroutine(CountUp(playerOneScoreText, playerManager.player1Plant.score, 4f, LerpType.QUINTIC));
+        StartCoroutine(CountUp(playerTwoScoreText, playerManager.player2Plant.score, 4f, LerpType.QUINTIC));
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(5f);
         winnerText.text = playerManager.player1Plant.score == playerManager.player2Plant.score ? "It's a DRAW!!" :
             playerManager.player1Plant.score > playerManager.player2Plant.score ? "Player One Wins!!" : "Player Two Wins!!";
-        StartCoroutine(LerpFunc(winnerTextUi, winnerTextEnd.position, 0.5f, LerpType.QUADRATIC));
+        yield return StartCoroutine(LerpFunc(winnerTextUi, winnerTextEnd.position, 0.5f, LerpType.QUADRATIC));
+        
+        StartCoroutine(BannerBounce(bannerTransform, 7, 15));
 
         yield return new WaitForSeconds(2.5f);
         StartCoroutine(LerpFunc(menuButton, menuButtonEnd.position, 1f, LerpType.CUBIC));
+    }
+
+    private IEnumerator BannerBounce(Transform banner, float radius, float time)
+    {
+        float t = 0;
+        Vector3 startPos = banner.position;
+        while (true)
+        {
+            t += Time.deltaTime;
+            if (t >= time)
+            {
+                t = 0;
+            }
+            banner.transform.position = startPos +  new Vector3(0 , Mathf.Sin(360 * (t / time)) * radius, 0);
+            yield return null;
+        }
+    }
+
+    private IEnumerator CountUp(TMP_Text text, int target, float countTime, LerpType type)
+    {
+        float time = 0;
+        while (time < countTime)
+        {
+            time += Time.deltaTime;
+            switch (type)
+            {
+                case LerpType.STRAIGHT:
+                    text.text = "Score: " + Mathf.Ceil(target * (time / countTime));
+                    break;
+                case LerpType.QUADRATIC:
+                    text.text = "Score: " + Mathf.Ceil(target * Quadratic(time / countTime));
+                    break;
+                case LerpType.CUBIC:
+                    text.text = "Score: " + Mathf.Ceil(target * Cubic(time / countTime));
+                    break;
+                case LerpType.QUARTIC:
+                    text.text = "Score: " + Mathf.Ceil(target * Quartic(time / countTime));
+                    break;
+                case LerpType.QUINTIC:
+                    text.text = "Score: " + Mathf.Ceil(target * Quintic(time / countTime));
+                    break;
+                case LerpType.SINO:
+                    text.text = "Score: " + Mathf.Ceil(target * Sinusoidal(time / countTime));
+                    break;
+                case LerpType.EXPO:
+                    break;
+                case LerpType.CIRC:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+            
+            yield return null;
+        }
+        text.text = "Score: " + target;
     }
 
     private IEnumerator CameraLerp(Transform toMove, Vector3 end, float moveTime, LerpType type)
@@ -125,6 +195,30 @@ public class EndGame : MonoBehaviour
             
             yield return null;
         }
+    }
+
+    public void LoadMainMenu()
+    {
+        StartCoroutine(LoadAsync());
+        loadUp = true;
+    }
+    
+    public IEnumerator LoadAsync()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainMenu");
+        asyncLoad.allowSceneActivation = false;
+
+        while (!asyncLoad.isDone)
+        {
+            if (loadUp)
+            {
+                asyncLoad.allowSceneActivation = true;
+                loadUp = false;
+                yield return null;
+            }
+            yield return null;
+        }
+
     }
 
     public static float Quadratic(float val)
