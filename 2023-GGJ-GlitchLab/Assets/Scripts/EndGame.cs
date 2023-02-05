@@ -34,6 +34,9 @@ public class EndGame : MonoBehaviour
     private CameraMoveDel CameraMoveFunc;
     private delegate IEnumerator CameraLerpDel(Transform toMove, Vector3 end, float moveTime, LerpType type);
     private CameraLerpDel LerpFunc;
+    
+    private delegate IEnumerator CountUpDel(TMP_Text text, int target, float countTime, LerpType type);
+    private CountUpDel CountUpFunc;
 
 
     private enum LerpType
@@ -53,6 +56,7 @@ public class EndGame : MonoBehaviour
         playerManager.GameEnd += OnEndGame;
         LerpFunc = CameraLerp;
         CameraMoveFunc = CameraMove;
+        CountUpFunc = CountUp;
         playerOneUi.position = playerOneUiStart.position;
         playerTwoUi.position = playerTwoUiStart.position;
         winnerTextUi.position = winnerTextStart.position;
@@ -76,6 +80,9 @@ public class EndGame : MonoBehaviour
 
         StartCoroutine(LerpFunc(playerOneUi, playerOneUiEnd.position, 0.8f, LerpType.QUADRATIC));
         yield return StartCoroutine(LerpFunc(playerTwoUi, playerTwoUiEnd.position, 0.8f, LerpType.QUADRATIC));
+        
+        StartCoroutine(CountUp(playerOneScoreText, playerManager.player1Plant.score, 2.0f, LerpType.CUBIC));
+        StartCoroutine(CountUp(playerTwoScoreText, playerManager.player2Plant.score, 2.0f, LerpType.CUBIC));
 
         yield return new WaitForSeconds(2.5f);
         winnerText.text = playerManager.player1Plant.score == playerManager.player2Plant.score ? "It's a DRAW!!" :
@@ -84,6 +91,17 @@ public class EndGame : MonoBehaviour
 
         yield return new WaitForSeconds(2.5f);
         StartCoroutine(LerpFunc(menuButton, menuButtonEnd.position, 1f, LerpType.CUBIC));
+    }
+
+    private IEnumerator CountUp(TMP_Text text, int target, float countTime, LerpType type)
+    {
+        float time = 0;
+        while (time < countTime)
+        {
+            time += Time.deltaTime;
+            text.text = "Score: " + (target * (time / countTime));
+            yield return null;
+        }
     }
 
     private IEnumerator CameraLerp(Transform toMove, Vector3 end, float moveTime, LerpType type)
