@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerGroup" id="{9e624b34-9545-4821-b5c9-d1f36e7a1b93}">
+		<property name="name">
+			<value>BG</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{55c41278-b8fd-41c0-9b5b-1948518543c5}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{9a22404e-d7c5-4b83-9e4e-5ec11a9bb821}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{cb8453d7-8b5b-4a63-9813-98b8aff465f2}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{55c41278-b8fd-41c0-9b5b-1948518543c5}">
+		<relationship name="effects">
+			<destination>{8508e393-1057-46cd-ad11-2c56995d368c}</destination>
+			<destination>{806fd7b4-1630-4ce9-96aa-6b1e4c2323cf}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{9a22404e-d7c5-4b83-9e4e-5ec11a9bb821}" />
+	<object class="MixerBusFader" id="{8508e393-1057-46cd-ad11-2c56995d368c}" />
+	<object class="CompressorEffect" id="{806fd7b4-1630-4ce9-96aa-6b1e4c2323cf}">
+		<property name="threshold">
+			<value>-33</value>
+		</property>
+		<property name="ratio">
+			<value>4.80000019</value>
+		</property>
+		<property name="attackTime">
+			<value>1.80000007</value>
+		</property>
+		<property name="releaseTime">
+			<value>160</value>
+		</property>
+	</object>
+</objects>
