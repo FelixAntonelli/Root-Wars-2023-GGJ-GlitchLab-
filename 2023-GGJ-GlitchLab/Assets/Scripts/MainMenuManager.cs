@@ -15,6 +15,7 @@ public class MainMenuManager : MonoBehaviour
     public void StartGame()
     {
         move = true;
+        
        // mainMenu.SetActive(false);
     }
 
@@ -26,6 +27,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        mainMusic.GetComponent<FMODUnity.StudioEventEmitter>().Play();
         StartCoroutine(LoadAsync());
     }
 

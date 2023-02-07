@@ -32094,7 +32094,7 @@ MonoBehaviour:
   PlaceEmitter: {fileID: 1993532034}
   DenyEmitter: {fileID: 1993532033}
   SelectEmitter: {fileID: 1993532032}
-  vicEmitter: {fileID: 0}
+  vicEmitter: {fileID: 1993532036}
   ForceEndGame: 0
   _tileGrid: {fileID: 1896656317}
   _spriteLib: {fileID: 1863524820}
