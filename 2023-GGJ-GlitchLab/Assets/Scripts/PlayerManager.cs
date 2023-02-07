@@ -9,6 +9,12 @@ using Random = UnityEngine.Random;
 
 public class PlayerManager : MonoBehaviour
 {
+    [Header("Game Time")]
+    [SerializeField] private float _currTimer = 90;
+    private float _currSec = 1;
+    private bool doTimer = true;
+
+    [Header("Other")]
     [SerializeField] private FMODUnity.StudioEventEmitter MovmentEmitter;
     [SerializeField] private FMODUnity.StudioEventEmitter PlaceEmitter;
     [SerializeField] private FMODUnity.StudioEventEmitter DenyEmitter;
@@ -76,10 +82,6 @@ public class PlayerManager : MonoBehaviour
 
     private bool _disabledMovementPlayer1;
     private bool _disabledMovementPlayer2;
-
-    private float _currTimer = 90;
-    private float _currSec = 1;
-    private bool doTimer = true;
 
     // Lerping stuff for the player boxes.
     private Coroutine _p1Lerp;
