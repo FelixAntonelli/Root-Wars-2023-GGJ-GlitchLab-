@@ -267,6 +267,61 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Movement_PS"",
+                    ""id"": ""0a0e4fb7-ab41-4b3e-a5bf-a1c60ac42118"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""07d20186-23bd-467d-af42-393b00f2a290"",
+                    ""path"": ""<DualShockGamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""a4675379-82fc-4bb9-a273-401f6e601a0a"",
+                    ""path"": ""<DualShockGamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""0af05c5a-e18e-4abe-9bc5-6ad6dd775355"",
+                    ""path"": ""<DualShockGamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""615d823e-d7d5-42ac-ae75-1be7f23800d8"",
+                    ""path"": ""<DualShockGamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""2bb71b9a-7595-4a2f-b2c3-1f3792883956"",
                     ""path"": ""<Keyboard>/space"",
@@ -292,6 +347,17 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                     ""name"": """",
                     ""id"": ""161a8ee5-8de2-4d51-becb-45a8f73360da"",
                     ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18e88a34-7e1e-48d4-a4aa-79e4ce8e9109"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -334,6 +400,17 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3716c493-a2cb-4a1d-bdf5-d03ca24f2fd8"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""de406622-a7b7-498e-9e1c-61574be67074"",
                     ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
@@ -358,6 +435,17 @@ public partial class @PlayerControllerActions : IInputActionCollection2, IDispos
                     ""name"": """",
                     ""id"": ""9de9f2d8-d53b-44fa-be7d-4bee83d1bb75"",
                     ""path"": ""<Keyboard>/delete"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player2Refresh"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""097f43d5-c7bc-40a6-ba0b-f100d420979e"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

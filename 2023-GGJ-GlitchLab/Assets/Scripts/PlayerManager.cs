@@ -142,8 +142,6 @@ public class PlayerManager : MonoBehaviour
         _player1Refresh = _playerInput.playerMovement.Player1Refresh;
         _player2Refresh = _playerInput.playerMovement.Player2Refresh;
 
-
-
         _player1Refresh.Enable();
         _player2Refresh.Enable();
 

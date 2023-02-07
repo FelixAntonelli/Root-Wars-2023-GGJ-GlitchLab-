@@ -31488,7 +31488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _neutralSprites:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: b73cd3e9b2ff971438553b333ec1f1a7, type: 3}
   - {fileID: 327143261, guid: 984075f5d13310f4e91631754605f776, type: 3}
   - {fileID: -163626261, guid: 984075f5d13310f4e91631754605f776, type: 3}
   _playerOneSprites:
