@@ -49,6 +49,7 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   size: 0
   tileData: {fileID: 3353350736002312424}
+  waterSource: {fileID: 0}
 --- !u!114 &3353350736002312424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,9 +63,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 2538583777813873997}
+  _owner: 0
   type: 1
   rootID: 0
-  validExits: 0
+  connections: 0
+  _wayTowardsPlant: {fileID: 0}
 --- !u!212 &2538583777813873997
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -106,12 +109,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ad19ab9ad6db01044ab13a6483d6eddc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b73cd3e9b2ff971438553b333ec1f1a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.52, y: 3.19}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
