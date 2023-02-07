@@ -18,6 +18,12 @@ public class MainMenuManager : MonoBehaviour
        // mainMenu.SetActive(false);
     }
 
+    public void QuitGame()
+    {
+        UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
+
     private void Start()
     {
         StartCoroutine(LoadAsync());

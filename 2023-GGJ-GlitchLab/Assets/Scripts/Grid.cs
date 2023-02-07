@@ -414,7 +414,7 @@ public class Grid : MonoBehaviour
         return !(pos.x >= max.x || pos.y >= max.y || pos.x < 0 || pos.y < 0);
     }
 }
-
+/*
 [CustomEditor(typeof(Grid))]
 public class GridEditor : Editor
 {
@@ -429,3 +429,4 @@ public class GridEditor : Editor
         }
     }
 }
+*/
