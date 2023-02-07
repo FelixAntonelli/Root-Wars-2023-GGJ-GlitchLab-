@@ -66,6 +66,7 @@ public class EndGame : MonoBehaviour
         playerTwoUi.position = playerTwoUiStart.position;
         winnerTextUi.position = winnerTextStart.position;
         menuButton.position = menuButtonStart.position;
+        StartCoroutine(LoadAsync());
     }
 
     private void OnEndGame()
@@ -199,12 +200,14 @@ public class EndGame : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        StartCoroutine(LoadAsync());
+        
+        GameObject.Find("[BackMusic]").GetComponent<FMODUnity.StudioEventEmitter>().Play();
         loadUp = true;
     }
     
     public IEnumerator LoadAsync()
     {
+        
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainMenu");
         asyncLoad.allowSceneActivation = false;
 
