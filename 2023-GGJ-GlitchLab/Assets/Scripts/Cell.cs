@@ -20,7 +20,4 @@ public class Cell : MonoBehaviour
       Bottom = 4,
       Right = 8,
     }
-    
-    
-
 }

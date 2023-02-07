@@ -30,12 +30,10 @@ public class Tile : MonoBehaviour
             _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
         _spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.3f);
-        //UpdateSprite(); 
     }
 
     public void UpdateSprite()
     {
-        // GameObject sprlib = GameObject.FindGameObjectWithTag("SpriteLibrary");
         _spriteRenderer.sprite = _library.GetSprite(_owner, type, rootID);
 
         if (type != GameData.TileType.SOIL)

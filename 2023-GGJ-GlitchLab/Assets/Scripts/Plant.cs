@@ -10,7 +10,7 @@ public class Plant : MonoBehaviour
     [SerializeField] private GameObject _plant;
     private TMP_Text _scoreCounter;
     private Animator _anim;
-
+    public ParticleSystem _fireworks;
 
     public TMP_Text ScoreCounter 
     {
@@ -47,6 +47,7 @@ public class Plant : MonoBehaviour
         if (score % 200 == 0) 
         {
             _anim.SetTrigger("CounterCall");
+            _fireworks.Play();
         }
     }
 

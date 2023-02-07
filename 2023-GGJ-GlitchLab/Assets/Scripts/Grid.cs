@@ -31,10 +31,6 @@ public class Grid : MonoBehaviour
 
     private void Awake()
     {
-        // int numberOfCellsOnXAxis = Mathf.FloorToInt(gridXAxisSize / cellSize);
-        // int numberOfCellsOnYAxis = Mathf.FloorToInt(gridYAxisSize / cellSize);
-        // int halfXSize = numberOfCellsOnXAxis / 2;
-        // int halfYSize = numberOfCellsOnYAxis / 2;
         Vector2 origin = transform.position;
 
         for (int i = 0; i < gridXAxisSize; i++)
@@ -52,8 +48,6 @@ public class Grid : MonoBehaviour
 
         int waterSourceCount = Random.Range(_waterSourcesRange.x, _waterSourcesRange.y);
         int obstacleCount = Random.Range(_obstaclesRange.x, _obstaclesRange.y);
-
-
 
         for (int j = 0; j < 2; j++)
         {
@@ -91,11 +85,7 @@ public class Grid : MonoBehaviour
                     }
                 }
             }
-
         }
-
-
-
     }
 
     public void SetSpawn(Vector2 player1Pos, Vector2 player2Pos, out Plant player1Plant, out Plant player2Plant)
